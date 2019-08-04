@@ -48,11 +48,11 @@ internal class ActualCache<R> @PublishedApi internal constructor(
   }
 
   @CheckResult
-  suspend fun call(upstream: suspend CoroutineScope.() -> R): R = coroutineScope {
+  suspend fun call(upstream: suspend CoroutineScope.() -> R): R {
     val cached = cachedData.get()
     if (cached?.data == null || cached.time + ttl < System.nanoTime()) {
       logger.log { "Invalid cached data, begin runner" }
-      return@coroutineScope runner.joinOrRun {
+      return runner.joinOrRun {
         logger.log { "Fetch data from upstream" }
         val result = coroutineScope { upstream() }
 
@@ -63,7 +63,7 @@ internal class ActualCache<R> @PublishedApi internal constructor(
       }
     } else {
       logger.log { "Valid cached data, return from cache" }
-      return@coroutineScope cached.data
+      return cached.data
     }
   }
 
