@@ -18,6 +18,8 @@
 package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 
@@ -46,13 +48,13 @@ internal class ActualCache<R> @PublishedApi internal constructor(
   }
 
   @CheckResult
-  suspend fun call(upstream: suspend () -> R): R {
+  suspend fun call(upstream: suspend CoroutineScope.() -> R): R = coroutineScope {
     val cached = cachedData.get()
     if (cached?.data == null || cached.time + ttl < System.nanoTime()) {
       logger.log { "Invalid cached data, begin runner" }
-      return runner.joinOrRun {
+      return@coroutineScope runner.joinOrRun {
         logger.log { "Fetch data from upstream" }
-        val result = upstream()
+        val result = coroutineScope { upstream() }
 
         val entry = Entry(result, System.nanoTime())
         logger.log { "Data fetched, cache: $entry" }
@@ -61,7 +63,7 @@ internal class ActualCache<R> @PublishedApi internal constructor(
       }
     } else {
       logger.log { "Valid cached data, return from cache" }
-      return cached.data
+      return@coroutineScope cached.data
     }
   }
 
