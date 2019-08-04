@@ -19,7 +19,6 @@ package com.pyamsoft.cachify
 
 import com.pyamsoft.cachify.Cachify.DEFAULT_TIME
 import com.pyamsoft.cachify.Cachify.DEFAULT_UNIT
-import kotlinx.coroutines.CoroutineScope
 import java.util.concurrent.TimeUnit
 
 /**
@@ -47,7 +46,7 @@ inline fun <reified R> cachify(
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
-  crossinline upstream: suspend CoroutineScope.() -> R
+  crossinline upstream: suspend () -> R
 ): Cached<R> {
   return object : Cached<R> {
 
@@ -72,7 +71,7 @@ inline fun <reified R, reified T1> cachify(
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
-  crossinline upstream: suspend CoroutineScope.(T1) -> R
+  crossinline upstream: suspend (T1) -> R
 ): Cached1<R, T1> {
   return object : Cached1<R, T1> {
 
@@ -97,7 +96,7 @@ inline fun <reified R, reified T1, reified T2> cachify(
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
-  crossinline upstream: suspend CoroutineScope.(T1, T2) -> R
+  crossinline upstream: suspend (T1, T2) -> R
 ): Cached2<R, T1, T2> {
   return object : Cached2<R, T1, T2> {
 
@@ -125,7 +124,7 @@ inline fun <reified R, reified T1, reified T2, reified T3> cachify(
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
-  crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> R
+  crossinline upstream: suspend (T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
   return object : Cached3<R, T1, T2, T3> {
 
@@ -154,7 +153,7 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4> cachify(
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
-  crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
+  crossinline upstream: suspend (T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
   return object : Cached4<R, T1, T2, T3, T4> {
 
@@ -184,7 +183,7 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
-  crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
+  crossinline upstream: suspend (T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
   return object : Cached5<R, T1, T2, T3, T4, T5> {
 
@@ -215,7 +214,7 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
-  crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
+  crossinline upstream: suspend (T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
   return object : Cached6<R, T1, T2, T3, T4, T5, T6> {
 
@@ -247,7 +246,7 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
-  crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
+  crossinline upstream: suspend (T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
   return object : Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
 
@@ -280,7 +279,7 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
-  crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
+  crossinline upstream: suspend (T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
   return object : Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
 
@@ -314,7 +313,7 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
-  crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
+  crossinline upstream: suspend (T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
   return object : Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
 
