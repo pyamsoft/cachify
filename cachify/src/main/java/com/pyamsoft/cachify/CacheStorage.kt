@@ -17,15 +17,28 @@
 
 package com.pyamsoft.cachify
 
+import androidx.annotation.CheckResult
+
 /**
- * A cache of data
+ * Interface contract which Cachify uses to save data into a representation of cache
  */
-interface Cache {
+interface CacheStorage<T> {
 
   /**
-   * Clear cache
+   * Get any data from cache if it exists - otherwise null
+   */
+  @CheckResult
+  suspend fun retrieve(): T?
+
+  /**
+   * Sets new data as the active data in cache
+   *
+   * The new data is valid for as long as the implementation considers it valid. It may be infinite.
+   */
+  suspend fun set(data: T)
+
+  /**
+   * Clears all data from the cache - effectively resetting it
    */
   suspend fun clear()
-
 }
-

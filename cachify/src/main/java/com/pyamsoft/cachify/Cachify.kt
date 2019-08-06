@@ -47,13 +47,14 @@ inline fun <reified R> cachify(
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
+  storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
   crossinline upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
   return object : Cached<R> {
 
-    private val cache = ActualCache<R>(time, unit, debug)
+    private val cache = ActualCache(storage, debug)
 
-    override fun clear() {
+    override suspend fun clear() {
       cache.clear()
     }
 
@@ -72,13 +73,14 @@ inline fun <reified R, reified T1> cachify(
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
+  storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
   crossinline upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
   return object : Cached1<R, T1> {
 
-    private val cache = ActualCache<R>(time, unit, debug)
+    private val cache = ActualCache(storage, debug)
 
-    override fun clear() {
+    override suspend fun clear() {
       cache.clear()
     }
 
@@ -97,13 +99,14 @@ inline fun <reified R, reified T1, reified T2> cachify(
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
+  storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
   crossinline upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
   return object : Cached2<R, T1, T2> {
 
-    private val cache = ActualCache<R>(time, unit, debug)
+    private val cache = ActualCache(storage, debug)
 
-    override fun clear() {
+    override suspend fun clear() {
       cache.clear()
     }
 
@@ -125,13 +128,14 @@ inline fun <reified R, reified T1, reified T2, reified T3> cachify(
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
+  storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
   crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
   return object : Cached3<R, T1, T2, T3> {
 
-    private val cache = ActualCache<R>(time, unit, debug)
+    private val cache = ActualCache(storage, debug)
 
-    override fun clear() {
+    override suspend fun clear() {
       cache.clear()
     }
 
@@ -154,13 +158,14 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4> cachify(
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
+  storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
   crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
   return object : Cached4<R, T1, T2, T3, T4> {
 
-    private val cache = ActualCache<R>(time, unit, debug)
+    private val cache = ActualCache(storage, debug)
 
-    override fun clear() {
+    override suspend fun clear() {
       cache.clear()
     }
 
@@ -184,13 +189,14 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
+  storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
   crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
   return object : Cached5<R, T1, T2, T3, T4, T5> {
 
-    private val cache = ActualCache<R>(time, unit, debug)
+    private val cache = ActualCache(storage, debug)
 
-    override fun clear() {
+    override suspend fun clear() {
       cache.clear()
     }
 
@@ -215,13 +221,14 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
+  storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
   crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
   return object : Cached6<R, T1, T2, T3, T4, T5, T6> {
 
-    private val cache = ActualCache<R>(time, unit, debug)
+    private val cache = ActualCache(storage, debug)
 
-    override fun clear() {
+    override suspend fun clear() {
       cache.clear()
     }
 
@@ -247,13 +254,14 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
+  storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
   crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
   return object : Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
 
-    private val cache = ActualCache<R>(time, unit, debug)
+    private val cache = ActualCache(storage, debug)
 
-    override fun clear() {
+    override suspend fun clear() {
       cache.clear()
     }
 
@@ -280,13 +288,14 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
+  storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
   crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
   return object : Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
 
-    private val cache = ActualCache<R>(time, unit, debug)
+    private val cache = ActualCache(storage, debug)
 
-    override fun clear() {
+    override suspend fun clear() {
       cache.clear()
     }
 
@@ -314,13 +323,14 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
   time: Long = DEFAULT_TIME,
   unit: TimeUnit = DEFAULT_UNIT,
   debug: Boolean = false,
+  storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
   crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
   return object : Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
 
-    private val cache = ActualCache<R>(time, unit, debug)
+    private val cache = ActualCache(storage, debug)
 
-    override fun clear() {
+    override suspend fun clear() {
       cache.clear()
     }
 

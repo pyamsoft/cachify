@@ -20,8 +20,6 @@ package com.pyamsoft.cachify
 import androidx.annotation.CheckResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicReference
 
 /**
  * Internal
@@ -32,44 +30,35 @@ import java.util.concurrent.atomic.AtomicReference
  */
 @PublishedApi
 internal class ActualCache<R> @PublishedApi internal constructor(
-  time: Long,
-  unit: TimeUnit,
+  private val storage: CacheStorage<R>,
   debug: Boolean
 ) : Cache {
 
   private val logger = Logger(enabled = debug)
-  private val ttl = unit.toNanos(time)
   private val runner = CoroutineRunner<R>()
-  private val cachedData = AtomicReference<Entry<R>?>(null)
 
-  override fun clear() {
+  override suspend fun clear() {
     logger.log { "Clear cached data" }
-    cachedData.set(null)
+    storage.clear()
   }
 
   @CheckResult
   suspend fun call(upstream: suspend CoroutineScope.() -> R): R {
-    val cached = cachedData.get()
-    if (cached?.data == null || cached.time + ttl < System.nanoTime()) {
+    val cached = storage.retrieve()
+    if (cached == null) {
       logger.log { "Invalid cached data, begin runner" }
       return runner.joinOrRun {
-        logger.log { "Fetch data from upstream" }
-        val result = coroutineScope { upstream() }
-
-        val entry = Entry(result, System.nanoTime())
-        logger.log { "Data fetched, cache: $entry" }
-        cachedData.set(entry)
+        val result = coroutineScope {
+          logger.log { "Fetch data from upstream..." }
+          return@coroutineScope upstream()
+        }
+        storage.set(result)
         return@joinOrRun result
       }
     } else {
       logger.log { "Valid cached data, return from cache" }
-      return cached.data
+      return cached
     }
   }
-
-  private data class Entry<T> internal constructor(
-    val data: T,
-    val time: Long
-  )
 
 }
