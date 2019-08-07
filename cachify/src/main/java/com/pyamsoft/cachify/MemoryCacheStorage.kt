@@ -24,6 +24,9 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 
+/**
+ * CacheStorage implementation which is backed by memory. Short lived cache.
+ */
 class MemoryCacheStorage<T> internal constructor(
   private val ttl: Long,
   debug: Boolean
@@ -71,6 +74,14 @@ class MemoryCacheStorage<T> internal constructor(
 
   companion object {
 
+    /**
+     * Create a new MemoryCacheStorage instance
+     *
+     * @param time time
+     * @param unit unit of time
+     * @param debug Debugging mode
+     * @return [CacheStorage]
+     */
     @JvmStatic
     @CheckResult
     @JvmOverloads
@@ -82,6 +93,13 @@ class MemoryCacheStorage<T> internal constructor(
       return create(unit.toNanos(time), debug)
     }
 
+    /**
+     * Create a new MemoryCacheStorage instance
+     *
+     * @param ttl Time that cached data is valid in nanoseconds
+     * @param debug Debugging mode
+     * @return [CacheStorage]
+     */
     @JvmStatic
     @CheckResult
     @JvmOverloads
