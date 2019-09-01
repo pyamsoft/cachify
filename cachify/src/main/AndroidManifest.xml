@@ -15,4 +15,4 @@
   ~
   -->
 
-<manifest package="com.pyamsoft.cachify"/>
+<manifest package="com.pyamsoft.cachify" />

@@ -24,21 +24,21 @@ import androidx.annotation.CheckResult
  */
 interface CacheStorage<T> {
 
-  /**
-   * Get any data from cache if it exists - otherwise null
-   */
-  @CheckResult
-  suspend fun retrieve(): T?
+    /**
+     * Get any data from cache if it exists - otherwise null
+     */
+    @CheckResult
+    suspend fun retrieve(): T?
 
-  /**
-   * Sets new data as the active data in cache
-   *
-   * The new data is valid for as long as the implementation considers it valid. It may be infinite.
-   */
-  suspend fun set(data: T)
+    /**
+     * Sets new data as the active data in cache
+     *
+     * The new data is valid for as long as the implementation considers it valid. It may be infinite.
+     */
+    suspend fun set(data: T)
 
-  /**
-   * Clears all data from the cache - effectively resetting it
-   */
-  suspend fun clear()
+    /**
+     * Clears all data from the cache - effectively resetting it
+     */
+    suspend fun clear()
 }

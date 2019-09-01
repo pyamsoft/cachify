@@ -30,35 +30,34 @@ import kotlinx.coroutines.coroutineScope
  */
 @PublishedApi
 internal class ActualCache<R> @PublishedApi internal constructor(
-  private val storage: CacheStorage<R>,
-  debug: Boolean
+    private val storage: CacheStorage<R>,
+    debug: Boolean
 ) : Cache {
 
-  private val logger = Logger(enabled = debug)
-  private val runner = CoroutineRunner<R>()
+    private val logger = Logger(enabled = debug)
+    private val runner = CoroutineRunner<R>()
 
-  override suspend fun clear() {
-    logger.log { "Clear cached data" }
-    storage.clear()
-  }
-
-  @CheckResult
-  suspend fun call(upstream: suspend CoroutineScope.() -> R): R {
-    val cached = storage.retrieve()
-    if (cached == null) {
-      logger.log { "Invalid cached data, begin runner" }
-      return runner.joinOrRun {
-        val result = coroutineScope {
-          logger.log { "Fetch data from upstream..." }
-          return@coroutineScope upstream()
-        }
-        storage.set(result)
-        return@joinOrRun result
-      }
-    } else {
-      logger.log { "Valid cached data, return from cache" }
-      return cached
+    override suspend fun clear() {
+        logger.log { "Clear cached data" }
+        storage.clear()
     }
-  }
 
+    @CheckResult
+    suspend fun call(upstream: suspend CoroutineScope.() -> R): R {
+        val cached = storage.retrieve()
+        if (cached == null) {
+            logger.log { "Invalid cached data, begin runner" }
+            return runner.joinOrRun {
+                val result = coroutineScope {
+                    logger.log { "Fetch data from upstream..." }
+                    return@coroutineScope upstream()
+                }
+                storage.set(result)
+                return@joinOrRun result
+            }
+        } else {
+            logger.log { "Valid cached data, return from cache" }
+            return cached
+        }
+    }
 }

@@ -28,87 +28,86 @@ import java.util.concurrent.atomic.AtomicReference
  * CacheStorage implementation which is backed by memory. Short lived cache.
  */
 class MemoryCacheStorage<T> internal constructor(
-  private val ttl: Long,
-  debug: Boolean
+    private val ttl: Long,
+    debug: Boolean
 ) : CacheStorage<T> {
 
-  private val mutex = Mutex()
-  private val logger = Logger(enabled = debug)
-  private val storage = AtomicReference<T>(null)
-  private val lastAccessTime = AtomicLong(0)
+    private val mutex = Mutex()
+    private val logger = Logger(enabled = debug)
+    private val storage = AtomicReference<T>(null)
+    private val lastAccessTime = AtomicLong(0)
 
-  override suspend fun retrieve(): T? {
-    return mutex.withLock {
-      val cached: T? = storage.get()
-      return@withLock when {
-        cached == null -> {
-          logger.log { "No cached data, retrieve null" }
-          null
+    override suspend fun retrieve(): T? {
+        return mutex.withLock {
+            val cached: T? = storage.get()
+            return@withLock when {
+                cached == null -> {
+                    logger.log { "No cached data, retrieve null" }
+                    null
+                }
+                lastAccessTime.get() + ttl < System.nanoTime() -> {
+                    logger.log { "TTL has expired, retrieve null" }
+                    null
+                }
+                else -> {
+                    logger.log { "Retrieve stored data: $cached" }
+                    cached
+                }
+            }
         }
-        lastAccessTime.get() + ttl < System.nanoTime() -> {
-          logger.log { "TTL has expired, retrieve null" }
-          null
+    }
+
+    override suspend fun set(data: T) {
+        setData(data)
+    }
+
+    private suspend fun setData(data: T?) {
+        mutex.withLock {
+            storage.set(data)
+            lastAccessTime.set(if (data == null) 0 else System.nanoTime())
         }
-        else -> {
-          logger.log { "Retrieve stored data: $cached" }
-          cached
+    }
+
+    override suspend fun clear() {
+        setData(null)
+    }
+
+    companion object {
+
+        /**
+         * Create a new MemoryCacheStorage instance
+         *
+         * @param time time
+         * @param unit unit of time
+         * @param debug Debugging mode
+         * @return [CacheStorage]
+         */
+        @JvmStatic
+        @CheckResult
+        @JvmOverloads
+        fun <T> create(
+            time: Long,
+            unit: TimeUnit,
+            debug: Boolean = false
+        ): CacheStorage<T> {
+            return create(unit.toNanos(time), debug)
         }
-      }
+
+        /**
+         * Create a new MemoryCacheStorage instance
+         *
+         * @param ttl Time that cached data is valid in nanoseconds
+         * @param debug Debugging mode
+         * @return [CacheStorage]
+         */
+        @JvmStatic
+        @CheckResult
+        @JvmOverloads
+        fun <T> create(
+            ttl: Long,
+            debug: Boolean = false
+        ): CacheStorage<T> {
+            return MemoryCacheStorage(ttl, debug)
+        }
     }
-  }
-
-  override suspend fun set(data: T) {
-    setData(data)
-  }
-
-  private suspend fun setData(data: T?) {
-    mutex.withLock {
-      storage.set(data)
-      lastAccessTime.set(if (data == null) 0 else System.nanoTime())
-    }
-  }
-
-  override suspend fun clear() {
-    setData(null)
-  }
-
-  companion object {
-
-    /**
-     * Create a new MemoryCacheStorage instance
-     *
-     * @param time time
-     * @param unit unit of time
-     * @param debug Debugging mode
-     * @return [CacheStorage]
-     */
-    @JvmStatic
-    @CheckResult
-    @JvmOverloads
-    fun <T> create(
-      time: Long,
-      unit: TimeUnit,
-      debug: Boolean = false
-    ): CacheStorage<T> {
-      return create(unit.toNanos(time), debug)
-    }
-
-    /**
-     * Create a new MemoryCacheStorage instance
-     *
-     * @param ttl Time that cached data is valid in nanoseconds
-     * @param debug Debugging mode
-     * @return [CacheStorage]
-     */
-    @JvmStatic
-    @CheckResult
-    @JvmOverloads
-    fun <T> create(
-      ttl: Long,
-      debug: Boolean = false
-    ): CacheStorage<T> {
-      return MemoryCacheStorage(ttl, debug)
-    }
-  }
-
 }

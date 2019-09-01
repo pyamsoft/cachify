@@ -29,44 +29,44 @@ import java.util.concurrent.atomic.AtomicReference
  */
 internal class CoroutineRunner<T> internal constructor() {
 
-  private val activeTask = AtomicReference<Deferred<T>?>(null)
+    private val activeTask = AtomicReference<Deferred<T>?>(null)
 
-  suspend inline fun joinOrRun(crossinline block: suspend () -> T): T {
-    // Return if already running
-    activeTask.get()
-        ?.let {
-          return it.await()
+    suspend inline fun joinOrRun(crossinline block: suspend () -> T): T {
+        // Return if already running
+        activeTask.get()
+            ?.let {
+                return it.await()
+            }
+
+        return coroutineScope {
+            // Create a new coroutine, but don't start it until it's decided that this block should
+            // execute. In the code below, calling await() on newTask will cause this coroutine to
+            // start.
+            val newTask = async(start = CoroutineStart.LAZY) { block() }.apply {
+                invokeOnCompletion { activeTask.compareAndSet(this, null) }
+            }
+
+            val result: T
+
+            // Loop until we figure out if we need to run newTask, or if there is a task that's
+            // already running we can join.
+            while (true) {
+                if (!activeTask.compareAndSet(null, newTask)) {
+                    val currentTask = activeTask.get()
+                    if (currentTask != null) {
+                        newTask.cancel()
+                        result = currentTask.await()
+                        break
+                    } else {
+                        yield()
+                    }
+                } else {
+                    result = newTask.await()
+                    break
+                }
+            }
+
+            return@coroutineScope result
         }
-
-    return coroutineScope {
-      // Create a new coroutine, but don't start it until it's decided that this block should
-      // execute. In the code below, calling await() on newTask will cause this coroutine to
-      // start.
-      val newTask = async(start = CoroutineStart.LAZY) { block() }.apply {
-        invokeOnCompletion { activeTask.compareAndSet(this, null) }
-      }
-
-      val result: T
-
-      // Loop until we figure out if we need to run newTask, or if there is a task that's
-      // already running we can join.
-      while (true) {
-        if (!activeTask.compareAndSet(null, newTask)) {
-          val currentTask = activeTask.get()
-          if (currentTask != null) {
-            newTask.cancel()
-            result = currentTask.await()
-            break
-          } else {
-            yield()
-          }
-        } else {
-          result = newTask.await()
-          break
-        }
-      }
-
-      return@coroutineScope result
     }
-  }
 }

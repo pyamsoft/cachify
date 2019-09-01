@@ -22,10 +22,8 @@ package com.pyamsoft.cachify
  */
 interface Cache {
 
-  /**
-   * Clear cache
-   */
-  suspend fun clear()
-
+    /**
+     * Clear cache
+     */
+    suspend fun clear()
 }
-

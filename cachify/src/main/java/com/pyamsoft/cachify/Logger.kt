@@ -21,9 +21,9 @@ import timber.log.Timber
 
 internal class Logger internal constructor(private val enabled: Boolean) {
 
-  inline fun log(func: () -> String) {
-    if (enabled) {
-      Timber.d(func())
+    inline fun log(func: () -> String) {
+        if (enabled) {
+            Timber.d(func())
+        }
     }
-  }
 }
