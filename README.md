@@ -70,12 +70,12 @@ class RxCaller {
 }
 ```
 
-Subsequent calls to the cache instance will always return the same data as  
-long as the timeout period has not elapsed. The timeout period is configurable  
+Subsequent calls to the cache instance will always return the same data as
+long as the timeout period has not elapsed. The timeout period is configurable
 per cache instance, and defaults to 30 seconds.
 
-If you ever want to sidestep the cache and force the upstream data source to be  
-queried, or you just want to clear old cached data, you can call the `clear()` method  
+If you ever want to sidestep the cache and force the upstream data source to be
+queried, or you just want to clear old cached data, you can call the `clear()` method
 which will erase any cached data currently held.
 
 ## Development
@@ -84,16 +84,16 @@ Cachify is developed in the Open on GitHub at:
 ```
 https://github.com/pyamsoft/Cachify
 ```
-If you know a few things about Android programming and are wanting to help  
-out with development you can do so by creating issue tickets to squash bugs,  
+If you know a few things about Android programming and are wanting to help
+out with development you can do so by creating issue tickets to squash bugs,
 and propose feature requests for future inclusion.`
 
 # Issues or Questions
 
-Please post any issues with the code in the Issues section on GitHub. Pull Requests  
-will be accepted on GitHub only after extensive reading and as long as the request  
-goes in line with the design of the application. Pull Requests will only be  
-accepted for new features of the application, for general purpose bug fixes, creating  
+Please post any issues with the code in the Issues section on GitHub. Pull Requests
+will be accepted on GitHub only after extensive reading and as long as the request
+goes in line with the design of the application. Pull Requests will only be
+accepted for new features of the application, for general purpose bug fixes, creating
 an issue is simply faster.
 
 ## License
