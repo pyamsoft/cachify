@@ -20,7 +20,8 @@ package com.pyamsoft.cachify
 import kotlinx.coroutines.CoroutineScope
 
 internal abstract class CacheOrchestrator<R : Any> protected constructor(
-    debug: Boolean, storage: List<CacheStorage<R>>
+    debug: Boolean,
+    storage: List<CacheStorage<R>>
 ) {
 
     private val logger = Logger(debug)
