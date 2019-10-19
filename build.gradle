@@ -44,13 +44,13 @@ buildscript {
     }
 
     dependencies {
-        classpath "com.android.tools.build:gradle:3.5.0"
+        classpath "com.android.tools.build:gradle:3.5.1"
 
         // Dex count
         classpath 'com.getkeepsafe.dexcount:dexcount-gradle-plugin:0.8.6'
 
         // Gradle version checker
-        classpath 'com.github.ben-manes:gradle-versions-plugin:0.21.0'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.22.0'
 
         // To publish
         classpath "com.github.dcendents:android-maven-gradle-plugin:2.0"
