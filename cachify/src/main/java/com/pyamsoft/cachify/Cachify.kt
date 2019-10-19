@@ -55,9 +55,8 @@ fun <R : Any> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-@JvmOverloads
 fun <R : Any> cachify(
-    debug: Boolean = false,
+    debug: Boolean,
     storage: List<CacheStorage<R>>,
     upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
@@ -86,9 +85,8 @@ fun <R : Any, T1> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-@JvmOverloads
 fun <R : Any, T1> cachify(
-    debug: Boolean = false,
+    debug: Boolean,
     storage: List<CacheStorage<R>>,
     upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
@@ -117,9 +115,8 @@ fun <R : Any, T1, T2> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-@JvmOverloads
 fun <R : Any, T1, T2> cachify(
-    debug: Boolean = false,
+    debug: Boolean,
     storage: List<CacheStorage<R>>,
     upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
@@ -148,9 +145,8 @@ fun <R : Any, T1, T2, T3> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-@JvmOverloads
 fun <R : Any, T1, T2, T3> cachify(
-    debug: Boolean = false,
+    debug: Boolean,
     storage: List<CacheStorage<R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
@@ -179,9 +175,8 @@ fun <R : Any, T1, T2, T3, T4> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-@JvmOverloads
 fun <R : Any, T1, T2, T3, T4> cachify(
-    debug: Boolean = false,
+    debug: Boolean,
     storage: List<CacheStorage<R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
@@ -210,9 +205,8 @@ fun <R : Any, T1, T2, T3, T4, T5> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-@JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5> cachify(
-    debug: Boolean = false,
+    debug: Boolean,
     storage: List<CacheStorage<R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
@@ -241,9 +235,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-@JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
-    debug: Boolean = false,
+    debug: Boolean,
     storage: List<CacheStorage<R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
@@ -272,9 +265,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-@JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
-    debug: Boolean = false,
+    debug: Boolean,
     storage: List<CacheStorage<R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
@@ -303,9 +295,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-@JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
-    debug: Boolean = false,
+    debug: Boolean,
     storage: List<CacheStorage<R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
@@ -344,9 +335,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-@JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
-    debug: Boolean = false,
+    debug: Boolean,
     storage: List<CacheStorage<R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
