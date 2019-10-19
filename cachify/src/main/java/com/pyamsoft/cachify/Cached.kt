@@ -22,7 +22,7 @@ import androidx.annotation.CheckResult
 /**
  * Cached data wrapper which resolves upstream data using 0 parameters
  */
-interface Cached<R> : Cache {
+interface Cached<R : Any> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -34,7 +34,7 @@ interface Cached<R> : Cache {
 /**
  * Cached data wrapper which resolves upstream data using 1 parameter
  */
-interface Cached1<R, T1> : Cache {
+interface Cached1<R : Any, T1> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -46,7 +46,7 @@ interface Cached1<R, T1> : Cache {
 /**
  * Cached data wrapper which resolves upstream data using 2 parameters
  */
-interface Cached2<R, T1, T2> : Cache {
+interface Cached2<R : Any, T1, T2> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -61,7 +61,7 @@ interface Cached2<R, T1, T2> : Cache {
 /**
  * Cached data wrapper which resolves upstream data using 3 parameters
  */
-interface Cached3<R, T1, T2, T3> : Cache {
+interface Cached3<R : Any, T1, T2, T3> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -77,7 +77,7 @@ interface Cached3<R, T1, T2, T3> : Cache {
 /**
  * Cached data wrapper which resolves upstream data using 4 parameters
  */
-interface Cached4<R, T1, T2, T3, T4> : Cache {
+interface Cached4<R : Any, T1, T2, T3, T4> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -94,7 +94,7 @@ interface Cached4<R, T1, T2, T3, T4> : Cache {
 /**
  * Cached data wrapper which resolves upstream data using 5 parameters
  */
-interface Cached5<R, T1, T2, T3, T4, T5> : Cache {
+interface Cached5<R : Any, T1, T2, T3, T4, T5> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -112,7 +112,7 @@ interface Cached5<R, T1, T2, T3, T4, T5> : Cache {
 /**
  * Cached data wrapper which resolves upstream data using 6 parameters
  */
-interface Cached6<R, T1, T2, T3, T4, T5, T6> : Cache {
+interface Cached6<R : Any, T1, T2, T3, T4, T5, T6> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -131,7 +131,7 @@ interface Cached6<R, T1, T2, T3, T4, T5, T6> : Cache {
 /**
  * Cached data wrapper which resolves upstream data using 7 parameters
  */
-interface Cached7<R, T1, T2, T3, T4, T5, T6, T7> : Cache {
+interface Cached7<R : Any, T1, T2, T3, T4, T5, T6, T7> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -151,7 +151,7 @@ interface Cached7<R, T1, T2, T3, T4, T5, T6, T7> : Cache {
 /**
  * Cached data wrapper which resolves upstream data using 8 parameters
  */
-interface Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> : Cache {
+interface Cached8<R : Any, T1, T2, T3, T4, T5, T6, T7, T8> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -172,7 +172,7 @@ interface Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> : Cache {
 /**
  * Cached data wrapper which resolves upstream data using 9 parameters
  */
-interface Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache {
+interface Cached9<R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache {
 
     /**
      * Get data either from cache or upstream

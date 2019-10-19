@@ -18,32 +18,20 @@
 package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 
 /**
  * Internal
  *
- * Handles the caching strategy for a given upstream data.
- *
  * The runner will re-attach to any in progress requests when the cache misses.
  */
-internal class ActualCache<R : Any> internal constructor(
-    private val storage: CacheStorage<R>,
-    debug: Boolean
-) : Cache {
+internal class CacheRunner<R : Any> internal constructor() {
 
-    private val logger = Logger(enabled = debug)
-
-    override suspend fun clear() {
-        logger.log { "Clear cached data" }
-        storage.clear()
-    }
+    private val runner = CoroutineRunner<R>()
 
     @CheckResult
-    suspend fun retrieve(): R? {
-        return storage.retrieve()
-    }
-
-    suspend fun cache(data: R) {
-        storage.set(data)
+    suspend fun call(upstream: suspend CoroutineScope.() -> R): R {
+        return runner.joinOrRun { coroutineScope { upstream() } }
     }
 }

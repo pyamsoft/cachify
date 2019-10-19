@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference
 /**
  * CacheStorage implementation which is backed by memory. Short lived cache.
  */
-class MemoryCacheStorage<T> internal constructor(
+class MemoryCacheStorage<T : Any> internal constructor(
     private val ttl: Long,
     debug: Boolean
 ) : CacheStorage<T> {
@@ -85,7 +85,7 @@ class MemoryCacheStorage<T> internal constructor(
         @JvmStatic
         @CheckResult
         @JvmOverloads
-        fun <T> create(
+        fun <T : Any> create(
             time: Long,
             unit: TimeUnit,
             debug: Boolean = false
@@ -103,7 +103,7 @@ class MemoryCacheStorage<T> internal constructor(
         @JvmStatic
         @CheckResult
         @JvmOverloads
-        fun <T> create(
+        fun <T : Any> create(
             ttl: Long,
             debug: Boolean = false
         ): CacheStorage<T> {

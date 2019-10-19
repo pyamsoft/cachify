@@ -42,23 +42,29 @@ object Cachify {
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-inline fun <reified R> cachify(
+fun <R : Any> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
     storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
-    crossinline upstream: suspend CoroutineScope.() -> R
+    upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
-    return object : Cached<R> {
+    return cachify(debug, listOf(storage), upstream)
+}
 
-        private val cache = ActualCache(storage, debug)
-
-        override suspend fun clear() {
-            cache.clear()
-        }
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <R : Any> cachify(
+    debug: Boolean = false,
+    storage: List<CacheStorage<R>>,
+    upstream: suspend CoroutineScope.() -> R
+): Cached<R> {
+    return object : Cached<R>, CacheOrchestrator<R>(debug, storage) {
 
         override suspend fun call(): R {
-            return cache.call { upstream() }
+            return callCache { upstream() }
         }
     }
 }
@@ -67,23 +73,29 @@ inline fun <reified R> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-inline fun <reified R, reified T1> cachify(
+fun <R : Any, T1> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
     storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
-    crossinline upstream: suspend CoroutineScope.(T1) -> R
+    upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
-    return object : Cached1<R, T1> {
+    return cachify(debug, listOf(storage), upstream)
+}
 
-        private val cache = ActualCache(storage, debug)
-
-        override suspend fun clear() {
-            cache.clear()
-        }
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <R : Any, T1> cachify(
+    debug: Boolean = false,
+    storage: List<CacheStorage<R>>,
+    upstream: suspend CoroutineScope.(T1) -> R
+): Cached1<R, T1> {
+    return object : Cached1<R, T1>, CacheOrchestrator<R>(debug, storage) {
 
         override suspend fun call(p1: T1): R {
-            return cache.call { upstream(p1) }
+            return callCache { upstream(p1) }
         }
     }
 }
@@ -92,26 +104,29 @@ inline fun <reified R, reified T1> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-inline fun <reified R, reified T1, reified T2> cachify(
+fun <R : Any, T1, T2> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
     storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
-    crossinline upstream: suspend CoroutineScope.(T1, T2) -> R
+    upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
-    return object : Cached2<R, T1, T2> {
+    return cachify(debug, listOf(storage), upstream)
+}
 
-        private val cache = ActualCache(storage, debug)
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <R : Any, T1, T2> cachify(
+    debug: Boolean = false,
+    storage: List<CacheStorage<R>>,
+    upstream: suspend CoroutineScope.(T1, T2) -> R
+): Cached2<R, T1, T2> {
+    return object : Cached2<R, T1, T2>, CacheOrchestrator<R>(debug, storage) {
 
-        override suspend fun clear() {
-            cache.clear()
-        }
-
-        override suspend fun call(
-            p1: T1,
-            p2: T2
-        ): R {
-            return cache.call { upstream(p1, p2) }
+        override suspend fun call(p1: T1, p2: T2): R {
+            return callCache { upstream(p1, p2) }
         }
     }
 }
@@ -120,27 +135,29 @@ inline fun <reified R, reified T1, reified T2> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-inline fun <reified R, reified T1, reified T2, reified T3> cachify(
+fun <R : Any, T1, T2, T3> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
     storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> R
+    upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
-    return object : Cached3<R, T1, T2, T3> {
+    return cachify(debug, listOf(storage), upstream)
+}
 
-        private val cache = ActualCache(storage, debug)
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <R : Any, T1, T2, T3> cachify(
+    debug: Boolean = false,
+    storage: List<CacheStorage<R>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3) -> R
+): Cached3<R, T1, T2, T3> {
+    return object : Cached3<R, T1, T2, T3>, CacheOrchestrator<R>(debug, storage) {
 
-        override suspend fun clear() {
-            cache.clear()
-        }
-
-        override suspend fun call(
-            p1: T1,
-            p2: T2,
-            p3: T3
-        ): R {
-            return cache.call { upstream(p1, p2, p3) }
+        override suspend fun call(p1: T1, p2: T2, p3: T3): R {
+            return callCache { upstream(p1, p2, p3) }
         }
     }
 }
@@ -149,28 +166,29 @@ inline fun <reified R, reified T1, reified T2, reified T3> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-inline fun <reified R, reified T1, reified T2, reified T3, reified T4> cachify(
+fun <R : Any, T1, T2, T3, T4> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
     storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
-    return object : Cached4<R, T1, T2, T3, T4> {
+    return cachify(debug, listOf(storage), upstream)
+}
 
-        private val cache = ActualCache(storage, debug)
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <R : Any, T1, T2, T3, T4> cachify(
+    debug: Boolean = false,
+    storage: List<CacheStorage<R>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
+): Cached4<R, T1, T2, T3, T4> {
+    return object : Cached4<R, T1, T2, T3, T4>, CacheOrchestrator<R>(debug, storage) {
 
-        override suspend fun clear() {
-            cache.clear()
-        }
-
-        override suspend fun call(
-            p1: T1,
-            p2: T2,
-            p3: T3,
-            p4: T4
-        ): R {
-            return cache.call { upstream(p1, p2, p3, p4) }
+        override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): R {
+            return callCache { upstream(p1, p2, p3, p4) }
         }
     }
 }
@@ -179,29 +197,29 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T5> cachify(
+fun <R : Any, T1, T2, T3, T4, T5> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
     storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
-    return object : Cached5<R, T1, T2, T3, T4, T5> {
+    return cachify(debug, listOf(storage), upstream)
+}
 
-        private val cache = ActualCache(storage, debug)
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <R : Any, T1, T2, T3, T4, T5> cachify(
+    debug: Boolean = false,
+    storage: List<CacheStorage<R>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
+): Cached5<R, T1, T2, T3, T4, T5> {
+    return object : Cached5<R, T1, T2, T3, T4, T5>, CacheOrchestrator<R>(debug, storage) {
 
-        override suspend fun clear() {
-            cache.clear()
-        }
-
-        override suspend fun call(
-            p1: T1,
-            p2: T2,
-            p3: T3,
-            p4: T4,
-            p5: T5
-        ): R {
-            return cache.call { upstream(p1, p2, p3, p4, p5) }
+        override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): R {
+            return callCache { upstream(p1, p2, p3, p4, p5) }
         }
     }
 }
@@ -210,30 +228,29 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T5, reified T6> cachify(
+fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
     storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
-    return object : Cached6<R, T1, T2, T3, T4, T5, T6> {
+    return cachify(debug, listOf(storage), upstream)
+}
 
-        private val cache = ActualCache(storage, debug)
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
+    debug: Boolean = false,
+    storage: List<CacheStorage<R>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
+): Cached6<R, T1, T2, T3, T4, T5, T6> {
+    return object : Cached6<R, T1, T2, T3, T4, T5, T6>, CacheOrchestrator<R>(debug, storage) {
 
-        override suspend fun clear() {
-            cache.clear()
-        }
-
-        override suspend fun call(
-            p1: T1,
-            p2: T2,
-            p3: T3,
-            p4: T4,
-            p5: T5,
-            p6: T6
-        ): R {
-            return cache.call { upstream(p1, p2, p3, p4, p5, p6) }
+        override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6): R {
+            return callCache { upstream(p1, p2, p3, p4, p5, p6) }
         }
     }
 }
@@ -242,31 +259,29 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7> cachify(
+fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
     storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
-    return object : Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
+    return cachify(debug, listOf(storage), upstream)
+}
 
-        private val cache = ActualCache(storage, debug)
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
+    debug: Boolean = false,
+    storage: List<CacheStorage<R>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
+): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
+    return object : Cached7<R, T1, T2, T3, T4, T5, T6, T7>, CacheOrchestrator<R>(debug, storage) {
 
-        override suspend fun clear() {
-            cache.clear()
-        }
-
-        override suspend fun call(
-            p1: T1,
-            p2: T2,
-            p3: T3,
-            p4: T4,
-            p5: T5,
-            p6: T6,
-            p7: T7
-        ): R {
-            return cache.call { upstream(p1, p2, p3, p4, p5, p6, p7) }
+        override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7): R {
+            return callCache { upstream(p1, p2, p3, p4, p5, p6, p7) }
         }
     }
 }
@@ -275,20 +290,27 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8> cachify(
+fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
     storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
-    return object : Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
+    return cachify(debug, listOf(storage), upstream)
+}
 
-        private val cache = ActualCache(storage, debug)
-
-        override suspend fun clear() {
-            cache.clear()
-        }
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
+    debug: Boolean = false,
+    storage: List<CacheStorage<R>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
+): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
+    return object : Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8>,
+        CacheOrchestrator<R>(debug, storage) {
 
         override suspend fun call(
             p1: T1,
@@ -300,7 +322,7 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
             p7: T7,
             p8: T8
         ): R {
-            return cache.call { upstream(p1, p2, p3, p4, p5, p6, p7, p8) }
+            return callCache { upstream(p1, p2, p3, p4, p5, p6, p7, p8) }
         }
     }
 }
@@ -309,20 +331,27 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T5, reified T6, reified T7, reified T8, reified T9> cachify(
+fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
     storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
-    return object : Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
+    return cachify(debug, listOf(storage), upstream)
+}
 
-        private val cache = ActualCache(storage, debug)
-
-        override suspend fun clear() {
-            cache.clear()
-        }
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
+    debug: Boolean = false,
+    storage: List<CacheStorage<R>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
+): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
+    return object : Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9>,
+        CacheOrchestrator<R>(debug, storage) {
 
         override suspend fun call(
             p1: T1,
@@ -335,7 +364,7 @@ inline fun <reified R, reified T1, reified T2, reified T3, reified T4, reified T
             p8: T8,
             p9: T9
         ): R {
-            return cache.call { upstream(p1, p2, p3, p4, p5, p6, p7, p8, p9) }
+            return callCache { upstream(p1, p2, p3, p4, p5, p6, p7, p8, p9) }
         }
     }
 }

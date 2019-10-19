@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference
 /**
  * Adapted from https://gist.github.com/objcode/7ab4e7b1df8acd88696cb0ccecad16f7#file-concurrencyhelpers-kt-L124
  */
-internal class CoroutineRunner<T> internal constructor() {
+internal class CoroutineRunner<T : Any> internal constructor() {
 
     private val activeTask = AtomicReference<Deferred<T>?>(null)
 
