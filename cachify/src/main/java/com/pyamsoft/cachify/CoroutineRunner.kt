@@ -80,7 +80,7 @@ internal class CoroutineRunner<T : Any> internal constructor(debug: Boolean) {
                         }
 
                         if (clearCurrent) {
-                            activeTask.set(null)
+                            activeTask.compareAndSet(currentTask, null)
                             yield()
                         } else {
                             logger.log { "Existing task is live, attach and await result" }
