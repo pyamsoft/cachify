@@ -26,9 +26,9 @@ import kotlinx.coroutines.coroutineScope
  *
  * The runner will re-attach to any in progress requests when the cache misses.
  */
-internal class CacheRunner<R : Any> internal constructor() {
+internal class CacheRunner<R : Any> internal constructor(debug: Boolean) {
 
-    private val runner = CoroutineRunner<R>()
+    private val runner = CoroutineRunner<R>(debug)
 
     @CheckResult
     suspend fun call(upstream: suspend CoroutineScope.() -> R): R {

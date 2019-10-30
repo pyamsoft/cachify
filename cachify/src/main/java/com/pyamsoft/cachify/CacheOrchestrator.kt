@@ -18,15 +18,17 @@
 package com.pyamsoft.cachify
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.sync.Mutex
 
 internal abstract class CacheOrchestrator<R : Any> protected constructor(
     debug: Boolean,
     storage: List<CacheStorage<R>>
 ) {
 
+    private val mutex = Mutex()
     private val logger = Logger(debug)
-    private val runner = CacheRunner<R>()
-    private val caches = storage.map { ActualCache(it, debug) }
+    private val runner = CacheRunner<R>(debug)
+    private val caches = storage.map { ActualCache(mutex, it, debug) }
 
     suspend fun clear() {
         caches.forEach { it.clear() }
