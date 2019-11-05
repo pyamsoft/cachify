@@ -8,7 +8,7 @@ In your `build.gradle`
 
 ```gradle
 dependencies {
-  def latestVersion = "0.0.1"
+  def latestVersion = "0.0.5"
 
   implementation "com.pyamsoft.cachify:cachify:$latestVersion"
 }
@@ -22,16 +22,16 @@ Let us assume you have, for example, an upstream network source using
 Life without Cachify:
 ```kotlin
 interface RxService {
-  
+
   @GET("/rx/service/names")
   fun names(filterBy: String, maxCount: Long, minLength: Int) : Single<List<People>>
-  
+
 }
-  
+
 class RxCaller {
-  
+
   private val service = createService(RxService::class.java)
-  
+
   fun listNames() {
     service.names(filterBy = "John", maxCount = 30L, minLength = 3)
       .map { transformPeople(it) }
@@ -39,26 +39,26 @@ class RxCaller {
       .observeOn(AndroidSchedulers.mainThread())
       .subscribe()
   }
-  
+
 }
 ```
 
 New fancy Cachify lifestyle:
 ```kotlin
 interface RxService {
-  
+
   @GET("/rx/service/names")
   fun names(filterBy: String, maxCount: Long, minLength: Int) : Single<List<People>>
-  
+
 }
-  
+
 class RxCaller {
-  
+
   private val service = createService(RxService::class.java)
   private val nameCache = cachify<Single<List<People>>, String, Long, Int> { filterBy, maxCount, minLength ->
     return@cachify service.names(filterBy = filterBy, maxCount = maxCount, minLength = minLength).cache()
   }
-  
+
   fun listNames() {
     nameCache.call("John", 30L, 3)
       .map { transformPeople(it) }
@@ -66,7 +66,7 @@ class RxCaller {
       .observeOn(AndroidSchedulers.mainThread())
       .subscribe()
   }
-  
+
 }
 ```
 
@@ -80,7 +80,7 @@ which will erase any cached data currently held.
 
 ## Development
 
-Cachify is developed in the Open on GitHub at:  
+Cachify is developed in the Open on GitHub at:
 ```
 https://github.com/pyamsoft/Cachify
 ```
