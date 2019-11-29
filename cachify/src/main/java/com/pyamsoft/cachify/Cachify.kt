@@ -43,10 +43,8 @@ object Cachify {
  */
 @JvmOverloads
 fun <R : Any> cachify(
-    time: Long = DEFAULT_TIME,
-    unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
-    storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
     upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
     return cachify(debug, listOf(storage), upstream)
@@ -73,10 +71,8 @@ fun <R : Any> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1> cachify(
-    time: Long = DEFAULT_TIME,
-    unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
-    storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
     upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
     return cachify(debug, listOf(storage), upstream)
@@ -103,10 +99,8 @@ fun <R : Any, T1> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2> cachify(
-    time: Long = DEFAULT_TIME,
-    unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
-    storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
     upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
     return cachify(debug, listOf(storage), upstream)
@@ -133,10 +127,8 @@ fun <R : Any, T1, T2> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3> cachify(
-    time: Long = DEFAULT_TIME,
-    unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
-    storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
     upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
     return cachify(debug, listOf(storage), upstream)
@@ -193,10 +185,8 @@ fun <R : Any, T1, T2, T3, T4> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5> cachify(
-    time: Long = DEFAULT_TIME,
-    unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
-    storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
     return cachify(debug, listOf(storage), upstream)
@@ -223,10 +213,8 @@ fun <R : Any, T1, T2, T3, T4, T5> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
-    time: Long = DEFAULT_TIME,
-    unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
-    storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
     return cachify(debug, listOf(storage), upstream)
@@ -253,10 +241,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
-    time: Long = DEFAULT_TIME,
-    unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
-    storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
     return cachify(debug, listOf(storage), upstream)
@@ -283,10 +269,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
-    time: Long = DEFAULT_TIME,
-    unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
-    storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
     return cachify(debug, listOf(storage), upstream)
@@ -323,10 +307,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
-    time: Long = DEFAULT_TIME,
-    unit: TimeUnit = DEFAULT_UNIT,
     debug: Boolean = false,
-    storage: CacheStorage<R> = MemoryCacheStorage.create(time, unit, debug),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
     return cachify(debug, listOf(storage), upstream)
