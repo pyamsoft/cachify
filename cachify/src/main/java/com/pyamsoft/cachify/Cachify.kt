@@ -19,8 +19,8 @@ package com.pyamsoft.cachify
 
 import com.pyamsoft.cachify.Cachify.DEFAULT_TIME
 import com.pyamsoft.cachify.Cachify.DEFAULT_UNIT
-import kotlinx.coroutines.CoroutineScope
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.CoroutineScope
 
 /**
  * Cachify internal constants
