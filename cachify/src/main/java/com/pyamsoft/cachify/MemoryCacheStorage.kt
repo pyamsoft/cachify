@@ -19,7 +19,6 @@ package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
 
 /**
@@ -30,27 +29,23 @@ class MemoryCacheStorage<T : Any> internal constructor(
     debug: Boolean
 ) : CacheStorage<T> {
 
-    private val lock = Any()
     private val logger = Logger(enabled = debug)
-    private val storage = AtomicReference<T>(null)
-    private val lastAccessTime = AtomicLong(0)
+    private val storage = AtomicReference<Data<T>>(null)
 
     override fun retrieve(): T? {
-        return synchronized(lock) {
-            val cached: T? = storage.get()
-            return@synchronized when {
-                cached == null -> {
-                    logger.log { "No cached data, retrieve null" }
-                    null
-                }
-                lastAccessTime.get() + ttl < System.nanoTime() -> {
-                    logger.log { "TTL has expired, retrieve null" }
-                    null
-                }
-                else -> {
-                    logger.log { "Retrieve stored data: $cached" }
-                    cached
-                }
+        val cached: Data<T>? = storage.get()
+        return when {
+            cached == null -> {
+                logger.log { "No cached data, retrieve null" }
+                null
+            }
+            cached.lastAccessTime + ttl < System.nanoTime() -> {
+                logger.log { "TTL has expired, retrieve null" }
+                null
+            }
+            else -> {
+                logger.log { "Retrieve stored data: $cached" }
+                cached.data
             }
         }
     }
@@ -60,15 +55,15 @@ class MemoryCacheStorage<T : Any> internal constructor(
     }
 
     private fun setData(data: T?) {
-        return synchronized(lock) {
-            storage.set(data)
-            lastAccessTime.set(if (data == null) 0 else System.nanoTime())
-        }
+        val newData = if (data == null) null else Data(data, System.nanoTime())
+        storage.set(newData)
     }
 
     override fun clear() {
         setData(null)
     }
+
+    private data class Data<T : Any>(val data: T, val lastAccessTime: Long)
 
     companion object {
 
