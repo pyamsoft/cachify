@@ -21,8 +21,6 @@ import androidx.annotation.CheckResult
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicLong
 import java.util.concurrent.atomic.AtomicReference
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
 /**
  * CacheStorage implementation which is backed by memory. Short lived cache.
@@ -32,15 +30,15 @@ class MemoryCacheStorage<T : Any> internal constructor(
     debug: Boolean
 ) : CacheStorage<T> {
 
-    private val mutex = Mutex()
+    private val lock = Any()
     private val logger = Logger(enabled = debug)
     private val storage = AtomicReference<T>(null)
     private val lastAccessTime = AtomicLong(0)
 
-    override suspend fun retrieve(): T? {
-        return mutex.withLock {
+    override fun retrieve(): T? {
+        return synchronized(lock) {
             val cached: T? = storage.get()
-            return@withLock when {
+            return@synchronized when {
                 cached == null -> {
                     logger.log { "No cached data, retrieve null" }
                     null
@@ -57,18 +55,18 @@ class MemoryCacheStorage<T : Any> internal constructor(
         }
     }
 
-    override suspend fun set(data: T) {
+    override fun cache(data: T) {
         setData(data)
     }
 
-    private suspend fun setData(data: T?) {
-        mutex.withLock {
+    private fun setData(data: T?) {
+        return synchronized(lock) {
             storage.set(data)
             lastAccessTime.set(if (data == null) 0 else System.nanoTime())
         }
     }
 
-    override suspend fun clear() {
+    override fun clear() {
         setData(null)
     }
 

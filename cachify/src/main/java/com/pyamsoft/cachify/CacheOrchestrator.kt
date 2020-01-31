@@ -18,19 +18,18 @@
 package com.pyamsoft.cachify
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.sync.Mutex
 
 internal abstract class CacheOrchestrator<R : Any> protected constructor(
     debug: Boolean,
     storage: List<CacheStorage<R>>
-) {
+) : Cache {
 
-    private val mutex = Mutex()
-    private val logger = Logger(debug)
-    private val runner = CacheRunner<R>(debug)
-    private val caches = storage.map { ActualCache(mutex, it, debug) }
+    private val logger = Logger(enabled = debug)
+    private val runner = CacheRunner<R>(debug = debug)
+    private val caches = storage.map { ActualCache(it, debug) }
 
-    suspend fun clear() {
+    override fun clear() {
+        logger.log { "Clear all caches" }
         caches.forEach { it.clear() }
     }
 
@@ -46,6 +45,7 @@ internal abstract class CacheOrchestrator<R : Any> protected constructor(
 
             logger.log { "Fetching data from upstream" }
             val result = upstream()
+            logger.log { "Retrieved result from upstream: $result" }
             caches.forEach { it.cache(result) }
             return@call result
         }

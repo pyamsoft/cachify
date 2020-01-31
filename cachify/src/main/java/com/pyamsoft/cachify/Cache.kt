@@ -25,5 +25,5 @@ interface Cache {
     /**
      * Clear cache
      */
-    suspend fun clear()
+    fun clear()
 }

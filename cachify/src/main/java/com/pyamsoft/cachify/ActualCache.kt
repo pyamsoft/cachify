@@ -18,8 +18,6 @@
 package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 
 /**
  * Internal
@@ -29,24 +27,25 @@ import kotlinx.coroutines.sync.withLock
  * The runner will re-attach to any in progress requests when the cache misses.
  */
 internal class ActualCache<R : Any> internal constructor(
-    private val mutex: Mutex,
     private val storage: CacheStorage<R>,
     debug: Boolean
-) : Cache {
+) : CacheStorage<R> {
 
     private val logger = Logger(enabled = debug)
 
-    override suspend fun clear() {
+    override fun clear() {
         logger.log { "Clear cached data" }
-        mutex.withLock { storage.clear() }
+        storage.clear()
     }
 
     @CheckResult
-    suspend fun retrieve(): R? {
-        return mutex.withLock { storage.retrieve() }
+    override fun retrieve(): R? {
+        logger.log { "Retrieve cached data" }
+        return storage.retrieve()
     }
 
-    suspend fun cache(data: R) {
-        mutex.withLock { storage.set(data) }
+    override fun cache(data: R) {
+        logger.log { "Cache new data: $data" }
+        storage.cache(data)
     }
 }
