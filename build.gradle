@@ -79,7 +79,7 @@ subprojects {
     apply plugin: "com.diffplug.gradle.spotless"
 
     final String POM_GROUP = "com.pyamsoft.cachify"
-    final String POM_VERSION = "0.0.8"
+    final String POM_VERSION = "0.0.9-SNAPSHOT"
 
     group = POM_GROUP
     version = POM_VERSION
@@ -138,13 +138,6 @@ subprojects {
 
             // Only English, I don't have any translations
             resConfigs "en"
-
-            javaCompileOptions {
-                annotationProcessorOptions {
-                    // Fix kapt
-                    includeCompileClasspath = true
-                }
-            }
 
             compileOptions {
                 sourceCompatibility JavaVersion.VERSION_1_8
