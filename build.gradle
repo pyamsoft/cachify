@@ -103,8 +103,8 @@ subprojects {
             target "**/*.kt"
             ktlint()
         }
-        groovy {
-            target "**/*.gradle"
+        groovyGradle {
+            target "*.gradle", "**/*.gradle"
             greclipse()
         }
     }
