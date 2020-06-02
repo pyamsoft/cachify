@@ -33,7 +33,7 @@ internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
         caches.forEach { it.clear() }
     }
 
-    override suspend fun invalidate(key: K) {
+    suspend fun invalidate(key: K) {
         logger.log { "Invalidate all caches with key: $key" }
         caches.forEach { it.invalidate(key) }
     }

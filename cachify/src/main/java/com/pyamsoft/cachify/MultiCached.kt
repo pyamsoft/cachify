@@ -7,7 +7,7 @@ import androidx.annotation.CheckResult
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface Keyed<K : Any, R : Any> : Cache<K> {
+interface Keyed<K : Any, R : Cache<K>> : Cache<K> {
 
     /**
      * Return an instance of a caller which can get data from either cache or upstream
@@ -21,9 +21,9 @@ interface Keyed<K : Any, R : Any> : Cache<K> {
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached<K : Any, V : Any> : Keyed<K, MultiCached.Caller<V>> {
+interface MultiCached<K : Any, V : Any> : Keyed<K, MultiCached.Caller<K, V>> {
 
-    interface Caller<V : Any> {
+    interface Caller<K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
@@ -38,9 +38,9 @@ interface MultiCached<K : Any, V : Any> : Keyed<K, MultiCached.Caller<V>> {
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached1<K : Any, V : Any, T1> : Keyed<K, MultiCached1.Caller<T1, V>> {
+interface MultiCached1<K : Any, V : Any, T1> : Keyed<K, MultiCached1.Caller<T1, K, V>> {
 
-    interface Caller<T1, V : Any> {
+    interface Caller<T1, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
@@ -55,9 +55,9 @@ interface MultiCached1<K : Any, V : Any, T1> : Keyed<K, MultiCached1.Caller<T1, 
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached2<K : Any, V : Any, T1, T2> : Keyed<K, MultiCached2.Caller<T1, T2, V>> {
+interface MultiCached2<K : Any, V : Any, T1, T2> : Keyed<K, MultiCached2.Caller<T1, T2, K, V>> {
 
-    interface Caller<T1, T2, V : Any> {
+    interface Caller<T1, T2, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
@@ -73,9 +73,9 @@ interface MultiCached2<K : Any, V : Any, T1, T2> : Keyed<K, MultiCached2.Caller<
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
 interface MultiCached3<K : Any, V : Any, T1, T2, T3> :
-    Keyed<K, MultiCached3.Caller<T1, T2, T3, V>> {
+    Keyed<K, MultiCached3.Caller<T1, T2, T3, K, V>> {
 
-    interface Caller<T1, T2, T3, V : Any> {
+    interface Caller<T1, T2, T3, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
@@ -91,9 +91,9 @@ interface MultiCached3<K : Any, V : Any, T1, T2, T3> :
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
 interface MultiCached4<K : Any, V : Any, T1, T2, T3, T4> :
-    Keyed<K, MultiCached4.Caller<T1, T2, T3, T4, V>> {
+    Keyed<K, MultiCached4.Caller<T1, T2, T3, T4, K, V>> {
 
-    interface Caller<T1, T2, T3, T4, V : Any> {
+    interface Caller<T1, T2, T3, T4, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
@@ -109,9 +109,9 @@ interface MultiCached4<K : Any, V : Any, T1, T2, T3, T4> :
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
 interface MultiCached5<K : Any, V : Any, T1, T2, T3, T4, T5> :
-    Keyed<K, MultiCached5.Caller<T1, T2, T3, T4, T5, V>> {
+    Keyed<K, MultiCached5.Caller<T1, T2, T3, T4, T5, K, V>> {
 
-    interface Caller<T1, T2, T3, T4, T5, V : Any> {
+    interface Caller<T1, T2, T3, T4, T5, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
@@ -127,9 +127,9 @@ interface MultiCached5<K : Any, V : Any, T1, T2, T3, T4, T5> :
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
 interface MultiCached6<K : Any, V : Any, T1, T2, T3, T4, T5, T6> :
-    Keyed<K, MultiCached6.Caller<T1, T2, T3, T4, T5, T6, V>> {
+    Keyed<K, MultiCached6.Caller<T1, T2, T3, T4, T5, T6, K, V>> {
 
-    interface Caller<T1, T2, T3, T4, T5, T6, V : Any> {
+    interface Caller<T1, T2, T3, T4, T5, T6, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
@@ -145,9 +145,9 @@ interface MultiCached6<K : Any, V : Any, T1, T2, T3, T4, T5, T6> :
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
 interface MultiCached7<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> :
-    Keyed<K, MultiCached7.Caller<T1, T2, T3, T4, T5, T6, T7, V>> {
+    Keyed<K, MultiCached7.Caller<T1, T2, T3, T4, T5, T6, T7, K, V>> {
 
-    interface Caller<T1, T2, T3, T4, T5, T6, T7, V : Any> {
+    interface Caller<T1, T2, T3, T4, T5, T6, T7, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
@@ -163,9 +163,9 @@ interface MultiCached7<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> :
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
 interface MultiCached8<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> :
-    Keyed<K, MultiCached8.Caller<T1, T2, T3, T4, T5, T6, T7, T8, V>> {
+    Keyed<K, MultiCached8.Caller<T1, T2, T3, T4, T5, T6, T7, T8, K, V>> {
 
-    interface Caller<T1, T2, T3, T4, T5, T6, T7, T8, V : Any> {
+    interface Caller<T1, T2, T3, T4, T5, T6, T7, T8, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
@@ -181,9 +181,9 @@ interface MultiCached8<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> :
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
 interface MultiCached9<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> :
-    Keyed<K, MultiCached9.Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, V>> {
+    Keyed<K, MultiCached9.Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, K, V>> {
 
-    interface Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, V : Any> {
+    interface Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream

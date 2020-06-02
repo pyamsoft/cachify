@@ -55,11 +55,12 @@ interface RxService {
 class RxCaller {
 
   private val service = createService(RxService::class.java)
+
   private val nameCache = cachify<Single<List<People>>, String, Long, Int> { filterBy, maxCount, minLength ->
-    return@cachify service.names(filterBy = filterBy, maxCount = maxCount, minLength = minLength).cache()
+    service.names(filterBy = filterBy, maxCount = maxCount, minLength = minLength)
   }
 
-  fun listNames() {
+  suspend fun listNames() {
     nameCache.call("John", 30L, 3)
       .map { transformPeople(it) }
       .subscribeOn(Schedulers.io())
@@ -77,6 +78,32 @@ per cache instance, and defaults to 30 seconds.
 If you ever want to sidestep the cache and force the upstream data source to be
 queried, or you just want to clear old cached data, you can call the `clear()` method
 which will erase any cached data currently held.
+
+You can use the `cachify` entry point for a simple cache over a single value, but for more
+complex data, you can use the `multiCachify` entry point which differentiates your cached values
+by using creating a mapping from unique keys to cached values.
+
+```kotlin
+interface DetailService {
+
+  suspend fun detail(id: String, userName: String) : Details
+
+}
+
+class DetailCaller {
+
+  private val service = createService(DetailService::class.java)
+
+  private val detailCache = multiCachify<DetailId, Details, String, String> { id, userName ->
+    service.detail(id = id, userName = userName)
+  }
+
+  suspend fun getDetailsFor(id: String): Details {
+    return detailCache.key(id).call(id, "john.doe@example.com")
+  }
+
+}
+```
 
 ## Development
 

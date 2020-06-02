@@ -47,10 +47,6 @@ fun <R : Any> cachify(
         private val conductor = CacheOrchestrator(debug, storage)
         private val key = randomId()
 
-        override suspend fun invalidate(key: String) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
@@ -85,10 +81,6 @@ fun <R : Any, T1> cachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
         private val key = randomId()
-
-        override suspend fun invalidate(key: String) {
-            conductor.invalidate(key)
-        }
 
         override suspend fun clear() {
             conductor.clear()
@@ -125,10 +117,6 @@ fun <R : Any, T1, T2> cachify(
         private val conductor = CacheOrchestrator(debug, storage)
         private val key = randomId()
 
-        override suspend fun invalidate(key: String) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
@@ -163,10 +151,6 @@ fun <R : Any, T1, T2, T3> cachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
         private val key = randomId()
-
-        override suspend fun invalidate(key: String) {
-            conductor.invalidate(key)
-        }
 
         override suspend fun clear() {
             conductor.clear()
@@ -205,10 +189,6 @@ fun <R : Any, T1, T2, T3, T4> cachify(
         private val conductor = CacheOrchestrator(debug, storage)
         private val key = randomId()
 
-        override suspend fun invalidate(key: String) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
@@ -243,10 +223,6 @@ fun <R : Any, T1, T2, T3, T4, T5> cachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
         private val key = randomId()
-
-        override suspend fun invalidate(key: String) {
-            conductor.invalidate(key)
-        }
 
         override suspend fun clear() {
             conductor.clear()
@@ -283,10 +259,6 @@ fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
         private val conductor = CacheOrchestrator(debug, storage)
         private val key = randomId()
 
-        override suspend fun invalidate(key: String) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
@@ -322,10 +294,6 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
         private val conductor = CacheOrchestrator(debug, storage)
         private val key = randomId()
 
-        override suspend fun invalidate(key: String) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
@@ -360,10 +328,6 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
         private val key = randomId()
-
-        override suspend fun invalidate(key: String) {
-            conductor.invalidate(key)
-        }
 
         override suspend fun clear() {
             conductor.clear()
@@ -408,10 +372,6 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
         private val key = randomId()
-
-        override suspend fun invalidate(key: String) {
-            conductor.invalidate(key)
-        }
 
         override suspend fun clear() {
             conductor.clear()

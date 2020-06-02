@@ -36,4 +36,9 @@ interface CacheStorage<K : Any, V : Any> : Cache<K> {
      * The new data is valid for as long as the implementation considers it valid. It may be infinite.
      */
     suspend fun cache(key: K, data: V)
+
+    /**
+     * Invalidate data for a given key, removing it from storage
+     */
+    suspend fun invalidate(key: K)
 }

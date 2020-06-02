@@ -45,18 +45,18 @@ fun <K : Any, V : Any> multiCachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
 
-        override suspend fun invalidate(key: K) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
 
-        override fun key(key: K): MultiCached.Caller<V> {
-            return object : MultiCached.Caller<V> {
+        override fun key(key: K): MultiCached.Caller<K, V> {
+            return object : MultiCached.Caller<K, V> {
                 override suspend fun call(): V {
                     return conductor.cache(key, upstream)
+                }
+
+                override suspend fun clear() {
+                    conductor.invalidate(key)
                 }
             }
         }
@@ -87,18 +87,18 @@ fun <K : Any, V : Any, T1> multiCachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
 
-        override suspend fun invalidate(key: K) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
 
-        override fun key(key: K): MultiCached1.Caller<T1, V> {
-            return object : MultiCached1.Caller<T1, V> {
+        override fun key(key: K): MultiCached1.Caller<T1, K, V> {
+            return object : MultiCached1.Caller<T1, K, V> {
                 override suspend fun call(p1: T1): V {
                     return conductor.cache(key) { upstream(p1) }
+                }
+
+                override suspend fun clear() {
+                    conductor.invalidate(key)
                 }
             }
         }
@@ -129,18 +129,19 @@ fun <K : Any, V : Any, T1, T2> multiCachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
 
-        override suspend fun invalidate(key: K) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
 
-        override fun key(key: K): MultiCached2.Caller<T1, T2, V> {
-            return object : MultiCached2.Caller<T1, T2, V> {
+        override fun key(key: K): MultiCached2.Caller<T1, T2, K, V> {
+            return object : MultiCached2.Caller<T1, T2, K, V> {
+
                 override suspend fun call(p1: T1, p2: T2): V {
                     return conductor.cache(key) { upstream(p1, p2) }
+                }
+
+                override suspend fun clear() {
+                    conductor.invalidate(key)
                 }
             }
         }
@@ -171,18 +172,18 @@ fun <K : Any, V : Any, T1, T2, T3> multiCachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
 
-        override suspend fun invalidate(key: K) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
 
-        override fun key(key: K): MultiCached3.Caller<T1, T2, T3, V> {
-            return object : MultiCached3.Caller<T1, T2, T3, V> {
+        override fun key(key: K): MultiCached3.Caller<T1, T2, T3, K, V> {
+            return object : MultiCached3.Caller<T1, T2, T3, K, V> {
                 override suspend fun call(p1: T1, p2: T2, p3: T3): V {
                     return conductor.cache(key) { upstream(p1, p2, p3) }
+                }
+
+                override suspend fun clear() {
+                    conductor.invalidate(key)
                 }
             }
         }
@@ -213,18 +214,18 @@ fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
 
-        override suspend fun invalidate(key: K) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
 
-        override fun key(key: K): MultiCached4.Caller<T1, T2, T3, T4, V> {
-            return object : MultiCached4.Caller<T1, T2, T3, T4, V> {
+        override fun key(key: K): MultiCached4.Caller<T1, T2, T3, T4, K, V> {
+            return object : MultiCached4.Caller<T1, T2, T3, T4, K, V> {
                 override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): V {
                     return conductor.cache(key) { upstream(p1, p2, p3, p4) }
+                }
+
+                override suspend fun clear() {
+                    conductor.invalidate(key)
                 }
             }
         }
@@ -255,18 +256,18 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
 
-        override suspend fun invalidate(key: K) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
 
-        override fun key(key: K): MultiCached5.Caller<T1, T2, T3, T4, T5, V> {
-            return object : MultiCached5.Caller<T1, T2, T3, T4, T5, V> {
+        override fun key(key: K): MultiCached5.Caller<T1, T2, T3, T4, T5, K, V> {
+            return object : MultiCached5.Caller<T1, T2, T3, T4, T5, K, V> {
                 override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): V {
                     return conductor.cache(key) { upstream(p1, p2, p3, p4, p5) }
+                }
+
+                override suspend fun clear() {
+                    conductor.invalidate(key)
                 }
             }
         }
@@ -297,18 +298,18 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
 
-        override suspend fun invalidate(key: K) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
 
-        override fun key(key: K): MultiCached6.Caller<T1, T2, T3, T4, T5, T6, V> {
-            return object : MultiCached6.Caller<T1, T2, T3, T4, T5, T6, V> {
+        override fun key(key: K): MultiCached6.Caller<T1, T2, T3, T4, T5, T6, K, V> {
+            return object : MultiCached6.Caller<T1, T2, T3, T4, T5, T6, K, V> {
                 override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6): V {
                     return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6) }
+                }
+
+                override suspend fun clear() {
+                    conductor.invalidate(key)
                 }
             }
         }
@@ -339,16 +340,12 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
 
-        override suspend fun invalidate(key: K) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
 
-        override fun key(key: K): MultiCached7.Caller<T1, T2, T3, T4, T5, T6, T7, V> {
-            return object : MultiCached7.Caller<T1, T2, T3, T4, T5, T6, T7, V> {
+        override fun key(key: K): MultiCached7.Caller<T1, T2, T3, T4, T5, T6, T7, K, V> {
+            return object : MultiCached7.Caller<T1, T2, T3, T4, T5, T6, T7, K, V> {
                 override suspend fun call(
                     p1: T1,
                     p2: T2,
@@ -359,6 +356,10 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
                     p7: T7
                 ): V {
                     return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6, p7) }
+                }
+
+                override suspend fun clear() {
+                    conductor.invalidate(key)
                 }
             }
         }
@@ -389,16 +390,12 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
 
-        override suspend fun invalidate(key: K) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
 
-        override fun key(key: K): MultiCached8.Caller<T1, T2, T3, T4, T5, T6, T7, T8, V> {
-            return object : MultiCached8.Caller<T1, T2, T3, T4, T5, T6, T7, T8, V> {
+        override fun key(key: K): MultiCached8.Caller<T1, T2, T3, T4, T5, T6, T7, T8, K, V> {
+            return object : MultiCached8.Caller<T1, T2, T3, T4, T5, T6, T7, T8, K, V> {
                 override suspend fun call(
                     p1: T1,
                     p2: T2,
@@ -410,6 +407,10 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
                     p8: T8
                 ): V {
                     return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6, p7, p8) }
+                }
+
+                override suspend fun clear() {
+                    conductor.invalidate(key)
                 }
             }
         }
@@ -440,16 +441,12 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
 
         private val conductor = CacheOrchestrator(debug, storage)
 
-        override suspend fun invalidate(key: K) {
-            conductor.invalidate(key)
-        }
-
         override suspend fun clear() {
             conductor.clear()
         }
 
-        override fun key(key: K): MultiCached9.Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, V> {
-            return object : MultiCached9.Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, V> {
+        override fun key(key: K): MultiCached9.Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, K, V> {
+            return object : MultiCached9.Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, K, V> {
                 override suspend fun call(
                     p1: T1,
                     p2: T2,
@@ -462,6 +459,10 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
                     p9: T9
                 ): V {
                     return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6, p7, p8, p9) }
+                }
+
+                override suspend fun clear() {
+                    conductor.invalidate(key)
                 }
             }
         }

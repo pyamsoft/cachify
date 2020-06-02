@@ -23,11 +23,6 @@ package com.pyamsoft.cachify
 interface Cache<K : Any> {
 
     /**
-     * Invalidate an entry in the cache
-     */
-    suspend fun invalidate(key: K)
-
-    /**
      * Clear cache
      */
     suspend fun clear()
