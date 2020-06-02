@@ -34,7 +34,7 @@ internal class CoroutineRunner<T : Any> internal constructor(debug: Boolean) {
     suspend inline fun run(crossinline block: suspend CoroutineScope.() -> T): T = coroutineScope {
         // Return if already running
         mutex.withLock {
-            activeTask?.let { active ->
+            activeTask?.also { active ->
                 val id = active.id
                 val task = active.task
                 when {
@@ -53,9 +53,10 @@ internal class CoroutineRunner<T : Any> internal constructor(debug: Boolean) {
         // start.
         val id = randomId()
         val newTask = async(start = CoroutineStart.LAZY) {
-            logger.log { "Running task" }
-            block()
+            logger.log { "Running task: $id" }
+            return@async block()
         }
+        newTask.invokeOnCompletion { logger.log { "Completed task: $id" } }
 
         // Make sure we mark this task as the active task
         mutex.withLock {
