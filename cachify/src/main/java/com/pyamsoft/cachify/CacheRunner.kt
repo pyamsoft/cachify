@@ -19,7 +19,6 @@ package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 
 /**
  * Internal
@@ -32,6 +31,6 @@ internal class CacheRunner<R : Any> internal constructor(debug: Boolean) {
 
     @CheckResult
     suspend fun call(upstream: suspend CoroutineScope.() -> R): R {
-        return runner.joinOrRun { coroutineScope { upstream() } }
+        return runner.run { upstream() }
     }
 }

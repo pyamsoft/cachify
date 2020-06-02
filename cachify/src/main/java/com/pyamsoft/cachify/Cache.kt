@@ -20,10 +20,15 @@ package com.pyamsoft.cachify
 /**
  * A cache of data
  */
-interface Cache {
+interface Cache<K : Any> {
+
+    /**
+     * Invalidate an entry in the cache
+     */
+    suspend fun invalidate(key: K)
 
     /**
      * Clear cache
      */
-    fun clear()
+    suspend fun clear()
 }

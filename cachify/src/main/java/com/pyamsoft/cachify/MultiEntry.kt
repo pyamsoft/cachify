@@ -1,0 +1,469 @@
+/*
+ * Copyright 2019 Peter Kenji Yamanaka
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OV CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
+package com.pyamsoft.cachify
+
+import com.pyamsoft.cachify.Cachify.DEFAULT_TIME
+import com.pyamsoft.cachify.Cachify.DEFAULT_UNIT
+import kotlinx.coroutines.CoroutineScope
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <K : Any, V : Any> multiCachify(
+    debug: Boolean = false,
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    upstream: suspend CoroutineScope.() -> V
+): MultiCached<K, V> {
+    return multiCachify(debug, listOf(storage), upstream)
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+fun <K : Any, V : Any> multiCachify(
+    debug: Boolean,
+    storage: List<CacheStorage<K, V>>,
+    upstream: suspend CoroutineScope.() -> V
+): MultiCached<K, V> {
+    return object : MultiCached<K, V> {
+
+        private val conductor = CacheOrchestrator(debug, storage)
+
+        override suspend fun invalidate(key: K) {
+            conductor.invalidate(key)
+        }
+
+        override suspend fun clear() {
+            conductor.clear()
+        }
+
+        override fun key(key: K): MultiCached.Caller<V> {
+            return object : MultiCached.Caller<V> {
+                override suspend fun call(): V {
+                    return conductor.cache(key, upstream)
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <K : Any, V : Any, T1> multiCachify(
+    debug: Boolean = false,
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    upstream: suspend CoroutineScope.(T1) -> V
+): MultiCached1<K, V, T1> {
+    return multiCachify(debug, listOf(storage), upstream)
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+fun <K : Any, V : Any, T1> multiCachify(
+    debug: Boolean,
+    storage: List<CacheStorage<K, V>>,
+    upstream: suspend CoroutineScope.(T1) -> V
+): MultiCached1<K, V, T1> {
+    return object : MultiCached1<K, V, T1> {
+
+        private val conductor = CacheOrchestrator(debug, storage)
+
+        override suspend fun invalidate(key: K) {
+            conductor.invalidate(key)
+        }
+
+        override suspend fun clear() {
+            conductor.clear()
+        }
+
+        override fun key(key: K): MultiCached1.Caller<T1, V> {
+            return object : MultiCached1.Caller<T1, V> {
+                override suspend fun call(p1: T1): V {
+                    return conductor.cache(key) { upstream(p1) }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <K : Any, V : Any, T1, T2> multiCachify(
+    debug: Boolean = false,
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    upstream: suspend CoroutineScope.(T1, T2) -> V
+): MultiCached2<K, V, T1, T2> {
+    return multiCachify(debug, listOf(storage), upstream)
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+fun <K : Any, V : Any, T1, T2> multiCachify(
+    debug: Boolean,
+    storage: List<CacheStorage<K, V>>,
+    upstream: suspend CoroutineScope.(T1, T2) -> V
+): MultiCached2<K, V, T1, T2> {
+    return object : MultiCached2<K, V, T1, T2> {
+
+        private val conductor = CacheOrchestrator(debug, storage)
+
+        override suspend fun invalidate(key: K) {
+            conductor.invalidate(key)
+        }
+
+        override suspend fun clear() {
+            conductor.clear()
+        }
+
+        override fun key(key: K): MultiCached2.Caller<T1, T2, V> {
+            return object : MultiCached2.Caller<T1, T2, V> {
+                override suspend fun call(p1: T1, p2: T2): V {
+                    return conductor.cache(key) { upstream(p1, p2) }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <K : Any, V : Any, T1, T2, T3> multiCachify(
+    debug: Boolean = false,
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    upstream: suspend CoroutineScope.(T1, T2, T3) -> V
+): MultiCached3<K, V, T1, T2, T3> {
+    return multiCachify(debug, listOf(storage), upstream)
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+fun <K : Any, V : Any, T1, T2, T3> multiCachify(
+    debug: Boolean,
+    storage: List<CacheStorage<K, V>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3) -> V
+): MultiCached3<K, V, T1, T2, T3> {
+    return object : MultiCached3<K, V, T1, T2, T3> {
+
+        private val conductor = CacheOrchestrator(debug, storage)
+
+        override suspend fun invalidate(key: K) {
+            conductor.invalidate(key)
+        }
+
+        override suspend fun clear() {
+            conductor.clear()
+        }
+
+        override fun key(key: K): MultiCached3.Caller<T1, T2, T3, V> {
+            return object : MultiCached3.Caller<T1, T2, T3, V> {
+                override suspend fun call(p1: T1, p2: T2, p3: T3): V {
+                    return conductor.cache(key) { upstream(p1, p2, p3) }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
+    debug: Boolean = false,
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V
+): MultiCached4<K, V, T1, T2, T3, T4> {
+    return multiCachify(debug, listOf(storage), upstream)
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
+    debug: Boolean,
+    storage: List<CacheStorage<K, V>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V
+): MultiCached4<K, V, T1, T2, T3, T4> {
+    return object : MultiCached4<K, V, T1, T2, T3, T4> {
+
+        private val conductor = CacheOrchestrator(debug, storage)
+
+        override suspend fun invalidate(key: K) {
+            conductor.invalidate(key)
+        }
+
+        override suspend fun clear() {
+            conductor.clear()
+        }
+
+        override fun key(key: K): MultiCached4.Caller<T1, T2, T3, T4, V> {
+            return object : MultiCached4.Caller<T1, T2, T3, T4, V> {
+                override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): V {
+                    return conductor.cache(key) { upstream(p1, p2, p3, p4) }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
+    debug: Boolean = false,
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V
+): MultiCached5<K, V, T1, T2, T3, T4, T5> {
+    return multiCachify(debug, listOf(storage), upstream)
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
+    debug: Boolean,
+    storage: List<CacheStorage<K, V>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V
+): MultiCached5<K, V, T1, T2, T3, T4, T5> {
+    return object : MultiCached5<K, V, T1, T2, T3, T4, T5> {
+
+        private val conductor = CacheOrchestrator(debug, storage)
+
+        override suspend fun invalidate(key: K) {
+            conductor.invalidate(key)
+        }
+
+        override suspend fun clear() {
+            conductor.clear()
+        }
+
+        override fun key(key: K): MultiCached5.Caller<T1, T2, T3, T4, T5, V> {
+            return object : MultiCached5.Caller<T1, T2, T3, T4, T5, V> {
+                override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): V {
+                    return conductor.cache(key) { upstream(p1, p2, p3, p4, p5) }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
+    debug: Boolean = false,
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> V
+): MultiCached6<K, V, T1, T2, T3, T4, T5, T6> {
+    return multiCachify(debug, listOf(storage), upstream)
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
+    debug: Boolean,
+    storage: List<CacheStorage<K, V>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> V
+): MultiCached6<K, V, T1, T2, T3, T4, T5, T6> {
+    return object : MultiCached6<K, V, T1, T2, T3, T4, T5, T6> {
+
+        private val conductor = CacheOrchestrator(debug, storage)
+
+        override suspend fun invalidate(key: K) {
+            conductor.invalidate(key)
+        }
+
+        override suspend fun clear() {
+            conductor.clear()
+        }
+
+        override fun key(key: K): MultiCached6.Caller<T1, T2, T3, T4, T5, T6, V> {
+            return object : MultiCached6.Caller<T1, T2, T3, T4, T5, T6, V> {
+                override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6): V {
+                    return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6) }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
+    debug: Boolean = false,
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> V
+): MultiCached7<K, V, T1, T2, T3, T4, T5, T6, T7> {
+    return multiCachify(debug, listOf(storage), upstream)
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
+    debug: Boolean,
+    storage: List<CacheStorage<K, V>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> V
+): MultiCached7<K, V, T1, T2, T3, T4, T5, T6, T7> {
+    return object : MultiCached7<K, V, T1, T2, T3, T4, T5, T6, T7> {
+
+        private val conductor = CacheOrchestrator(debug, storage)
+
+        override suspend fun invalidate(key: K) {
+            conductor.invalidate(key)
+        }
+
+        override suspend fun clear() {
+            conductor.clear()
+        }
+
+        override fun key(key: K): MultiCached7.Caller<T1, T2, T3, T4, T5, T6, T7, V> {
+            return object : MultiCached7.Caller<T1, T2, T3, T4, T5, T6, T7, V> {
+                override suspend fun call(
+                    p1: T1,
+                    p2: T2,
+                    p3: T3,
+                    p4: T4,
+                    p5: T5,
+                    p6: T6,
+                    p7: T7
+                ): V {
+                    return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6, p7) }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
+    debug: Boolean = false,
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> V
+): MultiCached8<K, V, T1, T2, T3, T4, T5, T6, T7, T8> {
+    return multiCachify(debug, listOf(storage), upstream)
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
+    debug: Boolean,
+    storage: List<CacheStorage<K, V>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> V
+): MultiCached8<K, V, T1, T2, T3, T4, T5, T6, T7, T8> {
+    return object : MultiCached8<K, V, T1, T2, T3, T4, T5, T6, T7, T8> {
+
+        private val conductor = CacheOrchestrator(debug, storage)
+
+        override suspend fun invalidate(key: K) {
+            conductor.invalidate(key)
+        }
+
+        override suspend fun clear() {
+            conductor.clear()
+        }
+
+        override fun key(key: K): MultiCached8.Caller<T1, T2, T3, T4, T5, T6, T7, T8, V> {
+            return object : MultiCached8.Caller<T1, T2, T3, T4, T5, T6, T7, T8, V> {
+                override suspend fun call(
+                    p1: T1,
+                    p2: T2,
+                    p3: T3,
+                    p4: T4,
+                    p5: T5,
+                    p6: T6,
+                    p7: T7,
+                    p8: T8
+                ): V {
+                    return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6, p7, p8) }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+@JvmOverloads
+fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
+    debug: Boolean = false,
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> V
+): MultiCached9<K, V, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
+    return multiCachify(debug, listOf(storage), upstream)
+}
+
+/**
+ * Wrapper which will generate a Cached object that delegates its call() to the upstream source
+ */
+fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
+    debug: Boolean,
+    storage: List<CacheStorage<K, V>>,
+    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> V
+): MultiCached9<K, V, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
+    return object : MultiCached9<K, V, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
+
+        private val conductor = CacheOrchestrator(debug, storage)
+
+        override suspend fun invalidate(key: K) {
+            conductor.invalidate(key)
+        }
+
+        override suspend fun clear() {
+            conductor.clear()
+        }
+
+        override fun key(key: K): MultiCached9.Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, V> {
+            return object : MultiCached9.Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, V> {
+                override suspend fun call(
+                    p1: T1,
+                    p2: T2,
+                    p3: T3,
+                    p4: T4,
+                    p5: T5,
+                    p6: T6,
+                    p7: T7,
+                    p8: T8,
+                    p9: T9
+                ): V {
+                    return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6, p7, p8, p9) }
+                }
+            }
+        }
+    }
+}

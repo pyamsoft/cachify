@@ -21,8 +21,10 @@ import androidx.annotation.CheckResult
 
 /**
  * Cached data wrapper which resolves upstream data using 0 parameters
+ *
+ * Keys are stored as random strings
  */
-interface Cached<R : Any> : Cache {
+interface Cached<R : Any> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
@@ -33,8 +35,10 @@ interface Cached<R : Any> : Cache {
 
 /**
  * Cached data wrapper which resolves upstream data using 1 parameter
+ *
+ * Keys are stored as random strings
  */
-interface Cached1<R : Any, T1> : Cache {
+interface Cached1<R : Any, T1> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
@@ -45,8 +49,10 @@ interface Cached1<R : Any, T1> : Cache {
 
 /**
  * Cached data wrapper which resolves upstream data using 2 parameters
+ *
+ * Keys are stored as random strings
  */
-interface Cached2<R : Any, T1, T2> : Cache {
+interface Cached2<R : Any, T1, T2> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
@@ -60,8 +66,10 @@ interface Cached2<R : Any, T1, T2> : Cache {
 
 /**
  * Cached data wrapper which resolves upstream data using 3 parameters
+ *
+ * Keys are stored as random strings
  */
-interface Cached3<R : Any, T1, T2, T3> : Cache {
+interface Cached3<R : Any, T1, T2, T3> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
@@ -76,8 +84,10 @@ interface Cached3<R : Any, T1, T2, T3> : Cache {
 
 /**
  * Cached data wrapper which resolves upstream data using 4 parameters
+ *
+ * Keys are stored as random strings
  */
-interface Cached4<R : Any, T1, T2, T3, T4> : Cache {
+interface Cached4<R : Any, T1, T2, T3, T4> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
@@ -93,8 +103,10 @@ interface Cached4<R : Any, T1, T2, T3, T4> : Cache {
 
 /**
  * Cached data wrapper which resolves upstream data using 5 parameters
+ *
+ * Keys are stored as random strings
  */
-interface Cached5<R : Any, T1, T2, T3, T4, T5> : Cache {
+interface Cached5<R : Any, T1, T2, T3, T4, T5> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
@@ -111,8 +123,10 @@ interface Cached5<R : Any, T1, T2, T3, T4, T5> : Cache {
 
 /**
  * Cached data wrapper which resolves upstream data using 6 parameters
+ *
+ * Keys are stored as random strings
  */
-interface Cached6<R : Any, T1, T2, T3, T4, T5, T6> : Cache {
+interface Cached6<R : Any, T1, T2, T3, T4, T5, T6> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
@@ -130,8 +144,10 @@ interface Cached6<R : Any, T1, T2, T3, T4, T5, T6> : Cache {
 
 /**
  * Cached data wrapper which resolves upstream data using 7 parameters
+ *
+ * Keys are stored as random strings
  */
-interface Cached7<R : Any, T1, T2, T3, T4, T5, T6, T7> : Cache {
+interface Cached7<R : Any, T1, T2, T3, T4, T5, T6, T7> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
@@ -150,8 +166,10 @@ interface Cached7<R : Any, T1, T2, T3, T4, T5, T6, T7> : Cache {
 
 /**
  * Cached data wrapper which resolves upstream data using 8 parameters
+ *
+ * Keys are stored as random strings
  */
-interface Cached8<R : Any, T1, T2, T3, T4, T5, T6, T7, T8> : Cache {
+interface Cached8<R : Any, T1, T2, T3, T4, T5, T6, T7, T8> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
@@ -171,8 +189,10 @@ interface Cached8<R : Any, T1, T2, T3, T4, T5, T6, T7, T8> : Cache {
 
 /**
  * Cached data wrapper which resolves upstream data using 9 parameters
+ *
+ * Keys are stored as random strings
  */
-interface Cached9<R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache {
+interface Cached9<R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache<String> {
 
     /**
      * Get data either from cache or upstream

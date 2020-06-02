@@ -19,35 +19,39 @@ package com.pyamsoft.cachify
 
 import kotlinx.coroutines.CoroutineScope
 
-internal abstract class CacheOrchestrator<R : Any> protected constructor(
+internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
     debug: Boolean,
-    storage: List<CacheStorage<R>>
-) : Cache {
+    storage: List<CacheStorage<K, V>>
+) : Cache<K> {
 
     private val logger = Logger(enabled = debug)
-    private val runner = CacheRunner<R>(debug = debug)
+    private val runner = CacheRunner<V>(debug = debug)
     private val caches = storage.map { ActualCache(it, debug) }
 
-    override fun clear() {
+    override suspend fun clear() {
         logger.log { "Clear all caches" }
         caches.forEach { it.clear() }
     }
 
-    suspend fun callCache(upstream: suspend CoroutineScope.() -> R): R {
-        return runner.call {
+    override suspend fun invalidate(key: K) {
+        logger.log { "Invalidate all caches with key: $key" }
+        caches.forEach { it.invalidate(key) }
+    }
+
+    suspend inline fun cache(key: K, crossinline upstream: suspend CoroutineScope.() -> V): V =
+        runner.call {
             for ((index, cache) in caches.withIndex()) {
-                val cached = cache.retrieve()
+                val cached = cache.retrieve(key)
                 if (cached != null) {
-                    logger.log { "Cached data from cache #$index" }
+                    logger.log { "Cached data from cache $key[#$index]" }
                     return@call cached
                 }
             }
 
-            logger.log { "Fetching data from upstream" }
+            logger.log { "Fetching data from upstream for $key" }
             val result = upstream()
-            logger.log { "Retrieved result from upstream: $result" }
-            caches.forEach { it.cache(result) }
+            logger.log { "Retrieved result from upstream: [$key]=$result" }
+            caches.forEach { it.cache(key, result) }
             return@call result
         }
-    }
 }

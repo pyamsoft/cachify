@@ -26,26 +26,31 @@ import androidx.annotation.CheckResult
  *
  * The runner will re-attach to any in progress requests when the cache misses.
  */
-internal class ActualCache<R : Any> internal constructor(
-    private val storage: CacheStorage<R>,
+internal class ActualCache<K : Any, V : Any> internal constructor(
+    private val storage: CacheStorage<K, V>,
     debug: Boolean
-) : CacheStorage<R> {
+) : CacheStorage<K, V> {
 
     private val logger = Logger(enabled = debug)
 
-    override fun clear() {
+    override suspend fun clear() {
         logger.log { "Clear cached data" }
         storage.clear()
     }
 
-    @CheckResult
-    override fun retrieve(): R? {
-        logger.log { "Retrieve cached data" }
-        return storage.retrieve()
+    override suspend fun invalidate(key: K) {
+        logger.log { "Invalidate cached data at: $key" }
+        storage.clear()
     }
 
-    override fun cache(data: R) {
-        logger.log { "Cache new data: $data" }
-        storage.cache(data)
+    @CheckResult
+    override suspend fun retrieve(key: K): V? {
+        logger.log { "Retrieve cached data at: $key" }
+        return storage.retrieve(key)
+    }
+
+    override suspend fun cache(key: K, data: V) {
+        logger.log { "Cache new data: [$key]=$data" }
+        storage.cache(key, data)
     }
 }

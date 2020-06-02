@@ -22,18 +22,18 @@ import androidx.annotation.CheckResult
 /**
  * Interface contract which Cachify uses to save data into a representation of cache
  */
-interface CacheStorage<T> : Cache {
+interface CacheStorage<K : Any, V : Any> : Cache<K> {
 
     /**
      * Get any data from cache if it exists - otherwise null
      */
     @CheckResult
-    fun retrieve(): T?
+    suspend fun retrieve(key: K): V?
 
     /**
      * Sets new data as the active data in cache
      *
      * The new data is valid for as long as the implementation considers it valid. It may be infinite.
      */
-    fun cache(data: T)
+    suspend fun cache(key: K, data: V)
 }
