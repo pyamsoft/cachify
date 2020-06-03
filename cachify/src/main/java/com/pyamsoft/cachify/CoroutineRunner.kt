@@ -38,8 +38,12 @@ internal class CoroutineRunner<T : Any> internal constructor(debug: Boolean) {
                 val id = active.id
                 val task = active.task
                 when {
-                    task.isCancelled -> logger.log { "Active task is found but it is already cancelled: $id" }
-                    task.isCompleted -> logger.log { "Active task is found but it is already completed: $id" }
+                    task.isCancelled -> logger.log {
+                        "Active task is found but it is already cancelled: $id"
+                    }
+                    task.isCompleted -> logger.log {
+                        "Active task is found but it is already completed: $id"
+                    }
                     else -> {
                         logger.log { "Join already running task and await result: $id" }
                         return@coroutineScope task.await()
@@ -56,41 +60,17 @@ internal class CoroutineRunner<T : Any> internal constructor(debug: Boolean) {
             logger.log { "Running task: $id" }
             return@async block()
         }
-        newTask.invokeOnCompletion { logger.log { "Completed task: $id" } }
 
         // Make sure we mark this task as the active task
         mutex.withLock {
-            val current = activeTask
-            if (current == null || current.id != id) {
-                logger.log { "Marking task as active: $id" }
-                activeTask = RunnerTask(id, newTask)
-            } else {
-                val message = "New task is already active: $id"
-                logger.error { message }
-                throw IllegalStateException(message)
-            }
+            logger.log { "Marking task as active: $id" }
+            activeTask = RunnerTask(id, newTask)
         }
 
-        try {
-            // Await the completion of the task
-            val result = newTask.await()
-            logger.log { "Returning result from task[$id] $result" }
-            return@coroutineScope result
-        } finally {
-            // Once the task finishes for any reason, we clear it as it is no longer active
-            // It has either succeeded and returned, or encountered an error and thrown
-            mutex.withLock {
-                val current = activeTask
-                if (current != null && current.id == id) {
-                    logger.log { "Task finished, clearing: $id" }
-                    activeTask = null
-                } else {
-                    val message = "Task finished but can't clear. Active: ${current?.id}, This: $id"
-                    logger.error { message }
-                    throw IllegalStateException(message)
-                }
-            }
-        }
+        // Await the completion of the task
+        val result = newTask.await()
+        logger.log { "Returning result from task[$id] $result" }
+        return@coroutineScope result
     }
 
     internal data class RunnerTask<T : Any> internal constructor(

@@ -75,7 +75,7 @@ subprojects {
     apply plugin: "com.diffplug.gradle.spotless"
 
     final String POM_GROUP = "com.pyamsoft.cachify"
-    final String POM_VERSION = "0.0.10-SNAPSHOT"
+    final String POM_VERSION = "0.0.10"
 
     group = POM_GROUP
     version = POM_VERSION
