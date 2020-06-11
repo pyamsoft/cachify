@@ -73,7 +73,7 @@ subprojects {
 	apply plugin: 'com.jfrog.bintray'
 
 	final String POM_GROUP = "com.pyamsoft.cachify"
-	final String POM_VERSION = "0.0.11"
+	final String POM_VERSION = "0.0.12"
 
 	group = POM_GROUP
 	version = POM_VERSION
