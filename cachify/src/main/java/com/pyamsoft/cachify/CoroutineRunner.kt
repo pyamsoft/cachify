@@ -27,7 +27,7 @@ internal class CoroutineRunner<T : Any> internal constructor(debug: Boolean) {
     private val mutex = Mutex()
     private var activeTask: RunnerTask<T>? = null
 
-    suspend inline fun run(crossinline block: suspend CoroutineScope.() -> T): T = coroutineScope {
+    suspend fun run(block: suspend CoroutineScope.() -> T): T = coroutineScope {
         // We must claim the mutex before checking task status because another task running in parallel
         // could be changing the activeTask value
         mutex.withLock {
