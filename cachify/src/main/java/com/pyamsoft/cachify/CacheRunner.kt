@@ -29,12 +29,9 @@ internal class CacheRunner<T : Any> internal constructor(private val logger: Log
     private var activeTask: RunnerTask<T>? = null
 
     suspend fun run(block: suspend CoroutineScope.() -> T): T {
-        // A new random id which signifies this running block
-        val currentId = counter.get()
-
         // We must claim the mutex before checking task status because another task running in parallel
         // could be changing the activeTask value
-        val newTask: Deferred<T> = mutex.withLock {
+        val (currentId: Long, newTask: Deferred<T>) = mutex.withLock {
             activeTask?.also { active ->
                 val activeId = active.id
                 val task = active.task
@@ -56,11 +53,13 @@ internal class CacheRunner<T : Any> internal constructor(private val logger: Log
                 val lazyTask = async(start = CoroutineStart.LAZY) { block() }
 
                 // Make sure we mark this task as the active task
+                // A new random id which signifies this running block
+                val currentId = counter.get()
                 logger.log { "Marking task as active: $currentId" }
                 activeTask = RunnerTask(currentId, lazyTask)
 
                 // Return this task
-                return@coroutineScope lazyTask
+                return@coroutineScope currentId to lazyTask
             }
         }
 
