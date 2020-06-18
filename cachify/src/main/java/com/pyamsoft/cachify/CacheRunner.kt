@@ -18,20 +18,93 @@
 package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
-import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
-/**
- * Internal
- *
- * The runner will re-attach to any in progress requests when the cache misses.
- */
-@PublishedApi
-internal class CacheRunner<R : Any> internal constructor(debug: Boolean) {
+internal class CacheRunner<T : Any> internal constructor(private val logger: Logger) {
 
-    private val runner = CoroutineRunner<R>(debug)
+    private val counter = WrapAroundCounter(0)
+    private val mutex = Mutex()
+    private var activeTask: RunnerTask<T>? = null
 
-    @CheckResult
-    suspend fun call(upstream: suspend CoroutineScope.() -> R): R {
-        return runner.run { upstream() }
+    suspend fun run(block: suspend CoroutineScope.() -> T): T {
+        // A new random id which signifies this running block
+        val currentId = counter.get()
+
+        // We must claim the mutex before checking task status because another task running in parallel
+        // could be changing the activeTask value
+        val newTask: Deferred<T> = mutex.withLock {
+            activeTask?.also { active ->
+                val activeId = active.id
+                val task = active.task
+                when {
+                    task.isCancelled -> logger.log { "Active task but already cancelled: $activeId" }
+                    task.isCompleted -> logger.log { "Active task but already completed: $activeId" }
+                    else -> {
+                        // Return if already running
+                        logger.log { "Active task join and await result: $activeId" }
+                        return task.await()
+                    }
+                }
+            }
+
+            // Create a new coroutine, but don't start it until it's decided that this block should
+            // execute. In the code below, calling await() on newTask will cause this coroutine to
+            // start.
+            return@withLock coroutineScope {
+                val lazyTask = async(start = CoroutineStart.LAZY) { block() }
+
+                // Make sure we mark this task as the active task
+                logger.log { "Marking task as active: $currentId" }
+                activeTask = RunnerTask(currentId, lazyTask)
+
+                // Return this task
+                return@coroutineScope lazyTask
+            }
+        }
+
+        // Await the completion of the task
+        try {
+            val result = newTask.await()
+            logger.log { "Returning result from task $currentId" }
+            return result
+        } finally {
+            // Make sure the activeTask is actually us, otherwise we don't need to do anything
+            // Fast path in this case only since we have the id to guard with as well as the state
+            // of activeTask
+            if (activeTask?.id == currentId) {
+                // Run in the NonCancellable context because the mutex must be claimed to free the activeTask
+                // or else we will leak memory.
+                withContext(context = NonCancellable) {
+                    mutex.withLock {
+                        // Check again to make sure we really are the active task
+                        if (activeTask?.id == currentId) {
+                            logger.log { "Releasing task $currentId since it is complete" }
+                            activeTask = null
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private data class RunnerTask<T : Any> internal constructor(
+        val id: Long,
+        val task: Deferred<T>
+    )
+
+    private data class WrapAroundCounter internal constructor(
+        private var count: Long
+    ) {
+
+        @CheckResult
+        fun get(): Long {
+            if (count >= 1_000_000) {
+                count = 0
+            }
+            return count++
+        }
+
     }
 }

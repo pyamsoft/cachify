@@ -28,10 +28,8 @@ import androidx.annotation.CheckResult
  */
 internal class ActualCache<K : Any, V : Any> internal constructor(
     private val storage: CacheStorage<K, V>,
-    debug: Boolean
+    private val logger: Logger
 ) : CacheStorage<K, V> {
-
-    private val logger = Logger(enabled = debug)
 
     override suspend fun clear() {
         logger.log { "Clear cached data" }

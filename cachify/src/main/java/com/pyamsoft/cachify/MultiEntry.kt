@@ -26,24 +26,24 @@ import kotlinx.coroutines.CoroutineScope
  */
 @JvmOverloads
 fun <K : Any, V : Any> multiCachify(
-    debug: Boolean = false,
-    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.() -> V
 ): MultiCached<K, V> {
-    return multiCachify(debug, listOf(storage), upstream)
+    return multiCachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <K : Any, V : Any> multiCachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.() -> V
 ): MultiCached<K, V> {
     return object : MultiCached<K, V> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
 
         override suspend fun clear() {
             conductor.clear()
@@ -68,24 +68,24 @@ fun <K : Any, V : Any> multiCachify(
  */
 @JvmOverloads
 fun <K : Any, V : Any, T1> multiCachify(
-    debug: Boolean = false,
-    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1) -> V
 ): MultiCached1<K, V, T1> {
-    return multiCachify(debug, listOf(storage), upstream)
+    return multiCachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <K : Any, V : Any, T1> multiCachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1) -> V
 ): MultiCached1<K, V, T1> {
     return object : MultiCached1<K, V, T1> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
 
         override suspend fun clear() {
             conductor.clear()
@@ -110,24 +110,24 @@ fun <K : Any, V : Any, T1> multiCachify(
  */
 @JvmOverloads
 fun <K : Any, V : Any, T1, T2> multiCachify(
-    debug: Boolean = false,
-    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2) -> V
 ): MultiCached2<K, V, T1, T2> {
-    return multiCachify(debug, listOf(storage), upstream)
+    return multiCachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <K : Any, V : Any, T1, T2> multiCachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2) -> V
 ): MultiCached2<K, V, T1, T2> {
     return object : MultiCached2<K, V, T1, T2> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
 
         override suspend fun clear() {
             conductor.clear()
@@ -153,24 +153,24 @@ fun <K : Any, V : Any, T1, T2> multiCachify(
  */
 @JvmOverloads
 fun <K : Any, V : Any, T1, T2, T3> multiCachify(
-    debug: Boolean = false,
-    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3) -> V
 ): MultiCached3<K, V, T1, T2, T3> {
-    return multiCachify(debug, listOf(storage), upstream)
+    return multiCachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <K : Any, V : Any, T1, T2, T3> multiCachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3) -> V
 ): MultiCached3<K, V, T1, T2, T3> {
     return object : MultiCached3<K, V, T1, T2, T3> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
 
         override suspend fun clear() {
             conductor.clear()
@@ -195,24 +195,24 @@ fun <K : Any, V : Any, T1, T2, T3> multiCachify(
  */
 @JvmOverloads
 fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
-    debug: Boolean = false,
-    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V
 ): MultiCached4<K, V, T1, T2, T3, T4> {
-    return multiCachify(debug, listOf(storage), upstream)
+    return multiCachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V
 ): MultiCached4<K, V, T1, T2, T3, T4> {
     return object : MultiCached4<K, V, T1, T2, T3, T4> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
 
         override suspend fun clear() {
             conductor.clear()
@@ -237,24 +237,24 @@ fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
  */
 @JvmOverloads
 fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
-    debug: Boolean = false,
-    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V
 ): MultiCached5<K, V, T1, T2, T3, T4, T5> {
-    return multiCachify(debug, listOf(storage), upstream)
+    return multiCachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V
 ): MultiCached5<K, V, T1, T2, T3, T4, T5> {
     return object : MultiCached5<K, V, T1, T2, T3, T4, T5> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
 
         override suspend fun clear() {
             conductor.clear()
@@ -279,24 +279,24 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
  */
 @JvmOverloads
 fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
-    debug: Boolean = false,
-    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> V
 ): MultiCached6<K, V, T1, T2, T3, T4, T5, T6> {
-    return multiCachify(debug, listOf(storage), upstream)
+    return multiCachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> V
 ): MultiCached6<K, V, T1, T2, T3, T4, T5, T6> {
     return object : MultiCached6<K, V, T1, T2, T3, T4, T5, T6> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
 
         override suspend fun clear() {
             conductor.clear()
@@ -321,24 +321,24 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
  */
 @JvmOverloads
 fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
-    debug: Boolean = false,
-    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> V
 ): MultiCached7<K, V, T1, T2, T3, T4, T5, T6, T7> {
-    return multiCachify(debug, listOf(storage), upstream)
+    return multiCachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> V
 ): MultiCached7<K, V, T1, T2, T3, T4, T5, T6, T7> {
     return object : MultiCached7<K, V, T1, T2, T3, T4, T5, T6, T7> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
 
         override suspend fun clear() {
             conductor.clear()
@@ -371,24 +371,24 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
  */
 @JvmOverloads
 fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
-    debug: Boolean = false,
-    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> V
 ): MultiCached8<K, V, T1, T2, T3, T4, T5, T6, T7, T8> {
-    return multiCachify(debug, listOf(storage), upstream)
+    return multiCachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> V
 ): MultiCached8<K, V, T1, T2, T3, T4, T5, T6, T7, T8> {
     return object : MultiCached8<K, V, T1, T2, T3, T4, T5, T6, T7, T8> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
 
         override suspend fun clear() {
             conductor.clear()
@@ -422,24 +422,24 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
  */
 @JvmOverloads
 fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
-    debug: Boolean = false,
-    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> V
 ): MultiCached9<K, V, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
-    return multiCachify(debug, listOf(storage), upstream)
+    return multiCachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> V
 ): MultiCached9<K, V, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
     return object : MultiCached9<K, V, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
 
         override suspend fun clear() {
             conductor.clear()

@@ -20,13 +20,13 @@ package com.pyamsoft.cachify
 import kotlinx.coroutines.CoroutineScope
 
 internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
-    debug: Boolean,
+    debugTag: String,
     storage: List<CacheStorage<K, V>>
 ) : Cache<K> {
 
-    private val logger = Logger(enabled = debug)
-    private val runner = CacheRunner<V>(debug = debug)
-    private val caches = storage.map { ActualCache(it, debug) }
+    private val logger = Logger(debugTag)
+    private val runner = CacheRunner<V>(logger)
+    private val caches = storage.map { ActualCache(it, logger) }
 
     override suspend fun clear() {
         logger.log { "Clear all caches" }
@@ -38,20 +38,19 @@ internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
         caches.forEach { it.invalidate(key) }
     }
 
-    suspend inline fun cache(key: K, crossinline upstream: suspend CoroutineScope.() -> V): V =
-        runner.call {
-            for ((index, cache) in caches.withIndex()) {
-                val cached = cache.retrieve(key)
-                if (cached != null) {
-                    logger.log { "Cached data from cache $key[#$index]" }
-                    return@call cached
-                }
+    suspend inline fun cache(key: K, crossinline upstream: suspend CoroutineScope.() -> V): V {
+        for ((index, cache) in caches.withIndex()) {
+            val cached = cache.retrieve(key)
+            if (cached != null) {
+                logger.log { "Cached data from cache $key[#$index]" }
+                return cached
             }
-
-            logger.log { "Fetching data from upstream for $key" }
-            val result = upstream()
-            logger.log { "Retrieved result from upstream: [$key]=$result" }
-            caches.forEach { it.cache(key, result) }
-            return@call result
         }
+
+        logger.log { "Fetching data from upstream for $key" }
+        val result = runner.run { upstream() }
+        logger.log { "Retrieved result from upstream: [$key]=$result" }
+        caches.forEach { it.cache(key, result) }
+        return result
+    }
 }

@@ -18,37 +18,26 @@
 package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.util.concurrent.TimeUnit
 
 /**
  * CacheStorage implementation which is backed by memory. Short lived cache.
  */
 class MemoryCacheStorage<K : Any, V : Any> internal constructor(
-    private val ttl: Long,
-    debug: Boolean
+    private val ttl: Long
 ) : CacheStorage<K, V> {
 
-    private val logger = Logger(enabled = debug)
     private val mutex = Mutex()
     private val storage = mutableMapOf<K, Data<V>?>()
 
     override suspend fun retrieve(key: K): V? {
         val cached: Data<V>? = mutex.withLock { storage[key] }
         return when {
-            cached == null -> {
-                logger.log { "No cached data, retrieve null" }
-                null
-            }
-            cached.lastAccessTime + ttl < System.nanoTime() -> {
-                logger.log { "TTL has expired, retrieve null" }
-                null
-            }
-            else -> {
-                logger.log { "Retrieve stored data: $cached" }
-                cached.data
-            }
+            cached == null -> null
+            cached.lastAccessTime + ttl < System.nanoTime() -> null
+            else -> cached.data
         }
     }
 
@@ -73,7 +62,7 @@ class MemoryCacheStorage<K : Any, V : Any> internal constructor(
         storage.clear()
     }
 
-    private data class Data<T : Any>(val data: T, val lastAccessTime: Long)
+    private data class Data<T : Any> internal constructor(val data: T, val lastAccessTime: Long)
 
     companion object {
 
@@ -82,35 +71,24 @@ class MemoryCacheStorage<K : Any, V : Any> internal constructor(
          *
          * @param time time
          * @param unit unit of time
-         * @param debug Debugging mode
          * @return [CacheStorage]
          */
         @JvmStatic
         @CheckResult
-        @JvmOverloads
-        fun <K : Any, V : Any> create(
-            time: Long,
-            unit: TimeUnit,
-            debug: Boolean = false
-        ): CacheStorage<K, V> {
-            return create(unit.toNanos(time), debug)
+        fun <K : Any, V : Any> create(time: Long, unit: TimeUnit): CacheStorage<K, V> {
+            return create(unit.toNanos(time))
         }
 
         /**
          * Create a new MemoryCacheStorage instance
          *
          * @param ttl Time that cached data is valid in nanoseconds
-         * @param debug Debugging mode
          * @return [CacheStorage]
          */
         @JvmStatic
         @CheckResult
-        @JvmOverloads
-        fun <K : Any, V : Any> create(
-            ttl: Long,
-            debug: Boolean = false
-        ): CacheStorage<K, V> {
-            return MemoryCacheStorage(ttl, debug)
+        fun <K : Any, V : Any> create(ttl: Long): CacheStorage<K, V> {
+            return MemoryCacheStorage(ttl)
         }
     }
 }

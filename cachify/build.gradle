@@ -16,11 +16,8 @@
  */
 
 dependencies {
-	// AndroidX Lifecycle
+	// AndroidX Annotations
 	api "androidx.annotation:annotation:$annotation"
-
-	// Timber logging
-	api "com.jakewharton.timber:timber:$timber"
 
 	// Coroutines
 	api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"

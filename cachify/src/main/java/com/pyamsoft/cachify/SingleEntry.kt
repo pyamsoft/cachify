@@ -27,24 +27,24 @@ import kotlinx.coroutines.CoroutineScope
  */
 @JvmOverloads
 fun <R : Any> cachify(
-    debug: Boolean = false,
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
-    return cachify(debug, listOf(storage), upstream)
+    return cachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <R : Any> cachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
     return object : Cached<R> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
         private val key = randomId()
 
         override suspend fun clear() {
@@ -62,24 +62,24 @@ fun <R : Any> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1> cachify(
-    debug: Boolean = false,
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
-    return cachify(debug, listOf(storage), upstream)
+    return cachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <R : Any, T1> cachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
     return object : Cached1<R, T1> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
         private val key = randomId()
 
         override suspend fun clear() {
@@ -97,24 +97,24 @@ fun <R : Any, T1> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2> cachify(
-    debug: Boolean = false,
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
-    return cachify(debug, listOf(storage), upstream)
+    return cachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <R : Any, T1, T2> cachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
     return object : Cached2<R, T1, T2> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
         private val key = randomId()
 
         override suspend fun clear() {
@@ -132,24 +132,24 @@ fun <R : Any, T1, T2> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3> cachify(
-    debug: Boolean = false,
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
-    return cachify(debug, listOf(storage), upstream)
+    return cachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <R : Any, T1, T2, T3> cachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
     return object : Cached3<R, T1, T2, T3> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
         private val key = randomId()
 
         override suspend fun clear() {
@@ -169,24 +169,24 @@ fun <R : Any, T1, T2, T3> cachify(
 fun <R : Any, T1, T2, T3, T4> cachify(
     time: Long = DEFAULT_TIME,
     unit: TimeUnit = DEFAULT_UNIT,
-    debug: Boolean = false,
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(time, unit, debug),
+    debugTag: String = "",
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(time, unit),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
-    return cachify(debug, listOf(storage), upstream)
+    return cachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <R : Any, T1, T2, T3, T4> cachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
     return object : Cached4<R, T1, T2, T3, T4> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
         private val key = randomId()
 
         override suspend fun clear() {
@@ -204,24 +204,24 @@ fun <R : Any, T1, T2, T3, T4> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5> cachify(
-    debug: Boolean = false,
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
-    return cachify(debug, listOf(storage), upstream)
+    return cachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <R : Any, T1, T2, T3, T4, T5> cachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
     return object : Cached5<R, T1, T2, T3, T4, T5> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
         private val key = randomId()
 
         override suspend fun clear() {
@@ -239,24 +239,24 @@ fun <R : Any, T1, T2, T3, T4, T5> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
-    debug: Boolean = false,
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
-    return cachify(debug, listOf(storage), upstream)
+    return cachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
     return object : Cached6<R, T1, T2, T3, T4, T5, T6> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
         private val key = randomId()
 
         override suspend fun clear() {
@@ -274,24 +274,24 @@ fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
-    debug: Boolean = false,
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
-    return cachify(debug, listOf(storage), upstream)
+    return cachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
     return object : Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
         private val key = randomId()
 
         override suspend fun clear() {
@@ -309,24 +309,24 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
-    debug: Boolean = false,
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
-    return cachify(debug, listOf(storage), upstream)
+    return cachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
     return object : Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
         private val key = randomId()
 
         override suspend fun clear() {
@@ -353,24 +353,24 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
-    debug: Boolean = false,
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT, debug),
+    debugTag: String = "",
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
-    return cachify(debug, listOf(storage), upstream)
+    return cachify(debugTag, listOf(storage), upstream)
 }
 
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
-    debug: Boolean,
+    debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
     return object : Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
 
-        private val conductor = CacheOrchestrator(debug, storage)
+        private val conductor = CacheOrchestrator(debugTag, storage)
         private val key = randomId()
 
         override suspend fun clear() {

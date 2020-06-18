@@ -17,19 +17,14 @@
 
 package com.pyamsoft.cachify
 
-import timber.log.Timber
+import android.util.Log
 
-internal class Logger internal constructor(private val enabled: Boolean) {
+internal class Logger internal constructor(private val debugTag: String) {
 
     inline fun log(func: () -> String) {
-        if (enabled) {
-            Timber.d(func())
-        }
-    }
-
-    inline fun error(func: () -> String) {
-        if (enabled) {
-            Timber.e(func())
+        if (Cachify.LOGGING_ENABLED || debugTag.isNotBlank()) {
+            val tag = "Cachify${if (debugTag.isNotBlank()) "[${debugTag}]" else ""}"
+            Log.d(tag, func())
         }
     }
 }

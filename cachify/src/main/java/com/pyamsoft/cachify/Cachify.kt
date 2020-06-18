@@ -32,5 +32,12 @@ object Cachify {
     /**
      * Default time unit for cache expiration
      */
+    @JvmField
     val DEFAULT_UNIT = TimeUnit.SECONDS
+
+    /**
+     * Default time unit for cache expiration
+     */
+    @JvmField
+    var LOGGING_ENABLED = false
 }
