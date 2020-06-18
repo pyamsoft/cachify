@@ -40,7 +40,7 @@ internal class ActualCache<K : Any, V : Any> internal constructor(
 
     override suspend fun invalidate(key: K) {
         logger.log { "Invalidate cached data at: $key" }
-        storage.clear()
+        storage.invalidate(key)
     }
 
     @CheckResult
