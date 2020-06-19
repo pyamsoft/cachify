@@ -54,7 +54,7 @@ internal class CacheRunner<T : Any> internal constructor(private val logger: Log
                     logger.log { "Marking task as active: $currentId" }
                     newRunner
                 } else {
-                    logger.log { "Found existing task, still active: ${active.id}" }
+                    logger.log { "Found existing task, join: ${active.id}" }
                     active
                 }
             }
