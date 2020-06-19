@@ -39,6 +39,7 @@ internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
     }
 
     suspend inline fun cache(key: K, crossinline upstream: suspend CoroutineScope.() -> V): V {
+        logger.log { "Running call for cache: $key" }
         for ((index, cache) in caches.withIndex()) {
             val cached = cache.retrieve(key)
             if (cached != null) {

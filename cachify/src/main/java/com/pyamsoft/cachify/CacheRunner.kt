@@ -17,70 +17,68 @@
 
 package com.pyamsoft.cachify
 
-import androidx.annotation.CheckResult
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
 internal class CacheRunner<T : Any> internal constructor(private val logger: Logger) {
 
-    private val counter = WrapAroundCounter(0)
     private val mutex = Mutex()
-    private var activeTask: RunnerTask<T>? = null
+    private var activeRunner: Runner<T>? = null
 
     suspend fun run(block: suspend CoroutineScope.() -> T): T {
+        logger.log { "Running cache runner!!" }
+
         // We must claim the mutex before checking task status because another task running in parallel
         // could be changing the activeTask value
-        val (currentId: Long, newTask: Deferred<T>) = mutex.withLock {
-            activeTask?.also { active ->
-                val activeId = active.id
+        mutex.withLock {
+            logger.log { "Checking for active task" }
+            activeRunner?.also { active ->
+                val id = active.id
                 val task = active.task
-                when {
-                    task.isCancelled -> logger.log { "Active task but already cancelled: $activeId" }
-                    task.isCompleted -> logger.log { "Active task but already completed: $activeId" }
-                    else -> {
-                        // Return if already running
-                        logger.log { "Active task join and await result: $activeId" }
-                        return task.await()
-                    }
-                }
-            }
-
-            // Create a new coroutine, but don't start it until it's decided that this block should
-            // execute. In the code below, calling await() on newTask will cause this coroutine to
-            // start.
-            return@withLock coroutineScope {
-                val lazyTask = async(start = CoroutineStart.LAZY) { block() }
-
-                // Make sure we mark this task as the active task
-                // A new random id which signifies this running block
-                val currentId = counter.get()
-                logger.log { "Marking task as active: $currentId" }
-                activeTask = RunnerTask(currentId, lazyTask)
-
-                // Return this task
-                return@coroutineScope currentId to lazyTask
+                logger.log { "Active task join and await result: $id" }
+                return task.await()
             }
         }
 
-        // Await the completion of the task
-        try {
-            val result = newTask.await()
-            logger.log { "Returning result from task $currentId" }
-            return result
-        } finally {
-            // Make sure the activeTask is actually us, otherwise we don't need to do anything
-            // Fast path in this case only since we have the id to guard with as well as the state
-            // of activeTask
-            if (activeTask?.id == currentId) {
-                // Run in the NonCancellable context because the mutex must be claimed to free the activeTask
-                // or else we will leak memory.
-                withContext(context = NonCancellable) {
-                    mutex.withLock {
-                        // Check again to make sure we really are the active task
-                        if (activeTask?.id == currentId) {
-                            logger.log { "Releasing task $currentId since it is complete" }
-                            activeTask = null
+        // Make a new scope so that we will wait for all the work to be complete
+        return coroutineScope {
+            // Claim the lock and look for who's the active runner
+            val runner = mutex.withLock {
+                val active = activeRunner
+                return@withLock if (active == null) {
+                    val currentId = randomId()
+                    val newTask = async(start = CoroutineStart.LAZY) { block() }
+                    val newRunner = Runner(currentId, newTask)
+                    activeRunner = newRunner
+                    logger.log { "Marking task as active: $currentId" }
+                    newRunner
+                } else {
+                    logger.log { "Found existing task, still active: ${active.id}" }
+                    active
+                }
+            }
+
+            // Await the completion of the task
+            try {
+                logger.log { "Awaiting task ${runner.id}" }
+                val result = runner.task.await()
+                logger.log { "Returning result from task ${runner.id}" }
+                return@coroutineScope result
+            } finally {
+                // Make sure the activeTask is actually us, otherwise we don't need to do anything
+                // Fast path in this case only since we have the id to guard with as well as the state
+                // of activeTask
+                if (activeRunner?.id == runner.id) {
+                    // Run in the NonCancellable context because the mutex must be claimed to free the activeTask
+                    // or else we will leak memory.
+                    withContext(context = NonCancellable) {
+                        mutex.withLock {
+                            // Check again to make sure we really are the active task
+                            if (activeRunner?.id == runner.id) {
+                                logger.log { "Releasing task ${runner.id} since it is complete" }
+                                activeRunner = null
+                            }
                         }
                     }
                 }
@@ -88,22 +86,8 @@ internal class CacheRunner<T : Any> internal constructor(private val logger: Log
         }
     }
 
-    private data class RunnerTask<T : Any> internal constructor(
-        val id: Long,
+    private data class Runner<T : Any> internal constructor(
+        val id: String,
         val task: Deferred<T>
     )
-
-    private data class WrapAroundCounter internal constructor(
-        private var count: Long
-    ) {
-
-        @CheckResult
-        fun get(): Long {
-            if (count >= 1_000_000) {
-                count = 0
-            }
-            return count++
-        }
-
-    }
 }
