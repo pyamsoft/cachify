@@ -21,26 +21,25 @@ import kotlinx.coroutines.CoroutineScope
 
 internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
     debugTag: String,
-    storage: List<CacheStorage<K, V>>
+    private val storage: List<CacheStorage<K, V>>
 ) : Cache<K> {
 
     private val logger = Logger(debugTag)
     private val runner = CacheRunner<V>(logger)
-    private val caches = storage.map { ActualCache(it, logger) }
 
     override suspend fun clear() {
         logger.log { "Clear all caches" }
-        caches.forEach { it.clear() }
+        storage.forEach { it.clear() }
     }
 
     suspend fun invalidate(key: K) {
         logger.log { "Invalidate all caches with key: $key" }
-        caches.forEach { it.invalidate(key) }
+        storage.forEach { it.invalidate(key) }
     }
 
     suspend inline fun cache(key: K, crossinline upstream: suspend CoroutineScope.() -> V): V {
         logger.log { "Running call for cache: $key" }
-        for ((index, cache) in caches.withIndex()) {
+        for ((index, cache) in storage.withIndex()) {
             val cached = cache.retrieve(key)
             if (cached != null) {
                 logger.log { "Cached data from cache $key[#$index]" }
@@ -48,10 +47,13 @@ internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
             }
         }
 
-        logger.log { "Fetching data from upstream for $key" }
-        val result = runner.run { upstream() }
+        val result = runner.fetch {
+            logger.log { "Fetching data from upstream for $key" }
+            return@fetch upstream()
+        }
+
         logger.log { "Retrieved result from upstream: [$key]=$result" }
-        caches.forEach { it.cache(key, result) }
+        storage.forEach { it.cache(key, result) }
         return result
     }
 }

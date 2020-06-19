@@ -26,7 +26,7 @@ internal class CacheRunner<T : Any> internal constructor(private val logger: Log
     private val mutex = Mutex()
     private var activeRunner: Runner<T>? = null
 
-    suspend fun run(block: suspend CoroutineScope.() -> T): T {
+    suspend fun fetch(block: suspend CoroutineScope.() -> T): T {
         logger.log { "Running cache runner!!" }
 
         // We must claim the mutex before checking task status because another task running in parallel
@@ -63,7 +63,7 @@ internal class CacheRunner<T : Any> internal constructor(private val logger: Log
             try {
                 logger.log { "Awaiting task ${runner.id}" }
                 val result = runner.task.await()
-                logger.log { "Returning result from task ${runner.id}" }
+                logger.log { "Completed task ${runner.id}" }
                 return@coroutineScope result
             } finally {
                 // Make sure the activeTask is actually us, otherwise we don't need to do anything
