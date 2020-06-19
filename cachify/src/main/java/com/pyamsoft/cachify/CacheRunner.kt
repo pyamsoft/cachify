@@ -17,9 +17,15 @@
 
 package com.pyamsoft.cachify
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.withContext
 
 internal class CacheRunner<T : Any> internal constructor(private val logger: Logger) {
 
@@ -27,7 +33,7 @@ internal class CacheRunner<T : Any> internal constructor(private val logger: Log
     private var activeRunner: Runner<T>? = null
 
     suspend fun fetch(block: suspend CoroutineScope.() -> T): T {
-        logger.log { "Running cache runner!!" }
+        logger.log { "Running cache runner!" }
 
         // We must claim the mutex before checking task status because another task running in parallel
         // could be changing the activeTask value

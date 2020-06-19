@@ -8,7 +8,7 @@ In your `build.gradle`
 
 ```gradle
 dependencies {
-  def latestVersion = "0.0.13"
+  def latestVersion = "0.0.14"
 
   implementation "com.pyamsoft.cachify:cachify:$latestVersion"
 }

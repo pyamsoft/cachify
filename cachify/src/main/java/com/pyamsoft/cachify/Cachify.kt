@@ -36,7 +36,7 @@ object Cachify {
     val DEFAULT_UNIT = TimeUnit.SECONDS
 
     /**
-     * Default time unit for cache expiration
+     * Is logging globally enabled
      */
     @JvmField
     var LOGGING_ENABLED = false
