@@ -18,7 +18,6 @@ package com.pyamsoft.cachify
 
 import com.pyamsoft.cachify.Cachify.DEFAULT_TIME
 import com.pyamsoft.cachify.Cachify.DEFAULT_UNIT
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.CoroutineScope
 
 /**
@@ -166,10 +165,8 @@ fun <R : Any, T1, T2, T3> cachify(
  */
 @JvmOverloads
 fun <R : Any, T1, T2, T3, T4> cachify(
-    time: Long = DEFAULT_TIME,
-    unit: TimeUnit = DEFAULT_UNIT,
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(time, unit),
+    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
     return cachify(debugTag, listOf(storage), upstream)
