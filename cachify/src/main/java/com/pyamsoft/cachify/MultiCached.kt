@@ -39,6 +39,9 @@ interface Keyed<K : Any, R : Cache<K>> : Cache<K> {
  */
 interface MultiCached<K : Any, V : Any> : Keyed<K, MultiCached.Caller<K, V>> {
 
+    /**
+     * Caller interface for a multi-cache
+     */
     interface Caller<K : Any, V : Any> : Cache<K> {
 
         /**
@@ -56,6 +59,9 @@ interface MultiCached<K : Any, V : Any> : Keyed<K, MultiCached.Caller<K, V>> {
  */
 interface MultiCached1<K : Any, V : Any, T1> : Keyed<K, MultiCached1.Caller<T1, K, V>> {
 
+    /**
+     * Caller interface for a multi-cache
+     */
     interface Caller<T1, K : Any, V : Any> : Cache<K> {
 
         /**
@@ -73,6 +79,9 @@ interface MultiCached1<K : Any, V : Any, T1> : Keyed<K, MultiCached1.Caller<T1, 
  */
 interface MultiCached2<K : Any, V : Any, T1, T2> : Keyed<K, MultiCached2.Caller<T1, T2, K, V>> {
 
+    /**
+     * Caller interface for a multi-cache
+     */
     interface Caller<T1, T2, K : Any, V : Any> : Cache<K> {
 
         /**
@@ -91,6 +100,9 @@ interface MultiCached2<K : Any, V : Any, T1, T2> : Keyed<K, MultiCached2.Caller<
 interface MultiCached3<K : Any, V : Any, T1, T2, T3> :
     Keyed<K, MultiCached3.Caller<T1, T2, T3, K, V>> {
 
+    /**
+     * Caller interface for a multi-cache
+     */
     interface Caller<T1, T2, T3, K : Any, V : Any> : Cache<K> {
 
         /**
@@ -109,6 +121,9 @@ interface MultiCached3<K : Any, V : Any, T1, T2, T3> :
 interface MultiCached4<K : Any, V : Any, T1, T2, T3, T4> :
     Keyed<K, MultiCached4.Caller<T1, T2, T3, T4, K, V>> {
 
+    /**
+     * Caller interface for a multi-cache
+     */
     interface Caller<T1, T2, T3, T4, K : Any, V : Any> : Cache<K> {
 
         /**
@@ -127,6 +142,9 @@ interface MultiCached4<K : Any, V : Any, T1, T2, T3, T4> :
 interface MultiCached5<K : Any, V : Any, T1, T2, T3, T4, T5> :
     Keyed<K, MultiCached5.Caller<T1, T2, T3, T4, T5, K, V>> {
 
+    /**
+     * Caller interface for a multi-cache
+     */
     interface Caller<T1, T2, T3, T4, T5, K : Any, V : Any> : Cache<K> {
 
         /**
@@ -145,6 +163,9 @@ interface MultiCached5<K : Any, V : Any, T1, T2, T3, T4, T5> :
 interface MultiCached6<K : Any, V : Any, T1, T2, T3, T4, T5, T6> :
     Keyed<K, MultiCached6.Caller<T1, T2, T3, T4, T5, T6, K, V>> {
 
+    /**
+     * Caller interface for a multi-cache
+     */
     interface Caller<T1, T2, T3, T4, T5, T6, K : Any, V : Any> : Cache<K> {
 
         /**
@@ -163,6 +184,9 @@ interface MultiCached6<K : Any, V : Any, T1, T2, T3, T4, T5, T6> :
 interface MultiCached7<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> :
     Keyed<K, MultiCached7.Caller<T1, T2, T3, T4, T5, T6, T7, K, V>> {
 
+    /**
+     * Caller interface for a multi-cache
+     */
     interface Caller<T1, T2, T3, T4, T5, T6, T7, K : Any, V : Any> : Cache<K> {
 
         /**
@@ -181,6 +205,9 @@ interface MultiCached7<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> :
 interface MultiCached8<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> :
     Keyed<K, MultiCached8.Caller<T1, T2, T3, T4, T5, T6, T7, T8, K, V>> {
 
+    /**
+     * Caller interface for a multi-cache
+     */
     interface Caller<T1, T2, T3, T4, T5, T6, T7, T8, K : Any, V : Any> : Cache<K> {
 
         /**
@@ -199,6 +226,9 @@ interface MultiCached8<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> :
 interface MultiCached9<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> :
     Keyed<K, MultiCached9.Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, K, V>> {
 
+    /**
+     * Caller interface for a multi-cache
+     */
     interface Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, K : Any, V : Any> : Cache<K> {
 
         /**
