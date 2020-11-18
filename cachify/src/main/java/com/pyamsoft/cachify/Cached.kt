@@ -23,13 +23,13 @@ import androidx.annotation.CheckResult
  *
  * Keys are stored as random strings
  */
-interface Cached<R : Any> : Cache<String> {
+public interface Cached<R : Any> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
      */
     @CheckResult
-    suspend fun call(): R
+    public suspend fun call(): R
 }
 
 /**
@@ -37,13 +37,13 @@ interface Cached<R : Any> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-interface Cached1<R : Any, T1> : Cache<String> {
+public interface Cached1<R : Any, T1> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
      */
     @CheckResult
-    suspend fun call(p1: T1): R
+    public suspend fun call(p1: T1): R
 }
 
 /**
@@ -51,13 +51,13 @@ interface Cached1<R : Any, T1> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-interface Cached2<R : Any, T1, T2> : Cache<String> {
+public interface Cached2<R : Any, T1, T2> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
      */
     @CheckResult
-    suspend fun call(
+    public suspend fun call(
         p1: T1,
         p2: T2
     ): R
@@ -68,13 +68,13 @@ interface Cached2<R : Any, T1, T2> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-interface Cached3<R : Any, T1, T2, T3> : Cache<String> {
+public interface Cached3<R : Any, T1, T2, T3> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
      */
     @CheckResult
-    suspend fun call(
+    public suspend fun call(
         p1: T1,
         p2: T2,
         p3: T3
@@ -86,13 +86,13 @@ interface Cached3<R : Any, T1, T2, T3> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-interface Cached4<R : Any, T1, T2, T3, T4> : Cache<String> {
+public interface Cached4<R : Any, T1, T2, T3, T4> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
      */
     @CheckResult
-    suspend fun call(
+    public suspend fun call(
         p1: T1,
         p2: T2,
         p3: T3,
@@ -105,13 +105,13 @@ interface Cached4<R : Any, T1, T2, T3, T4> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-interface Cached5<R : Any, T1, T2, T3, T4, T5> : Cache<String> {
+public interface Cached5<R : Any, T1, T2, T3, T4, T5> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
      */
     @CheckResult
-    suspend fun call(
+    public suspend fun call(
         p1: T1,
         p2: T2,
         p3: T3,
@@ -125,13 +125,13 @@ interface Cached5<R : Any, T1, T2, T3, T4, T5> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-interface Cached6<R : Any, T1, T2, T3, T4, T5, T6> : Cache<String> {
+public interface Cached6<R : Any, T1, T2, T3, T4, T5, T6> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
      */
     @CheckResult
-    suspend fun call(
+    public suspend fun call(
         p1: T1,
         p2: T2,
         p3: T3,
@@ -146,13 +146,13 @@ interface Cached6<R : Any, T1, T2, T3, T4, T5, T6> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-interface Cached7<R : Any, T1, T2, T3, T4, T5, T6, T7> : Cache<String> {
+public interface Cached7<R : Any, T1, T2, T3, T4, T5, T6, T7> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
      */
     @CheckResult
-    suspend fun call(
+    public suspend fun call(
         p1: T1,
         p2: T2,
         p3: T3,
@@ -168,13 +168,13 @@ interface Cached7<R : Any, T1, T2, T3, T4, T5, T6, T7> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-interface Cached8<R : Any, T1, T2, T3, T4, T5, T6, T7, T8> : Cache<String> {
+public interface Cached8<R : Any, T1, T2, T3, T4, T5, T6, T7, T8> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
      */
     @CheckResult
-    suspend fun call(
+    public suspend fun call(
         p1: T1,
         p2: T2,
         p3: T3,
@@ -191,13 +191,13 @@ interface Cached8<R : Any, T1, T2, T3, T4, T5, T6, T7, T8> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-interface Cached9<R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache<String> {
+public interface Cached9<R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache<String> {
 
     /**
      * Get data either from cache or upstream
      */
     @CheckResult
-    suspend fun call(
+    public suspend fun call(
         p1: T1,
         p2: T2,
         p3: T3,

@@ -21,22 +21,22 @@ import java.util.concurrent.TimeUnit
 /**
  * Cachify internal constants
  */
-object Cachify {
+public object Cachify {
 
     /**
      * Default amount of time unit before cache expires
      */
-    const val DEFAULT_TIME = 30L
+    public const val DEFAULT_TIME: Long = 30L
 
     /**
      * Default time unit for cache expiration
      */
     @JvmField
-    val DEFAULT_UNIT = TimeUnit.SECONDS
+    public val DEFAULT_UNIT: TimeUnit = TimeUnit.SECONDS
 
     /**
      * Is logging globally enabled
      */
     @JvmField
-    var LOGGING_ENABLED = false
+    public var LOGGING_ENABLED: Boolean = false
 }

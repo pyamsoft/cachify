@@ -24,7 +24,7 @@ import kotlinx.coroutines.CoroutineScope
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <K : Any, V : Any> multiCachify(
+public fun <K : Any, V : Any> multiCachify(
     debugTag: String = "",
     storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.() -> V
@@ -35,7 +35,8 @@ fun <K : Any, V : Any> multiCachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <K : Any, V : Any> multiCachify(
+@JvmOverloads
+public fun <K : Any, V : Any> multiCachify(
     debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.() -> V
@@ -66,7 +67,7 @@ fun <K : Any, V : Any> multiCachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <K : Any, V : Any, T1> multiCachify(
+public fun <K : Any, V : Any, T1> multiCachify(
     debugTag: String = "",
     storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1) -> V
@@ -77,7 +78,8 @@ fun <K : Any, V : Any, T1> multiCachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <K : Any, V : Any, T1> multiCachify(
+@JvmOverloads
+public fun <K : Any, V : Any, T1> multiCachify(
     debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1) -> V
@@ -108,7 +110,7 @@ fun <K : Any, V : Any, T1> multiCachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <K : Any, V : Any, T1, T2> multiCachify(
+public fun <K : Any, V : Any, T1, T2> multiCachify(
     debugTag: String = "",
     storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2) -> V
@@ -119,7 +121,8 @@ fun <K : Any, V : Any, T1, T2> multiCachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <K : Any, V : Any, T1, T2> multiCachify(
+@JvmOverloads
+public fun <K : Any, V : Any, T1, T2> multiCachify(
     debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2) -> V
@@ -151,7 +154,7 @@ fun <K : Any, V : Any, T1, T2> multiCachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <K : Any, V : Any, T1, T2, T3> multiCachify(
+public fun <K : Any, V : Any, T1, T2, T3> multiCachify(
     debugTag: String = "",
     storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3) -> V
@@ -162,7 +165,8 @@ fun <K : Any, V : Any, T1, T2, T3> multiCachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <K : Any, V : Any, T1, T2, T3> multiCachify(
+@JvmOverloads
+public fun <K : Any, V : Any, T1, T2, T3> multiCachify(
     debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3) -> V
@@ -193,7 +197,7 @@ fun <K : Any, V : Any, T1, T2, T3> multiCachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
+public fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
     debugTag: String = "",
     storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V
@@ -204,7 +208,8 @@ fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
+@JvmOverloads
+public fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
     debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V
@@ -235,7 +240,7 @@ fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
+public fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
     debugTag: String = "",
     storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V
@@ -246,7 +251,8 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
+@JvmOverloads
+public fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
     debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V
@@ -277,7 +283,7 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
+public fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
     debugTag: String = "",
     storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> V
@@ -288,7 +294,8 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
+@JvmOverloads
+public fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
     debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> V
@@ -319,7 +326,7 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
+public fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
     debugTag: String = "",
     storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> V
@@ -330,7 +337,8 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
+@JvmOverloads
+public fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
     debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> V
@@ -369,7 +377,7 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
+public fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
     debugTag: String = "",
     storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> V
@@ -380,7 +388,8 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
+@JvmOverloads
+public fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
     debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> V
@@ -420,7 +429,7 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
+public fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
     debugTag: String = "",
     storage: CacheStorage<K, V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> V
@@ -431,7 +440,8 @@ fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
+@JvmOverloads
+public fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
     debugTag: String = "",
     storage: List<CacheStorage<K, V>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> V

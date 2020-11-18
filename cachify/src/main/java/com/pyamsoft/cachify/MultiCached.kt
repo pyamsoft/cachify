@@ -23,13 +23,13 @@ import androidx.annotation.CheckResult
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface Keyed<K : Any, R : Cache<K>> : Cache<K> {
+public interface Keyed<K : Any, R : Cache<K>> : Cache<K> {
 
     /**
      * Return an instance of a caller which can get data from either cache or upstream
      */
     @CheckResult
-    fun key(key: K): R
+    public fun key(key: K): R
 }
 
 /**
@@ -37,18 +37,18 @@ interface Keyed<K : Any, R : Cache<K>> : Cache<K> {
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached<K : Any, V : Any> : Keyed<K, MultiCached.Caller<K, V>> {
+public interface MultiCached<K : Any, V : Any> : Keyed<K, MultiCached.Caller<K, V>> {
 
     /**
      * Caller interface for a multi-cache
      */
-    interface Caller<K : Any, V : Any> : Cache<K> {
+    public interface Caller<K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
          */
         @CheckResult
-        suspend fun call(): V
+        public suspend fun call(): V
     }
 }
 
@@ -57,18 +57,18 @@ interface MultiCached<K : Any, V : Any> : Keyed<K, MultiCached.Caller<K, V>> {
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached1<K : Any, V : Any, T1> : Keyed<K, MultiCached1.Caller<T1, K, V>> {
+public interface MultiCached1<K : Any, V : Any, T1> : Keyed<K, MultiCached1.Caller<T1, K, V>> {
 
     /**
      * Caller interface for a multi-cache
      */
-    interface Caller<T1, K : Any, V : Any> : Cache<K> {
+    public interface Caller<T1, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
          */
         @CheckResult
-        suspend fun call(p1: T1): V
+        public suspend fun call(p1: T1): V
     }
 }
 
@@ -77,18 +77,18 @@ interface MultiCached1<K : Any, V : Any, T1> : Keyed<K, MultiCached1.Caller<T1, 
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached2<K : Any, V : Any, T1, T2> : Keyed<K, MultiCached2.Caller<T1, T2, K, V>> {
+public interface MultiCached2<K : Any, V : Any, T1, T2> : Keyed<K, MultiCached2.Caller<T1, T2, K, V>> {
 
     /**
      * Caller interface for a multi-cache
      */
-    interface Caller<T1, T2, K : Any, V : Any> : Cache<K> {
+    public interface Caller<T1, T2, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
          */
         @CheckResult
-        suspend fun call(p1: T1, p2: T2): V
+        public suspend fun call(p1: T1, p2: T2): V
     }
 }
 
@@ -97,19 +97,19 @@ interface MultiCached2<K : Any, V : Any, T1, T2> : Keyed<K, MultiCached2.Caller<
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached3<K : Any, V : Any, T1, T2, T3> :
+public interface MultiCached3<K : Any, V : Any, T1, T2, T3> :
     Keyed<K, MultiCached3.Caller<T1, T2, T3, K, V>> {
 
     /**
      * Caller interface for a multi-cache
      */
-    interface Caller<T1, T2, T3, K : Any, V : Any> : Cache<K> {
+    public interface Caller<T1, T2, T3, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
          */
         @CheckResult
-        suspend fun call(p1: T1, p2: T2, p3: T3): V
+        public suspend fun call(p1: T1, p2: T2, p3: T3): V
     }
 }
 
@@ -118,19 +118,19 @@ interface MultiCached3<K : Any, V : Any, T1, T2, T3> :
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached4<K : Any, V : Any, T1, T2, T3, T4> :
+public interface MultiCached4<K : Any, V : Any, T1, T2, T3, T4> :
     Keyed<K, MultiCached4.Caller<T1, T2, T3, T4, K, V>> {
 
     /**
      * Caller interface for a multi-cache
      */
-    interface Caller<T1, T2, T3, T4, K : Any, V : Any> : Cache<K> {
+    public interface Caller<T1, T2, T3, T4, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
          */
         @CheckResult
-        suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): V
+        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): V
     }
 }
 
@@ -139,19 +139,19 @@ interface MultiCached4<K : Any, V : Any, T1, T2, T3, T4> :
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached5<K : Any, V : Any, T1, T2, T3, T4, T5> :
+public interface MultiCached5<K : Any, V : Any, T1, T2, T3, T4, T5> :
     Keyed<K, MultiCached5.Caller<T1, T2, T3, T4, T5, K, V>> {
 
     /**
      * Caller interface for a multi-cache
      */
-    interface Caller<T1, T2, T3, T4, T5, K : Any, V : Any> : Cache<K> {
+    public interface Caller<T1, T2, T3, T4, T5, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
          */
         @CheckResult
-        suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): V
+        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): V
     }
 }
 
@@ -160,19 +160,19 @@ interface MultiCached5<K : Any, V : Any, T1, T2, T3, T4, T5> :
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached6<K : Any, V : Any, T1, T2, T3, T4, T5, T6> :
+public interface MultiCached6<K : Any, V : Any, T1, T2, T3, T4, T5, T6> :
     Keyed<K, MultiCached6.Caller<T1, T2, T3, T4, T5, T6, K, V>> {
 
     /**
      * Caller interface for a multi-cache
      */
-    interface Caller<T1, T2, T3, T4, T5, T6, K : Any, V : Any> : Cache<K> {
+    public interface Caller<T1, T2, T3, T4, T5, T6, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
          */
         @CheckResult
-        suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6): V
+        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6): V
     }
 }
 
@@ -181,19 +181,19 @@ interface MultiCached6<K : Any, V : Any, T1, T2, T3, T4, T5, T6> :
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached7<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> :
+public interface MultiCached7<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> :
     Keyed<K, MultiCached7.Caller<T1, T2, T3, T4, T5, T6, T7, K, V>> {
 
     /**
      * Caller interface for a multi-cache
      */
-    interface Caller<T1, T2, T3, T4, T5, T6, T7, K : Any, V : Any> : Cache<K> {
+    public interface Caller<T1, T2, T3, T4, T5, T6, T7, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
          */
         @CheckResult
-        suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7): V
+        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7): V
     }
 }
 
@@ -202,19 +202,19 @@ interface MultiCached7<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> :
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached8<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> :
+public interface MultiCached8<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> :
     Keyed<K, MultiCached8.Caller<T1, T2, T3, T4, T5, T6, T7, T8, K, V>> {
 
     /**
      * Caller interface for a multi-cache
      */
-    interface Caller<T1, T2, T3, T4, T5, T6, T7, T8, K : Any, V : Any> : Cache<K> {
+    public interface Caller<T1, T2, T3, T4, T5, T6, T7, T8, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
          */
         @CheckResult
-        suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7, p8: T8): V
+        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7, p8: T8): V
     }
 }
 
@@ -223,18 +223,18 @@ interface MultiCached8<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> :
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-interface MultiCached9<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> :
+public interface MultiCached9<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> :
     Keyed<K, MultiCached9.Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, K, V>> {
 
     /**
      * Caller interface for a multi-cache
      */
-    interface Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, K : Any, V : Any> : Cache<K> {
+    public interface Caller<T1, T2, T3, T4, T5, T6, T7, T8, T9, K : Any, V : Any> : Cache<K> {
 
         /**
          * Get data either from cache or upstream
          */
         @CheckResult
-        suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7, p8: T8, p9: T9): V
+        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7, p8: T8, p9: T9): V
     }
 }

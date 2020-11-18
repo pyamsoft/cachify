@@ -19,10 +19,10 @@ package com.pyamsoft.cachify
 /**
  * A cache of data
  */
-interface Cache<K : Any> {
+public interface Cache<K : Any> {
 
     /**
      * Clear cache
      */
-    suspend fun clear()
+    public suspend fun clear()
 }

@@ -111,6 +111,10 @@ subprojects {
 		buildFeatures {
 			buildConfig false
 		}
+
+		kotlinOptions {
+			freeCompilerArgs += '-Xexplicit-api=strict'
+		}
 	}
 
 	project.afterEvaluate {

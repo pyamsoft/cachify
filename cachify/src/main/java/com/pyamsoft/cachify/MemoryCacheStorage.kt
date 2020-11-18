@@ -17,14 +17,14 @@
 package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.util.concurrent.TimeUnit
 
 /**
  * CacheStorage implementation which is backed by memory. Short lived cache.
  */
-class MemoryCacheStorage<K : Any, V : Any> internal constructor(
+public class MemoryCacheStorage<K : Any, V : Any> internal constructor(
     private val ttl: Long
 ) : CacheStorage<K, V> {
 
@@ -57,13 +57,15 @@ class MemoryCacheStorage<K : Any, V : Any> internal constructor(
         }
     }
 
-    override suspend fun clear() = mutex.withLock {
-        storage.clear()
+    override suspend fun clear() {
+        mutex.withLock {
+            storage.clear()
+        }
     }
 
-    private data class Data<T : Any> internal constructor(val data: T, val lastAccessTime: Long)
+    private data class Data<T : Any>(val data: T, val lastAccessTime: Long)
 
-    companion object {
+    public companion object {
 
         /**
          * Create a new MemoryCacheStorage instance
@@ -74,7 +76,7 @@ class MemoryCacheStorage<K : Any, V : Any> internal constructor(
          */
         @JvmStatic
         @CheckResult
-        fun <K : Any, V : Any> create(time: Long, unit: TimeUnit): CacheStorage<K, V> {
+        public fun <K : Any, V : Any> create(time: Long, unit: TimeUnit): CacheStorage<K, V> {
             return create(unit.toNanos(time))
         }
 
@@ -86,7 +88,7 @@ class MemoryCacheStorage<K : Any, V : Any> internal constructor(
          */
         @JvmStatic
         @CheckResult
-        fun <K : Any, V : Any> create(ttl: Long): CacheStorage<K, V> {
+        public fun <K : Any, V : Any> create(ttl: Long): CacheStorage<K, V> {
             return MemoryCacheStorage(ttl)
         }
     }

@@ -24,7 +24,7 @@ import kotlinx.coroutines.CoroutineScope
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <R : Any> cachify(
+public fun <R : Any> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.() -> R
@@ -35,7 +35,8 @@ fun <R : Any> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <R : Any> cachify(
+@JvmOverloads
+public fun <R : Any> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.() -> R
@@ -59,7 +60,7 @@ fun <R : Any> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <R : Any, T1> cachify(
+public fun <R : Any, T1> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1) -> R
@@ -70,7 +71,8 @@ fun <R : Any, T1> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <R : Any, T1> cachify(
+@JvmOverloads
+public fun <R : Any, T1> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1) -> R
@@ -94,7 +96,7 @@ fun <R : Any, T1> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <R : Any, T1, T2> cachify(
+public fun <R : Any, T1, T2> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2) -> R
@@ -105,7 +107,8 @@ fun <R : Any, T1, T2> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <R : Any, T1, T2> cachify(
+@JvmOverloads
+public fun <R : Any, T1, T2> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2) -> R
@@ -129,7 +132,7 @@ fun <R : Any, T1, T2> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <R : Any, T1, T2, T3> cachify(
+public fun <R : Any, T1, T2, T3> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3) -> R
@@ -140,7 +143,8 @@ fun <R : Any, T1, T2, T3> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <R : Any, T1, T2, T3> cachify(
+@JvmOverloads
+public fun <R : Any, T1, T2, T3> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3) -> R
@@ -164,7 +168,7 @@ fun <R : Any, T1, T2, T3> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <R : Any, T1, T2, T3, T4> cachify(
+public fun <R : Any, T1, T2, T3, T4> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
@@ -175,7 +179,8 @@ fun <R : Any, T1, T2, T3, T4> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <R : Any, T1, T2, T3, T4> cachify(
+@JvmOverloads
+public fun <R : Any, T1, T2, T3, T4> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
@@ -199,7 +204,7 @@ fun <R : Any, T1, T2, T3, T4> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <R : Any, T1, T2, T3, T4, T5> cachify(
+public fun <R : Any, T1, T2, T3, T4, T5> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
@@ -210,7 +215,8 @@ fun <R : Any, T1, T2, T3, T4, T5> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <R : Any, T1, T2, T3, T4, T5> cachify(
+@JvmOverloads
+public fun <R : Any, T1, T2, T3, T4, T5> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
@@ -234,7 +240,7 @@ fun <R : Any, T1, T2, T3, T4, T5> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
+public fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
@@ -245,7 +251,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
+@JvmOverloads
+public fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
@@ -269,7 +276,7 @@ fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
+public fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
@@ -280,7 +287,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
+@JvmOverloads
+public fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
@@ -304,7 +312,7 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
+public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
@@ -315,7 +323,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
+@JvmOverloads
+public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
@@ -348,7 +357,7 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
+public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
@@ -359,7 +368,8 @@ fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
 /**
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
-fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
+@JvmOverloads
+public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
     upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
