@@ -17,6 +17,7 @@
 package com.pyamsoft.cachify
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 
 internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
     debugTag: String,
@@ -36,23 +37,24 @@ internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
         storage.forEach { it.invalidate(key) }
     }
 
-    suspend inline fun cache(key: K, crossinline upstream: suspend CoroutineScope.() -> V): V {
-        logger.log { "Running call for cache: $key" }
-        for ((index, cache) in storage.withIndex()) {
-            val cached = cache.retrieve(key)
-            if (cached != null) {
-                logger.log { "Cached data from cache $key[#$index]" }
-                return cached
+    suspend inline fun cache(key: K, crossinline upstream: suspend CoroutineScope.() -> V): V =
+        coroutineScope {
+            logger.log { "Running call for cache: $key" }
+            for ((index, cache) in storage.withIndex()) {
+                val cached = cache.retrieve(key)
+                if (cached != null) {
+                    logger.log { "Cached data from cache $key[#$index]" }
+                    return@coroutineScope cached
+                }
             }
-        }
 
-        val result = runner.fetch {
-            logger.log { "Fetching data from upstream for $key" }
-            return@fetch upstream()
-        }
+            val result = runner.fetch(this) {
+                logger.log { "Fetching data from upstream for $key" }
+                return@fetch upstream()
+            }
 
-        logger.log { "Retrieved result from upstream: [$key]=$result" }
-        storage.forEach { it.cache(key, result) }
-        return result
-    }
+            logger.log { "Retrieved result from upstream: [$key]=$result" }
+            storage.forEach { it.cache(key, result) }
+            return@coroutineScope result
+        }
 }
