@@ -17,9 +17,9 @@
 package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
+import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import java.util.concurrent.TimeUnit
 
 /**
  * CacheStorage implementation which is backed by memory. Short lived cache.
