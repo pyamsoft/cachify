@@ -19,7 +19,6 @@
 
 package com.pyamsoft.cachify
 
-import com.pyamsoft.cachify.CacheRunner.Companion.randomId
 import com.pyamsoft.cachify.CachifyDefaults.DEFAULT_TIME
 import com.pyamsoft.cachify.CachifyDefaults.DEFAULT_UNIT
 import kotlinx.coroutines.CoroutineScope
@@ -47,15 +46,17 @@ public inline fun <R : Any> cachify(
 ): Cached<R> {
     return object : Cached<R> {
 
-        private val conductor = CacheOrchestrator(debugTag, storage)
-        private val key = randomId()
+        private val conductor = CacheOperator.create(debugTag, storage)
+        private val key = ""
+
+        private val operation: suspend CoroutineScope.() -> R = { upstream(this) }
 
         override suspend fun clear() {
             conductor.clear()
         }
 
         override suspend fun call(): R {
-            return conductor.cache(key, upstream)
+            return conductor.cache(key, operation)
         }
     }
 }
@@ -83,8 +84,8 @@ public inline fun <R : Any, T1> cachify(
 ): Cached1<R, T1> {
     return object : Cached1<R, T1> {
 
-        private val conductor = CacheOrchestrator(debugTag, storage)
-        private val key = randomId()
+        private val conductor = CacheOperator.create(debugTag, storage)
+        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
@@ -119,8 +120,8 @@ public inline fun <R : Any, T1, T2> cachify(
 ): Cached2<R, T1, T2> {
     return object : Cached2<R, T1, T2> {
 
-        private val conductor = CacheOrchestrator(debugTag, storage)
-        private val key = randomId()
+        private val conductor = CacheOperator.create(debugTag, storage)
+        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
@@ -155,8 +156,8 @@ public inline fun <R : Any, T1, T2, T3> cachify(
 ): Cached3<R, T1, T2, T3> {
     return object : Cached3<R, T1, T2, T3> {
 
-        private val conductor = CacheOrchestrator(debugTag, storage)
-        private val key = randomId()
+        private val conductor = CacheOperator.create(debugTag, storage)
+        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
@@ -191,8 +192,8 @@ public inline fun <R : Any, T1, T2, T3, T4> cachify(
 ): Cached4<R, T1, T2, T3, T4> {
     return object : Cached4<R, T1, T2, T3, T4> {
 
-        private val conductor = CacheOrchestrator(debugTag, storage)
-        private val key = randomId()
+        private val conductor = CacheOperator.create(debugTag, storage)
+        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
@@ -227,8 +228,8 @@ public inline fun <R : Any, T1, T2, T3, T4, T5> cachify(
 ): Cached5<R, T1, T2, T3, T4, T5> {
     return object : Cached5<R, T1, T2, T3, T4, T5> {
 
-        private val conductor = CacheOrchestrator(debugTag, storage)
-        private val key = randomId()
+        private val conductor = CacheOperator.create(debugTag, storage)
+        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
@@ -263,8 +264,8 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
     return object : Cached6<R, T1, T2, T3, T4, T5, T6> {
 
-        private val conductor = CacheOrchestrator(debugTag, storage)
-        private val key = randomId()
+        private val conductor = CacheOperator.create(debugTag, storage)
+        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
@@ -299,8 +300,8 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
     return object : Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
 
-        private val conductor = CacheOrchestrator(debugTag, storage)
-        private val key = randomId()
+        private val conductor = CacheOperator.create(debugTag, storage)
+        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
@@ -335,8 +336,8 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
     return object : Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
 
-        private val conductor = CacheOrchestrator(debugTag, storage)
-        private val key = randomId()
+        private val conductor = CacheOperator.create(debugTag, storage)
+        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
@@ -380,8 +381,8 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
     return object : Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
 
-        private val conductor = CacheOrchestrator(debugTag, storage)
-        private val key = randomId()
+        private val conductor = CacheOperator.create(debugTag, storage)
+        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()

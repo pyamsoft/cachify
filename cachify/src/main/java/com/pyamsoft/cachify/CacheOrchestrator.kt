@@ -16,70 +16,45 @@
 
 package com.pyamsoft.cachify
 
-import androidx.annotation.CheckResult
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 
-@PublishedApi
-internal class CacheOrchestrator<K : Any, V : Any> @PublishedApi internal constructor(
+internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
     debugTag: String,
+    private val storage: List<CacheStorage<K, V>>
+) : CacheOperator<K, V> {
 
-    /**
-     * Cache Storage
-     *
-     * @private
-     */
-    @PublishedApi
-    internal val storage: List<CacheStorage<K, V>>
-) : Cache<K> {
+    private val logger: Logger = Logger(debugTag)
+    private val runner: CacheRunner<V> = CacheRunner(logger)
 
-    /**
-     * Logger
-     *
-     * @private
-     */
-    @PublishedApi
-    internal val logger: Logger = Logger(debugTag)
-
-    /**
-     * Runner
-     *
-     * @private
-     */
-    @PublishedApi
-    internal val runner: CacheRunner<V> = CacheRunner<V>(logger)
-
-    override suspend fun clear() {
+    override suspend fun clear() = coroutineScope {
         logger.log { "Clear all caches" }
         storage.forEach { it.clear() }
     }
 
-    suspend fun invalidate(key: K) {
+    override suspend fun invalidate(key: K) = coroutineScope {
         logger.log { "Invalidate all caches with key: $key" }
         storage.forEach { it.invalidate(key) }
     }
 
-    @CheckResult
-    suspend inline fun cache(
-        key: K,
-        crossinline upstream: suspend CoroutineScope.() -> V
-    ): V = coroutineScope {
-        logger.log { "Running call for cache: $key" }
-        for ((index, cache) in storage.withIndex()) {
-            val cached = cache.retrieve(key)
-            if (cached != null) {
-                logger.log { "Cached data from cache $key[#$index]" }
-                return@coroutineScope cached
+    override suspend fun cache(key: K, upstream: suspend CoroutineScope.() -> V): V =
+        coroutineScope {
+            logger.log { "Running call for cache: $key" }
+            for ((index, cache) in storage.withIndex()) {
+                val cached = cache.retrieve(key)
+                if (cached != null) {
+                    logger.log { "Cached data from cache $key[#$index]" }
+                    return@coroutineScope cached
+                }
             }
-        }
 
-        val result = runner.fetch(this) {
-            logger.log { "Fetching data from upstream for $key" }
-            return@fetch upstream()
-        }
+            val result = runner.fetch(this) {
+                logger.log { "Fetching data from upstream for $key" }
+                return@fetch upstream()
+            }
 
-        logger.log { "Retrieved result from upstream: [$key]=$result" }
-        storage.forEach { it.cache(key, result) }
-        return@coroutineScope result
-    }
+            logger.log { "Retrieved result from upstream: [$key]=$result" }
+            storage.forEach { it.cache(key, result) }
+            return@coroutineScope result
+        }
 }

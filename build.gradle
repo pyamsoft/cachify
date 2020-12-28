@@ -71,7 +71,7 @@ subprojects {
 	apply plugin: 'com.jfrog.bintray'
 
 	final String POM_GROUP = "com.pyamsoft.cachify"
-	final String POM_VERSION = "0.0.17-SNAPSHOT"
+	final String POM_VERSION = "0.0.17"
 
 	android {
 		compileSdkVersion rootProject.ext.maxSdk
@@ -110,10 +110,6 @@ subprojects {
 
 		buildFeatures {
 			buildConfig false
-		}
-
-		kotlinOptions {
-			freeCompilerArgs += '-Xexplicit-api=strict'
 		}
 	}
 

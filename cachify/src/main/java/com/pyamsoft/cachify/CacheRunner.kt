@@ -27,42 +27,18 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.util.UUID
 
-@PublishedApi
-internal class CacheRunner<T : Any> @PublishedApi internal constructor(
-    /**
-     * Logger
-     *
-     * @private
-     */
-    @PublishedApi
-    internal val logger: Logger
-) {
+internal class CacheRunner<T : Any> internal constructor(private val logger: Logger) {
 
-    /**
-     * Mutex
-     *
-     * @private
-     */
-    @PublishedApi
-    internal val mutex: Mutex = Mutex()
+    private val mutex: Mutex = Mutex()
 
-    /**
-     * Runner
-     *
-     * @private
-     */
-    @PublishedApi
-    internal var activeRunner: Runner<T>? = null
+    private var activeRunner: Runner<T>? = null
 
     /**
      * We must claim the mutex before checking task status because another task running in parallel
      * could be changing the activeTask value
-     *
-     * @private
      */
     @CheckResult
-    @PublishedApi
-    internal suspend fun joinExistingTask(): T? = mutex.withLock {
+    private suspend fun joinExistingTask(): T? = mutex.withLock {
         logger.log { "Checking for active task" }
         return@withLock activeRunner?.let { active ->
             val id = active.id
@@ -74,12 +50,9 @@ internal class CacheRunner<T : Any> @PublishedApi internal constructor(
 
     /**
      * Claim the lock and look for who's the active runner
-     *
-     * @private
      */
     @CheckResult
-    @PublishedApi
-    internal suspend inline fun createNewTask(
+    private suspend inline fun createNewTask(
         scope: CoroutineScope,
         crossinline block: suspend CoroutineScope.() -> T
     ): Runner<T> = mutex.withLock {
@@ -99,12 +72,9 @@ internal class CacheRunner<T : Any> @PublishedApi internal constructor(
 
     /**
      * Await the completion of the task
-     *
-     * @private
      */
     @CheckResult
-    @PublishedApi
-    internal suspend fun runTask(runner: Runner<T>): T {
+    private suspend fun runTask(runner: Runner<T>): T {
         logger.log { "Awaiting task ${runner.id}" }
         val result = runner.task.await()
         logger.log { "Completed task ${runner.id}" }
@@ -115,11 +85,8 @@ internal class CacheRunner<T : Any> @PublishedApi internal constructor(
      * Make sure the activeTask is actually us, otherwise we don't need to do anything
      * Fast path in this case only since we have the id to guard with as well as the state
      * of activeTask
-     *
-     * @private
      */
-    @PublishedApi
-    internal suspend fun clearActiveTask(runner: Runner<T>) {
+    private suspend fun clearActiveTask(runner: Runner<T>) {
         if (activeRunner?.id == runner.id) {
             // Run in the NonCancellable context because the mutex must be claimed to free the activeTask
             // or else we will leak memory.
@@ -150,26 +117,17 @@ internal class CacheRunner<T : Any> @PublishedApi internal constructor(
 
     /**
      * Runner holds a deferred identified by a unique id
-     *
-     * @private
      */
-    @PublishedApi
-    internal data class Runner<T : Any> @PublishedApi internal constructor(
-        val id: String,
-        val task: Deferred<T>
-    )
+    private data class Runner<T : Any>(val id: String, val task: Deferred<T>)
 
     companion object {
 
         /**
          * Generate a random UUID
-         *
-         * @private
          */
         @JvmStatic
         @CheckResult
-        @PublishedApi
-        internal fun randomId(): String {
+        private fun randomId(): String {
             return UUID.randomUUID().toString()
         }
     }

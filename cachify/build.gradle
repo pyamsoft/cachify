@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
+android {
+
+	kotlinOptions {
+		freeCompilerArgs += '-Xexplicit-api=strict'
+	}
+
+}
+
 dependencies {
 	// AndroidX Annotations
 	implementation "androidx.annotation:annotation:$annotation"

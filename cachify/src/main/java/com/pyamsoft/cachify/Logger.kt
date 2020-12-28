@@ -18,16 +18,8 @@ package com.pyamsoft.cachify
 
 import android.util.Log
 
-@PublishedApi
-internal class Logger
-@PublishedApi internal constructor(
-    /**
-     * Log tag
-     *
-     * @private
-     */
-    @PublishedApi
-    internal val debugTag: String
+internal class Logger internal constructor(
+    private val debugTag: String
 ) {
 
     /**
