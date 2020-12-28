@@ -34,7 +34,7 @@ internal class Logger
      * Log a message if the logger is enabled
      */
     inline fun log(func: () -> String) {
-        if (Defaults.LOGGING_ENABLED || debugTag.isNotBlank()) {
+        if (CachifyDefaults.LOGGING_ENABLED || debugTag.isNotBlank()) {
             val tag = "Cachify${if (debugTag.isNotBlank()) "[$debugTag]" else ""}"
             Log.d(tag, func())
         }

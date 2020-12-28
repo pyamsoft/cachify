@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-@file:JvmMultifileClass
-@file:JvmName("Cachify")
-
 package com.pyamsoft.cachify
 
 import java.util.concurrent.TimeUnit
@@ -24,7 +21,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Cachify internal constants
  */
-public object Defaults {
+public object CachifyDefaults {
 
     /**
      * Default amount of time unit before cache expires
