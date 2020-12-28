@@ -71,7 +71,7 @@ subprojects {
 	apply plugin: 'com.jfrog.bintray'
 
 	final String POM_GROUP = "com.pyamsoft.cachify"
-	final String POM_VERSION = "0.0.16"
+	final String POM_VERSION = "0.0.17-SNAPSHOT"
 
 	android {
 		compileSdkVersion rootProject.ext.maxSdk

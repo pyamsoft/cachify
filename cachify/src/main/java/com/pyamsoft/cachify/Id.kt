@@ -19,7 +19,11 @@ package com.pyamsoft.cachify
 import androidx.annotation.CheckResult
 import java.util.UUID
 
+/**
+ * Generate a random UUID
+ */
 @CheckResult
+@PublishedApi
 internal fun randomId(): String {
     return UUID.randomUUID().toString()
 }

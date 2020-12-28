@@ -24,10 +24,10 @@ import kotlinx.coroutines.CoroutineScope
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any> cachify(
+public inline fun <R : Any> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    upstream: suspend CoroutineScope.() -> R
+    crossinline upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
     return cachify(debugTag, listOf(storage), upstream)
 }
@@ -36,10 +36,10 @@ public fun <R : Any> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any> cachify(
+public inline fun <R : Any> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
-    upstream: suspend CoroutineScope.() -> R
+    crossinline upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
     return object : Cached<R> {
 
@@ -60,10 +60,10 @@ public fun <R : Any> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1> cachify(
+public inline fun <R : Any, T1> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    upstream: suspend CoroutineScope.(T1) -> R
+    crossinline upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
     return cachify(debugTag, listOf(storage), upstream)
 }
@@ -72,10 +72,10 @@ public fun <R : Any, T1> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1> cachify(
+public inline fun <R : Any, T1> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
-    upstream: suspend CoroutineScope.(T1) -> R
+    crossinline upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
     return object : Cached1<R, T1> {
 
@@ -96,10 +96,10 @@ public fun <R : Any, T1> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2> cachify(
+public inline fun <R : Any, T1, T2> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    upstream: suspend CoroutineScope.(T1, T2) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
     return cachify(debugTag, listOf(storage), upstream)
 }
@@ -108,10 +108,10 @@ public fun <R : Any, T1, T2> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2> cachify(
+public inline fun <R : Any, T1, T2> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
-    upstream: suspend CoroutineScope.(T1, T2) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
     return object : Cached2<R, T1, T2> {
 
@@ -132,10 +132,10 @@ public fun <R : Any, T1, T2> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3> cachify(
+public inline fun <R : Any, T1, T2, T3> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    upstream: suspend CoroutineScope.(T1, T2, T3) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
     return cachify(debugTag, listOf(storage), upstream)
 }
@@ -144,10 +144,10 @@ public fun <R : Any, T1, T2, T3> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3> cachify(
+public inline fun <R : Any, T1, T2, T3> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
-    upstream: suspend CoroutineScope.(T1, T2, T3) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
     return object : Cached3<R, T1, T2, T3> {
 
@@ -168,10 +168,10 @@ public fun <R : Any, T1, T2, T3> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4> cachify(
+public inline fun <R : Any, T1, T2, T3, T4> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
     return cachify(debugTag, listOf(storage), upstream)
 }
@@ -180,10 +180,10 @@ public fun <R : Any, T1, T2, T3, T4> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4> cachify(
+public inline fun <R : Any, T1, T2, T3, T4> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
     return object : Cached4<R, T1, T2, T3, T4> {
 
@@ -204,10 +204,10 @@ public fun <R : Any, T1, T2, T3, T4> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4, T5> cachify(
+public inline fun <R : Any, T1, T2, T3, T4, T5> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
     return cachify(debugTag, listOf(storage), upstream)
 }
@@ -216,10 +216,10 @@ public fun <R : Any, T1, T2, T3, T4, T5> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4, T5> cachify(
+public inline fun <R : Any, T1, T2, T3, T4, T5> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
     return object : Cached5<R, T1, T2, T3, T4, T5> {
 
@@ -240,10 +240,10 @@ public fun <R : Any, T1, T2, T3, T4, T5> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
+public inline fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
     return cachify(debugTag, listOf(storage), upstream)
 }
@@ -252,10 +252,10 @@ public fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
+public inline fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
     return object : Cached6<R, T1, T2, T3, T4, T5, T6> {
 
@@ -276,10 +276,10 @@ public fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
+public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
     return cachify(debugTag, listOf(storage), upstream)
 }
@@ -288,10 +288,10 @@ public fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
+public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
     return object : Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
 
@@ -312,10 +312,10 @@ public fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
+public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
     return cachify(debugTag, listOf(storage), upstream)
 }
@@ -324,10 +324,10 @@ public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
+public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
     return object : Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
 
@@ -357,10 +357,10 @@ public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
+public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
     debugTag: String = "",
     storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
     return cachify(debugTag, listOf(storage), upstream)
 }
@@ -369,10 +369,10 @@ public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
  * Wrapper which will generate a Cached object that delegates its call() to the upstream source
  */
 @JvmOverloads
-public fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
+public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
     debugTag: String = "",
     storage: List<CacheStorage<String, R>>,
-    upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
     return object : Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
 
