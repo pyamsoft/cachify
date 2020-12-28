@@ -25,6 +25,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
+import java.util.UUID
 
 @PublishedApi
 internal class CacheRunner<T : Any> @PublishedApi internal constructor(
@@ -157,4 +158,19 @@ internal class CacheRunner<T : Any> @PublishedApi internal constructor(
         val id: String,
         val task: Deferred<T>
     )
+
+    companion object {
+
+        /**
+         * Generate a random UUID
+         *
+         * @private
+         */
+        @JvmStatic
+        @CheckResult
+        @PublishedApi
+        internal fun randomId(): String {
+            return UUID.randomUUID().toString()
+        }
+    }
 }

@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
+@file:JvmMultifileClass
+@file:JvmName("Cachify")
+
 package com.pyamsoft.cachify
 
-import com.pyamsoft.cachify.Cachify.DEFAULT_TIME
-import com.pyamsoft.cachify.Cachify.DEFAULT_UNIT
+import com.pyamsoft.cachify.CacheRunner.Companion.randomId
+import com.pyamsoft.cachify.Defaults.DEFAULT_TIME
+import com.pyamsoft.cachify.Defaults.DEFAULT_UNIT
 import kotlinx.coroutines.CoroutineScope
 
 /**
