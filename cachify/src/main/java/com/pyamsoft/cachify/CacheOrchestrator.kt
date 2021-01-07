@@ -18,38 +18,46 @@ package com.pyamsoft.cachify
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 internal class CacheOrchestrator<T : Any> internal constructor(
     debugTag: String,
     private val storage: List<CacheStorage<T>>
 ) : CacheOperator<T> {
 
+    private val mutex = Mutex()
     private val logger: Logger = Logger(debugTag)
     private val runner: CacheRunner<T> = CacheRunner(logger)
 
-    override suspend fun clear() = coroutineScope {
+    override suspend fun clear() {
         logger.log { "Clear all caches" }
-        storage.forEach { it.clear() }
+        mutex.withLock {
+            storage.forEach { it.clear() }
+        }
     }
 
-    override suspend fun cache(upstream: suspend CoroutineScope.() -> T): T =
-        coroutineScope {
-            logger.log { "Running call for cache" }
-            for ((index, cache) in storage.withIndex()) {
+    override suspend fun cache(upstream: suspend CoroutineScope.() -> T): T = coroutineScope {
+        logger.log { "Running call for cache" }
+
+        mutex.withLock {
+            for (index in storage.indices) {
+                val cache = storage[index]
                 val cached = cache.retrieve()
                 if (cached != null) {
                     logger.log { "Cached data from cache #$index" }
                     return@coroutineScope cached
                 }
             }
-
-            val result = runner.fetch(this) {
-                logger.log { "Fetching data from upstream" }
-                return@fetch upstream()
-            }
-
-            logger.log { "Retrieved result from upstream: $result" }
-            storage.forEach { it.cache(result) }
-            return@coroutineScope result
         }
+
+        val result = runner.fetch(this) {
+            logger.log { "Fetching data from upstream" }
+            return@fetch upstream()
+        }
+
+        logger.log { "Retrieved result from upstream: $result" }
+        mutex.withLock { storage.forEach { it.cache(result) } }
+        return@coroutineScope result
+    }
 }
