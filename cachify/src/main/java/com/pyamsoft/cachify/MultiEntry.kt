@@ -19,22 +19,17 @@
 
 package com.pyamsoft.cachify
 
+import androidx.annotation.CheckResult
 import com.pyamsoft.cachify.CachifyDefaults.DEFAULT_TIME
 import com.pyamsoft.cachify.CachifyDefaults.DEFAULT_UNIT
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
-/**
- * Wrapper which will generate a Cached object that delegates its call() to the upstream source
- */
-@JvmOverloads
-public inline fun <K : Any, V : Any> multiCachify(
-    debugTag: String = "",
-    storage: CacheStorage<V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    crossinline upstream: suspend CoroutineScope.() -> V
-): MultiCached<K, V> {
-    return multiCachify(debugTag, listOf(storage), upstream)
+@CheckResult
+@PublishedApi
+internal fun <K : Any> K.tag(debugTag: String): String {
+    return if (debugTag.isBlank()) "" else "$debugTag-$this"
 }
 
 /**
@@ -43,7 +38,9 @@ public inline fun <K : Any, V : Any> multiCachify(
 @JvmOverloads
 public inline fun <K : Any, V : Any> multiCachify(
     debugTag: String = "",
-    storage: List<CacheStorage<V>>,
+    crossinline storage: () -> List<CacheStorage<V>> = {
+        listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
     crossinline upstream: suspend CoroutineScope.() -> V
 ): MultiCached<K, V> {
     return object : MultiCached<K, V> {
@@ -63,7 +60,7 @@ public inline fun <K : Any, V : Any> multiCachify(
                 caches.getOrPut(key) {
                     object : MultiCached.Caller<V> {
 
-                        private val conductor = CacheOperator.create(debugTag, storage)
+                        private val conductor = CacheOperator.create(key.tag(debugTag), storage())
                         private val operation: suspend CoroutineScope.() -> V = { upstream(this) }
 
                         override suspend fun call(): V {
@@ -86,19 +83,9 @@ public inline fun <K : Any, V : Any> multiCachify(
 @JvmOverloads
 public inline fun <K : Any, V : Any, T1> multiCachify(
     debugTag: String = "",
-    storage: CacheStorage<V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    crossinline upstream: suspend CoroutineScope.(T1) -> V
-): MultiCached1<K, V, T1> {
-    return multiCachify(debugTag, listOf(storage), upstream)
-}
-
-/**
- * Wrapper which will generate a Cached object that delegates its call() to the upstream source
- */
-@JvmOverloads
-public inline fun <K : Any, V : Any, T1> multiCachify(
-    debugTag: String = "",
-    storage: List<CacheStorage<V>>,
+    crossinline storage: () -> List<CacheStorage<V>> = {
+        listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
     crossinline upstream: suspend CoroutineScope.(T1) -> V
 ): MultiCached1<K, V, T1> {
     return object : MultiCached1<K, V, T1> {
@@ -118,7 +105,7 @@ public inline fun <K : Any, V : Any, T1> multiCachify(
                 caches.getOrPut(key) {
                     object : MultiCached1.Caller<V, T1> {
 
-                        private val conductor = CacheOperator.create(debugTag, storage)
+                        private val conductor = CacheOperator.create(key.tag(debugTag), storage())
 
                         override suspend fun call(p1: T1): V {
                             return conductor.cache { upstream(p1) }
@@ -140,19 +127,9 @@ public inline fun <K : Any, V : Any, T1> multiCachify(
 @JvmOverloads
 public inline fun <K : Any, V : Any, T1, T2> multiCachify(
     debugTag: String = "",
-    storage: CacheStorage<V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    crossinline upstream: suspend CoroutineScope.(T1, T2) -> V
-): MultiCached2<K, V, T1, T2> {
-    return multiCachify(debugTag, listOf(storage), upstream)
-}
-
-/**
- * Wrapper which will generate a Cached object that delegates its call() to the upstream source
- */
-@JvmOverloads
-public inline fun <K : Any, V : Any, T1, T2> multiCachify(
-    debugTag: String = "",
-    storage: List<CacheStorage<V>>,
+    crossinline storage: () -> List<CacheStorage<V>> = {
+        listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
     crossinline upstream: suspend CoroutineScope.(T1, T2) -> V
 ): MultiCached2<K, V, T1, T2> {
     return object : MultiCached2<K, V, T1, T2> {
@@ -172,7 +149,7 @@ public inline fun <K : Any, V : Any, T1, T2> multiCachify(
                 caches.getOrPut(key) {
                     object : MultiCached2.Caller<V, T1, T2> {
 
-                        private val conductor = CacheOperator.create(debugTag, storage)
+                        private val conductor = CacheOperator.create(key.tag(debugTag), storage())
 
                         override suspend fun call(p1: T1, p2: T2): V {
                             return conductor.cache { upstream(p1, p2) }
@@ -194,19 +171,9 @@ public inline fun <K : Any, V : Any, T1, T2> multiCachify(
 @JvmOverloads
 public inline fun <K : Any, V : Any, T1, T2, T3> multiCachify(
     debugTag: String = "",
-    storage: CacheStorage<V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> V
-): MultiCached3<K, V, T1, T2, T3> {
-    return multiCachify(debugTag, listOf(storage), upstream)
-}
-
-/**
- * Wrapper which will generate a Cached object that delegates its call() to the upstream source
- */
-@JvmOverloads
-public inline fun <K : Any, V : Any, T1, T2, T3> multiCachify(
-    debugTag: String = "",
-    storage: List<CacheStorage<V>>,
+    crossinline storage: () -> List<CacheStorage<V>> = {
+        listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> V
 ): MultiCached3<K, V, T1, T2, T3> {
     return object : MultiCached3<K, V, T1, T2, T3> {
@@ -226,7 +193,7 @@ public inline fun <K : Any, V : Any, T1, T2, T3> multiCachify(
                 caches.getOrPut(key) {
                     object : MultiCached3.Caller<V, T1, T2, T3> {
 
-                        private val conductor = CacheOperator.create(debugTag, storage)
+                        private val conductor = CacheOperator.create(key.tag(debugTag), storage())
 
                         override suspend fun call(p1: T1, p2: T2, p3: T3): V {
                             return conductor.cache { upstream(p1, p2, p3) }
@@ -248,19 +215,9 @@ public inline fun <K : Any, V : Any, T1, T2, T3> multiCachify(
 @JvmOverloads
 public inline fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
     debugTag: String = "",
-    storage: CacheStorage<V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V
-): MultiCached4<K, V, T1, T2, T3, T4> {
-    return multiCachify(debugTag, listOf(storage), upstream)
-}
-
-/**
- * Wrapper which will generate a Cached object that delegates its call() to the upstream source
- */
-@JvmOverloads
-public inline fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
-    debugTag: String = "",
-    storage: List<CacheStorage<V>>,
+    crossinline storage: () -> List<CacheStorage<V>> = {
+        listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V
 ): MultiCached4<K, V, T1, T2, T3, T4> {
     return object : MultiCached4<K, V, T1, T2, T3, T4> {
@@ -280,7 +237,7 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
                 caches.getOrPut(key) {
                     object : MultiCached4.Caller<V, T1, T2, T3, T4> {
 
-                        private val conductor = CacheOperator.create(debugTag, storage)
+                        private val conductor = CacheOperator.create(key.tag(debugTag), storage())
 
                         override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): V {
                             return conductor.cache { upstream(p1, p2, p3, p4) }
@@ -302,19 +259,9 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
 @JvmOverloads
 public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
     debugTag: String = "",
-    storage: CacheStorage<V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V
-): MultiCached5<K, V, T1, T2, T3, T4, T5> {
-    return multiCachify(debugTag, listOf(storage), upstream)
-}
-
-/**
- * Wrapper which will generate a Cached object that delegates its call() to the upstream source
- */
-@JvmOverloads
-public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
-    debugTag: String = "",
-    storage: List<CacheStorage<V>>,
+    crossinline storage: () -> List<CacheStorage<V>> = {
+        listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V
 ): MultiCached5<K, V, T1, T2, T3, T4, T5> {
     return object : MultiCached5<K, V, T1, T2, T3, T4, T5> {
@@ -334,7 +281,7 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
                 caches.getOrPut(key) {
                     object : MultiCached5.Caller<V, T1, T2, T3, T4, T5> {
 
-                        private val conductor = CacheOperator.create(debugTag, storage)
+                        private val conductor = CacheOperator.create(key.tag(debugTag), storage())
 
                         override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): V {
                             return conductor.cache { upstream(p1, p2, p3, p4, p5) }
@@ -356,19 +303,9 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
 @JvmOverloads
 public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
     debugTag: String = "",
-    storage: CacheStorage<V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> V
-): MultiCached6<K, V, T1, T2, T3, T4, T5, T6> {
-    return multiCachify(debugTag, listOf(storage), upstream)
-}
-
-/**
- * Wrapper which will generate a Cached object that delegates its call() to the upstream source
- */
-@JvmOverloads
-public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
-    debugTag: String = "",
-    storage: List<CacheStorage<V>>,
+    crossinline storage: () -> List<CacheStorage<V>> = {
+        listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> V
 ): MultiCached6<K, V, T1, T2, T3, T4, T5, T6> {
     return object : MultiCached6<K, V, T1, T2, T3, T4, T5, T6> {
@@ -388,7 +325,7 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
                 caches.getOrPut(key) {
                     object : MultiCached6.Caller<V, T1, T2, T3, T4, T5, T6> {
 
-                        private val conductor = CacheOperator.create(debugTag, storage)
+                        private val conductor = CacheOperator.create(key.tag(debugTag), storage())
 
                         override suspend fun call(
                             p1: T1,
@@ -417,19 +354,9 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6> multiCachify(
 @JvmOverloads
 public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
     debugTag: String = "",
-    storage: CacheStorage<V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> V
-): MultiCached7<K, V, T1, T2, T3, T4, T5, T6, T7> {
-    return multiCachify(debugTag, listOf(storage), upstream)
-}
-
-/**
- * Wrapper which will generate a Cached object that delegates its call() to the upstream source
- */
-@JvmOverloads
-public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
-    debugTag: String = "",
-    storage: List<CacheStorage<V>>,
+    crossinline storage: () -> List<CacheStorage<V>> = {
+        listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> V
 ): MultiCached7<K, V, T1, T2, T3, T4, T5, T6, T7> {
     return object : MultiCached7<K, V, T1, T2, T3, T4, T5, T6, T7> {
@@ -449,7 +376,7 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
                 caches.getOrPut(key) {
                     object : MultiCached7.Caller<V, T1, T2, T3, T4, T5, T6, T7> {
 
-                        private val conductor = CacheOperator.create(debugTag, storage)
+                        private val conductor = CacheOperator.create(key.tag(debugTag), storage())
 
                         override suspend fun call(
                             p1: T1,
@@ -479,19 +406,9 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> multiCachify(
 @JvmOverloads
 public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
     debugTag: String = "",
-    storage: CacheStorage<V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> V
-): MultiCached8<K, V, T1, T2, T3, T4, T5, T6, T7, T8> {
-    return multiCachify(debugTag, listOf(storage), upstream)
-}
-
-/**
- * Wrapper which will generate a Cached object that delegates its call() to the upstream source
- */
-@JvmOverloads
-public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachify(
-    debugTag: String = "",
-    storage: List<CacheStorage<V>>,
+    crossinline storage: () -> List<CacheStorage<V>> = {
+        listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> V
 ): MultiCached8<K, V, T1, T2, T3, T4, T5, T6, T7, T8> {
     return object : MultiCached8<K, V, T1, T2, T3, T4, T5, T6, T7, T8> {
@@ -512,7 +429,7 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachif
                 caches.getOrPut(key) {
                     object : MultiCached8.Caller<V, T1, T2, T3, T4, T5, T6, T7, T8> {
 
-                        private val conductor = CacheOperator.create(debugTag, storage)
+                        private val conductor = CacheOperator.create(key.tag(debugTag), storage())
 
                         override suspend fun call(
                             p1: T1,
@@ -543,19 +460,9 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> multiCachif
 @JvmOverloads
 public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
     debugTag: String = "",
-    storage: CacheStorage<V> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> V
-): MultiCached9<K, V, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
-    return multiCachify(debugTag, listOf(storage), upstream)
-}
-
-/**
- * Wrapper which will generate a Cached object that delegates its call() to the upstream source
- */
-@JvmOverloads
-public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCachify(
-    debugTag: String = "",
-    storage: List<CacheStorage<V>>,
+    crossinline storage: () -> List<CacheStorage<V>> = {
+        listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> V
 ): MultiCached9<K, V, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
     return object : MultiCached9<K, V, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
@@ -576,7 +483,7 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> multiCa
                 caches.getOrPut(key) {
                     object : MultiCached9.Caller<V, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
 
-                        private val conductor = CacheOperator.create(debugTag, storage)
+                        private val conductor = CacheOperator.create(key.tag(debugTag), storage())
 
                         override suspend fun call(
                             p1: T1,
