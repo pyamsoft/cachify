@@ -19,42 +19,37 @@ package com.pyamsoft.cachify
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
 
-internal class CacheOrchestrator<K : Any, V : Any> internal constructor(
+internal class CacheOrchestrator<T : Any> internal constructor(
     debugTag: String,
-    private val storage: List<CacheStorage<K, V>>
-) : CacheOperator<K, V> {
+    private val storage: List<CacheStorage<T>>
+) : CacheOperator<T> {
 
     private val logger: Logger = Logger(debugTag)
-    private val runner: CacheRunner<V> = CacheRunner(logger)
+    private val runner: CacheRunner<T> = CacheRunner(logger)
 
     override suspend fun clear() = coroutineScope {
         logger.log { "Clear all caches" }
         storage.forEach { it.clear() }
     }
 
-    override suspend fun invalidate(key: K) = coroutineScope {
-        logger.log { "Invalidate all caches with key: $key" }
-        storage.forEach { it.invalidate(key) }
-    }
-
-    override suspend fun cache(key: K, upstream: suspend CoroutineScope.() -> V): V =
+    override suspend fun cache(upstream: suspend CoroutineScope.() -> T): T =
         coroutineScope {
-            logger.log { "Running call for cache: $key" }
+            logger.log { "Running call for cache" }
             for ((index, cache) in storage.withIndex()) {
-                val cached = cache.retrieve(key)
+                val cached = cache.retrieve()
                 if (cached != null) {
-                    logger.log { "Cached data from cache $key[#$index]" }
+                    logger.log { "Cached data from cache #$index" }
                     return@coroutineScope cached
                 }
             }
 
             val result = runner.fetch(this) {
-                logger.log { "Fetching data from upstream for $key" }
+                logger.log { "Fetching data from upstream" }
                 return@fetch upstream()
             }
 
-            logger.log { "Retrieved result from upstream: [$key]=$result" }
-            storage.forEach { it.cache(key, result) }
+            logger.log { "Retrieved result from upstream: $result" }
+            storage.forEach { it.cache(result) }
             return@coroutineScope result
         }
 }

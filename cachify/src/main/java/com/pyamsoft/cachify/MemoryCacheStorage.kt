@@ -17,22 +17,23 @@
 package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicReference
 
 /**
  * CacheStorage implementation which is backed by memory. Short lived cache.
  */
-public class MemoryCacheStorage<K : Any, V : Any> internal constructor(
+public class MemoryCacheStorage<T : Any> internal constructor(
     private val ttl: Long
-) : CacheStorage<K, V> {
+) : CacheStorage<T> {
 
     private val mutex = Mutex()
-    private val storage = mutableMapOf<K, Data<V>?>()
+    private val storage = AtomicReference<Data<T>?>(null)
 
-    override suspend fun retrieve(key: K): V? {
-        val cached: Data<V>? = mutex.withLock { storage[key] }
+    override suspend fun retrieve(): T? {
+        val cached: Data<T>? = mutex.withLock { storage.get() }
         return when {
             cached == null -> null
             cached.lastAccessTime + ttl < System.nanoTime() -> null
@@ -40,27 +41,19 @@ public class MemoryCacheStorage<K : Any, V : Any> internal constructor(
         }
     }
 
-    override suspend fun cache(key: K, data: V) {
-        setData(key, data)
+    override suspend fun cache(data: T) {
+        setData(data)
     }
 
-    private suspend fun setData(key: K, data: V?) {
+    private suspend fun setData(data: T?) {
         val newData = if (data == null) null else Data(data, System.nanoTime())
         mutex.withLock {
-            storage[key] = newData
-        }
-    }
-
-    override suspend fun invalidate(key: K) {
-        mutex.withLock {
-            storage.remove(key)
+            storage.set(newData)
         }
     }
 
     override suspend fun clear() {
-        mutex.withLock {
-            storage.clear()
-        }
+        setData(null)
     }
 
     private data class Data<T : Any>(val data: T, val lastAccessTime: Long)
@@ -76,7 +69,7 @@ public class MemoryCacheStorage<K : Any, V : Any> internal constructor(
          */
         @JvmStatic
         @CheckResult
-        public fun <K : Any, V : Any> create(time: Long, unit: TimeUnit): CacheStorage<K, V> {
+        public fun <T : Any> create(time: Long, unit: TimeUnit): CacheStorage<T> {
             return create(unit.toNanos(time))
         }
 
@@ -88,7 +81,7 @@ public class MemoryCacheStorage<K : Any, V : Any> internal constructor(
          */
         @JvmStatic
         @CheckResult
-        public fun <K : Any, V : Any> create(ttl: Long): CacheStorage<K, V> {
+        public fun <T : Any> create(ttl: Long): CacheStorage<T> {
             return MemoryCacheStorage(ttl)
         }
     }

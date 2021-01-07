@@ -23,7 +23,7 @@ import androidx.annotation.CheckResult
  *
  * Keys are stored as random strings
  */
-public interface Cached<R> : Cache<String> {
+public interface Cached<R> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -37,7 +37,7 @@ public interface Cached<R> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-public interface Cached1<R, T1> : Cache<String> {
+public interface Cached1<R, T1> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -51,7 +51,7 @@ public interface Cached1<R, T1> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-public interface Cached2<R, T1, T2> : Cache<String> {
+public interface Cached2<R, T1, T2> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -68,7 +68,7 @@ public interface Cached2<R, T1, T2> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-public interface Cached3<R, T1, T2, T3> : Cache<String> {
+public interface Cached3<R, T1, T2, T3> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -86,7 +86,7 @@ public interface Cached3<R, T1, T2, T3> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-public interface Cached4<R, T1, T2, T3, T4> : Cache<String> {
+public interface Cached4<R, T1, T2, T3, T4> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -105,7 +105,7 @@ public interface Cached4<R, T1, T2, T3, T4> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-public interface Cached5<R, T1, T2, T3, T4, T5> : Cache<String> {
+public interface Cached5<R, T1, T2, T3, T4, T5> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -125,7 +125,7 @@ public interface Cached5<R, T1, T2, T3, T4, T5> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-public interface Cached6<R, T1, T2, T3, T4, T5, T6> : Cache<String> {
+public interface Cached6<R, T1, T2, T3, T4, T5, T6> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -146,7 +146,7 @@ public interface Cached6<R, T1, T2, T3, T4, T5, T6> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-public interface Cached7<R, T1, T2, T3, T4, T5, T6, T7> : Cache<String> {
+public interface Cached7<R, T1, T2, T3, T4, T5, T6, T7> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -168,7 +168,7 @@ public interface Cached7<R, T1, T2, T3, T4, T5, T6, T7> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-public interface Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> : Cache<String> {
+public interface Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> : Cache {
 
     /**
      * Get data either from cache or upstream
@@ -191,7 +191,7 @@ public interface Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> : Cache<String> {
  *
  * Keys are stored as random strings
  */
-public interface Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache<String> {
+public interface Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache {
 
     /**
      * Get data either from cache or upstream

@@ -19,7 +19,7 @@ package com.pyamsoft.cachify
 /**
  * A cache of data
  */
-public interface Cache<K : Any> {
+public interface Cache {
 
     /**
      * Clear cache

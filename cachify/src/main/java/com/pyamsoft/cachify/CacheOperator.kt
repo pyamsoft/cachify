@@ -22,27 +22,22 @@ import kotlinx.coroutines.CoroutineScope
 /**
  * Performs cache operations
  */
-public interface CacheOperator<K : Any, V : Any> : Cache<K> {
-
-    /**
-     * Invalidate a cache entry given key K
-     */
-    public suspend fun invalidate(key: K)
+public interface CacheOperator<V : Any> : Cache {
 
     /**
      * Cache new data from an upstream into key K
      */
     @CheckResult
-    public suspend fun cache(key: K, upstream: suspend CoroutineScope.() -> V): V
+    public suspend fun cache(upstream: suspend CoroutineScope.() -> V): V
 
     public companion object {
 
         @CheckResult
         @PublishedApi
-        internal fun <K : Any, V : Any> create(
+        internal fun <T : Any> create(
             debugTag: String,
-            storage: List<CacheStorage<K, V>>
-        ): CacheOperator<K, V> {
+            storage: List<CacheStorage<T>>
+        ): CacheOperator<T> {
             return CacheOrchestrator(debugTag, storage)
         }
     }

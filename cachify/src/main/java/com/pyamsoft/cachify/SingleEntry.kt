@@ -29,7 +29,7 @@ import kotlinx.coroutines.CoroutineScope
 @JvmOverloads
 public inline fun <R : Any> cachify(
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     crossinline upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
     return cachify(debugTag, listOf(storage), upstream)
@@ -41,13 +41,12 @@ public inline fun <R : Any> cachify(
 @JvmOverloads
 public inline fun <R : Any> cachify(
     debugTag: String = "",
-    storage: List<CacheStorage<String, R>>,
+    storage: List<CacheStorage<R>>,
     crossinline upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
     return object : Cached<R> {
 
         private val conductor = CacheOperator.create(debugTag, storage)
-        private val key = ""
 
         private val operation: suspend CoroutineScope.() -> R = { upstream(this) }
 
@@ -56,7 +55,7 @@ public inline fun <R : Any> cachify(
         }
 
         override suspend fun call(): R {
-            return conductor.cache(key, operation)
+            return conductor.cache(operation)
         }
     }
 }
@@ -67,7 +66,7 @@ public inline fun <R : Any> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1> cachify(
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     crossinline upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
     return cachify(debugTag, listOf(storage), upstream)
@@ -79,20 +78,19 @@ public inline fun <R : Any, T1> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1> cachify(
     debugTag: String = "",
-    storage: List<CacheStorage<String, R>>,
+    storage: List<CacheStorage<R>>,
     crossinline upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
     return object : Cached1<R, T1> {
 
         private val conductor = CacheOperator.create(debugTag, storage)
-        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
         }
 
         override suspend fun call(p1: T1): R {
-            return conductor.cache(key) { upstream(p1) }
+            return conductor.cache { upstream(p1) }
         }
     }
 }
@@ -103,7 +101,7 @@ public inline fun <R : Any, T1> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2> cachify(
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     crossinline upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
     return cachify(debugTag, listOf(storage), upstream)
@@ -115,20 +113,19 @@ public inline fun <R : Any, T1, T2> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2> cachify(
     debugTag: String = "",
-    storage: List<CacheStorage<String, R>>,
+    storage: List<CacheStorage<R>>,
     crossinline upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
     return object : Cached2<R, T1, T2> {
 
         private val conductor = CacheOperator.create(debugTag, storage)
-        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
         }
 
         override suspend fun call(p1: T1, p2: T2): R {
-            return conductor.cache(key) { upstream(p1, p2) }
+            return conductor.cache { upstream(p1, p2) }
         }
     }
 }
@@ -139,7 +136,7 @@ public inline fun <R : Any, T1, T2> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3> cachify(
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
     return cachify(debugTag, listOf(storage), upstream)
@@ -151,20 +148,19 @@ public inline fun <R : Any, T1, T2, T3> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3> cachify(
     debugTag: String = "",
-    storage: List<CacheStorage<String, R>>,
+    storage: List<CacheStorage<R>>,
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
     return object : Cached3<R, T1, T2, T3> {
 
         private val conductor = CacheOperator.create(debugTag, storage)
-        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
         }
 
         override suspend fun call(p1: T1, p2: T2, p3: T3): R {
-            return conductor.cache(key) { upstream(p1, p2, p3) }
+            return conductor.cache { upstream(p1, p2, p3) }
         }
     }
 }
@@ -175,7 +171,7 @@ public inline fun <R : Any, T1, T2, T3> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4> cachify(
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
     return cachify(debugTag, listOf(storage), upstream)
@@ -187,20 +183,19 @@ public inline fun <R : Any, T1, T2, T3, T4> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4> cachify(
     debugTag: String = "",
-    storage: List<CacheStorage<String, R>>,
+    storage: List<CacheStorage<R>>,
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
     return object : Cached4<R, T1, T2, T3, T4> {
 
         private val conductor = CacheOperator.create(debugTag, storage)
-        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
         }
 
         override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): R {
-            return conductor.cache(key) { upstream(p1, p2, p3, p4) }
+            return conductor.cache { upstream(p1, p2, p3, p4) }
         }
     }
 }
@@ -211,7 +206,7 @@ public inline fun <R : Any, T1, T2, T3, T4> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5> cachify(
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
     return cachify(debugTag, listOf(storage), upstream)
@@ -223,20 +218,19 @@ public inline fun <R : Any, T1, T2, T3, T4, T5> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5> cachify(
     debugTag: String = "",
-    storage: List<CacheStorage<String, R>>,
+    storage: List<CacheStorage<R>>,
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
     return object : Cached5<R, T1, T2, T3, T4, T5> {
 
         private val conductor = CacheOperator.create(debugTag, storage)
-        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
         }
 
         override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): R {
-            return conductor.cache(key) { upstream(p1, p2, p3, p4, p5) }
+            return conductor.cache { upstream(p1, p2, p3, p4, p5) }
         }
     }
 }
@@ -247,7 +241,7 @@ public inline fun <R : Any, T1, T2, T3, T4, T5> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
     return cachify(debugTag, listOf(storage), upstream)
@@ -259,20 +253,19 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
     debugTag: String = "",
-    storage: List<CacheStorage<String, R>>,
+    storage: List<CacheStorage<R>>,
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
     return object : Cached6<R, T1, T2, T3, T4, T5, T6> {
 
         private val conductor = CacheOperator.create(debugTag, storage)
-        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
         }
 
         override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6): R {
-            return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6) }
+            return conductor.cache { upstream(p1, p2, p3, p4, p5, p6) }
         }
     }
 }
@@ -283,7 +276,7 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
     return cachify(debugTag, listOf(storage), upstream)
@@ -295,20 +288,19 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
     debugTag: String = "",
-    storage: List<CacheStorage<String, R>>,
+    storage: List<CacheStorage<R>>,
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
     return object : Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
 
         private val conductor = CacheOperator.create(debugTag, storage)
-        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
         }
 
         override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7): R {
-            return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6, p7) }
+            return conductor.cache { upstream(p1, p2, p3, p4, p5, p6, p7) }
         }
     }
 }
@@ -319,7 +311,7 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
     return cachify(debugTag, listOf(storage), upstream)
@@ -331,13 +323,12 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
     debugTag: String = "",
-    storage: List<CacheStorage<String, R>>,
+    storage: List<CacheStorage<R>>,
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
     return object : Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
 
         private val conductor = CacheOperator.create(debugTag, storage)
-        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
@@ -353,7 +344,7 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
             p7: T7,
             p8: T8
         ): R {
-            return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6, p7, p8) }
+            return conductor.cache { upstream(p1, p2, p3, p4, p5, p6, p7, p8) }
         }
     }
 }
@@ -364,7 +355,7 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
     debugTag: String = "",
-    storage: CacheStorage<String, R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
+    storage: CacheStorage<R> = MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT),
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
     return cachify(debugTag, listOf(storage), upstream)
@@ -376,13 +367,12 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
     debugTag: String = "",
-    storage: List<CacheStorage<String, R>>,
+    storage: List<CacheStorage<R>>,
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
     return object : Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
 
         private val conductor = CacheOperator.create(debugTag, storage)
-        private val key = ""
 
         override suspend fun clear() {
             conductor.clear()
@@ -399,7 +389,7 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
             p8: T8,
             p9: T9
         ): R {
-            return conductor.cache(key) { upstream(p1, p2, p3, p4, p5, p6, p7, p8, p9) }
+            return conductor.cache { upstream(p1, p2, p3, p4, p5, p6, p7, p8, p9) }
         }
     }
 }
