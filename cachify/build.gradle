@@ -16,22 +16,19 @@
 
 android {
 
-	kotlinOptions {
-		freeCompilerArgs += '-Xexplicit-api=strict'
-	}
-
+  kotlinOptions {
+    freeCompilerArgs += '-Xexplicit-api=strict'
+  }
 }
 
 dependencies {
-	// AndroidX Annotations
-	implementation "androidx.annotation:annotation:$annotation"
+  // AndroidX Annotations
+  implementation "androidx.annotation:annotation:$annotation"
 
-	// Coroutines
-	implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+  // Coroutines
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
 
-	// Kotlin
-	implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+  // Kotlin
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 }
-
-
