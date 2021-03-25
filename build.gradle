@@ -42,7 +42,7 @@ buildscript {
     maxSdk = 30
 
     coroutines = '1.4.2'
-    annotation = '1.1.0'
+    annotation = '1.2.0'
   }
 
   dependencies {
