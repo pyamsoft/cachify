@@ -73,8 +73,8 @@ subprojects {
   apply plugin: 'org.jetbrains.dokka-android'
   apply plugin: 'maven-publish'
 
-  final String POM_GROUP = "com.github.pyamsoft.cachify"
-  final String POM_VERSION = "0.0.21"
+  final String POM_GROUP = "com.github.pyamsoft"
+  final String POM_VERSION = "0.0.22"
 
   android {
     compileSdkVersion rootProject.ext.maxSdk

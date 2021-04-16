@@ -10,7 +10,7 @@ In your `build.gradle`
 dependencies {
   def latestVersion = "0.0.20"
 
-  implementation "com.github.pyamsoft.cachify:cachify:$latestVersion"
+  implementation "com.github.pyamsoft:cachify:$latestVersion"
 }
 ```
 
