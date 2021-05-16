@@ -19,13 +19,12 @@
 buildscript {
   ext {
     kotlin_version = '1.5.0'
-    dokka_version = "0.9.18"
+    dokka_version = "1.4.30"
   }
   repositories {
     mavenLocal()
     google()
     mavenCentral()
-    jcenter()
 
     maven {
       url "https://jitpack.io/"
@@ -41,7 +40,7 @@ buildscript {
     minSdk = 22
     maxSdk = 30
 
-    coroutines = '1.4.2'
+    coroutines = '1.5.0'
     annotation = '1.2.0'
   }
 
@@ -51,15 +50,11 @@ buildscript {
     // Gradle version checker
     classpath 'com.github.ben-manes:gradle-versions-plugin:0.38.0'
 
-    // To publish
-    classpath "com.github.dcendents:android-maven-gradle-plugin:2.1"
-    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5"
-
     // Kotlin
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
     // Dokka
-    classpath "org.jetbrains.dokka:dokka-android-gradle-plugin:$dokka_version"
+    classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
 
     // Spotless
     classpath "com.diffplug.spotless:spotless-plugin-gradle:5.12.5"
@@ -69,12 +64,11 @@ buildscript {
 subprojects {
   apply plugin: 'com.android.library'
   apply plugin: 'kotlin-android'
-  apply plugin: 'com.github.dcendents.android-maven'
-  apply plugin: 'org.jetbrains.dokka-android'
+  apply plugin: 'org.jetbrains.dokka'
   apply plugin: 'maven-publish'
 
   final String POM_GROUP = "com.github.pyamsoft"
-  final String POM_VERSION = "0.0.22"
+  final String POM_VERSION = "0.0.23"
 
   android {
     compileSdkVersion rootProject.ext.maxSdk
@@ -123,7 +117,7 @@ subprojects {
       from android.sourceSets.main.java.source
     }
 
-    task androidJavadocsJar(type: Jar, dependsOn: dokka) {
+    task androidJavadocsJar(type: Jar, dependsOn: dokkaJavadoc) {
       archiveClassifier.convention('javadoc')
       archiveClassifier.set('javadoc')
       from "$buildDir/dokka"
@@ -181,11 +175,22 @@ allprojects {
     }
   }
 
+  def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { version.toUpperCase().contains(it) }
+    def regex = /^[0-9,.v-]+(-r)?$/
+    return !stableKeyword && !(version ==~ regex)
+  }
+
+  tasks.named("dependencyUpdates").configure {
+    rejectVersionIf {
+      isNonStable(it.candidate.version)
+    }
+  }
+
   repositories {
     mavenLocal()
     google()
     mavenCentral()
-    jcenter()
 
     maven {
       url "https://jitpack.io/"
