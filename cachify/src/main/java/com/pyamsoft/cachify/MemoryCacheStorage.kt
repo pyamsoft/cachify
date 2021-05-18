@@ -17,10 +17,10 @@
 package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 
 /**
  * CacheStorage implementation which is backed by memory. Short lived cache.
