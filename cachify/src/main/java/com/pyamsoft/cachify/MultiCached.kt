@@ -25,11 +25,8 @@ import androidx.annotation.CheckResult
  */
 public interface Keyed<K : Any, R : Cache> : Cache {
 
-    /**
-     * Return an instance of a caller which can get data from either cache or upstream
-     */
-    @CheckResult
-    public suspend fun key(key: K): R
+  /** Return an instance of a caller which can get data from either cache or upstream */
+  @CheckResult public suspend fun key(key: K): R
 }
 
 /**
@@ -39,17 +36,12 @@ public interface Keyed<K : Any, R : Cache> : Cache {
  */
 public interface MultiCached<K : Any, V : Any> : Keyed<K, MultiCached.Caller<V>> {
 
-    /**
-     * Caller interface for a multi-cache
-     */
-    public interface Caller<V : Any> : Cache {
+  /** Caller interface for a multi-cache */
+  public interface Caller<V : Any> : Cache {
 
-        /**
-         * Get data either from cache or upstream
-         */
-        @CheckResult
-        public suspend fun call(): V
-    }
+    /** Get data either from cache or upstream */
+    @CheckResult public suspend fun call(): V
+  }
 }
 
 /**
@@ -59,17 +51,12 @@ public interface MultiCached<K : Any, V : Any> : Keyed<K, MultiCached.Caller<V>>
  */
 public interface MultiCached1<K : Any, V : Any, T1> : Keyed<K, MultiCached1.Caller<V, T1>> {
 
-    /**
-     * Caller interface for a multi-cache
-     */
-    public interface Caller<V : Any, T1> : Cache {
+  /** Caller interface for a multi-cache */
+  public interface Caller<V : Any, T1> : Cache {
 
-        /**
-         * Get data either from cache or upstream
-         */
-        @CheckResult
-        public suspend fun call(p1: T1): V
-    }
+    /** Get data either from cache or upstream */
+    @CheckResult public suspend fun call(p1: T1): V
+  }
 }
 
 /**
@@ -77,20 +64,14 @@ public interface MultiCached1<K : Any, V : Any, T1> : Keyed<K, MultiCached1.Call
  *
  * Keys must be provided and can be anything that implements a valid equals() and hashCode()
  */
-public interface MultiCached2<K : Any, V : Any, T1, T2> :
-    Keyed<K, MultiCached2.Caller<V, T1, T2>> {
+public interface MultiCached2<K : Any, V : Any, T1, T2> : Keyed<K, MultiCached2.Caller<V, T1, T2>> {
 
-    /**
-     * Caller interface for a multi-cache
-     */
-    public interface Caller<V : Any, T1, T2> : Cache {
+  /** Caller interface for a multi-cache */
+  public interface Caller<V : Any, T1, T2> : Cache {
 
-        /**
-         * Get data either from cache or upstream
-         */
-        @CheckResult
-        public suspend fun call(p1: T1, p2: T2): V
-    }
+    /** Get data either from cache or upstream */
+    @CheckResult public suspend fun call(p1: T1, p2: T2): V
+  }
 }
 
 /**
@@ -101,17 +82,12 @@ public interface MultiCached2<K : Any, V : Any, T1, T2> :
 public interface MultiCached3<K : Any, V : Any, T1, T2, T3> :
     Keyed<K, MultiCached3.Caller<V, T1, T2, T3>> {
 
-    /**
-     * Caller interface for a multi-cache
-     */
-    public interface Caller<V : Any, T1, T2, T3> : Cache {
+  /** Caller interface for a multi-cache */
+  public interface Caller<V : Any, T1, T2, T3> : Cache {
 
-        /**
-         * Get data either from cache or upstream
-         */
-        @CheckResult
-        public suspend fun call(p1: T1, p2: T2, p3: T3): V
-    }
+    /** Get data either from cache or upstream */
+    @CheckResult public suspend fun call(p1: T1, p2: T2, p3: T3): V
+  }
 }
 
 /**
@@ -122,17 +98,12 @@ public interface MultiCached3<K : Any, V : Any, T1, T2, T3> :
 public interface MultiCached4<K : Any, V : Any, T1, T2, T3, T4> :
     Keyed<K, MultiCached4.Caller<V, T1, T2, T3, T4>> {
 
-    /**
-     * Caller interface for a multi-cache
-     */
-    public interface Caller<V : Any, T1, T2, T3, T4> : Cache {
+  /** Caller interface for a multi-cache */
+  public interface Caller<V : Any, T1, T2, T3, T4> : Cache {
 
-        /**
-         * Get data either from cache or upstream
-         */
-        @CheckResult
-        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): V
-    }
+    /** Get data either from cache or upstream */
+    @CheckResult public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): V
+  }
 }
 
 /**
@@ -143,17 +114,12 @@ public interface MultiCached4<K : Any, V : Any, T1, T2, T3, T4> :
 public interface MultiCached5<K : Any, V : Any, T1, T2, T3, T4, T5> :
     Keyed<K, MultiCached5.Caller<V, T1, T2, T3, T4, T5>> {
 
-    /**
-     * Caller interface for a multi-cache
-     */
-    public interface Caller<V : Any, T1, T2, T3, T4, T5> : Cache {
+  /** Caller interface for a multi-cache */
+  public interface Caller<V : Any, T1, T2, T3, T4, T5> : Cache {
 
-        /**
-         * Get data either from cache or upstream
-         */
-        @CheckResult
-        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): V
-    }
+    /** Get data either from cache or upstream */
+    @CheckResult public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): V
+  }
 }
 
 /**
@@ -164,17 +130,12 @@ public interface MultiCached5<K : Any, V : Any, T1, T2, T3, T4, T5> :
 public interface MultiCached6<K : Any, V : Any, T1, T2, T3, T4, T5, T6> :
     Keyed<K, MultiCached6.Caller<V, T1, T2, T3, T4, T5, T6>> {
 
-    /**
-     * Caller interface for a multi-cache
-     */
-    public interface Caller<V : Any, T1, T2, T3, T4, T5, T6> : Cache {
+  /** Caller interface for a multi-cache */
+  public interface Caller<V : Any, T1, T2, T3, T4, T5, T6> : Cache {
 
-        /**
-         * Get data either from cache or upstream
-         */
-        @CheckResult
-        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6): V
-    }
+    /** Get data either from cache or upstream */
+    @CheckResult public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6): V
+  }
 }
 
 /**
@@ -185,17 +146,12 @@ public interface MultiCached6<K : Any, V : Any, T1, T2, T3, T4, T5, T6> :
 public interface MultiCached7<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> :
     Keyed<K, MultiCached7.Caller<V, T1, T2, T3, T4, T5, T6, T7>> {
 
-    /**
-     * Caller interface for a multi-cache
-     */
-    public interface Caller<V : Any, T1, T2, T3, T4, T5, T6, T7> : Cache {
+  /** Caller interface for a multi-cache */
+  public interface Caller<V : Any, T1, T2, T3, T4, T5, T6, T7> : Cache {
 
-        /**
-         * Get data either from cache or upstream
-         */
-        @CheckResult
-        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7): V
-    }
+    /** Get data either from cache or upstream */
+    @CheckResult public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7): V
+  }
 }
 
 /**
@@ -206,17 +162,13 @@ public interface MultiCached7<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7> :
 public interface MultiCached8<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> :
     Keyed<K, MultiCached8.Caller<V, T1, T2, T3, T4, T5, T6, T7, T8>> {
 
-    /**
-     * Caller interface for a multi-cache
-     */
-    public interface Caller<V : Any, T1, T2, T3, T4, T5, T6, T7, T8> : Cache {
+  /** Caller interface for a multi-cache */
+  public interface Caller<V : Any, T1, T2, T3, T4, T5, T6, T7, T8> : Cache {
 
-        /**
-         * Get data either from cache or upstream
-         */
-        @CheckResult
-        public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7, p8: T8): V
-    }
+    /** Get data either from cache or upstream */
+    @CheckResult
+    public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7, p8: T8): V
+  }
 }
 
 /**
@@ -227,25 +179,21 @@ public interface MultiCached8<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8> 
 public interface MultiCached9<K : Any, V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> :
     Keyed<K, MultiCached9.Caller<V, T1, T2, T3, T4, T5, T6, T7, T8, T9>> {
 
-    /**
-     * Caller interface for a multi-cache
-     */
-    public interface Caller<V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache {
+  /** Caller interface for a multi-cache */
+  public interface Caller<V : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache {
 
-        /**
-         * Get data either from cache or upstream
-         */
-        @CheckResult
-        public suspend fun call(
-            p1: T1,
-            p2: T2,
-            p3: T3,
-            p4: T4,
-            p5: T5,
-            p6: T6,
-            p7: T7,
-            p8: T8,
-            p9: T9
-        ): V
-    }
+    /** Get data either from cache or upstream */
+    @CheckResult
+    public suspend fun call(
+        p1: T1,
+        p2: T2,
+        p3: T3,
+        p4: T4,
+        p5: T5,
+        p6: T6,
+        p7: T7,
+        p8: T8,
+        p9: T9
+    ): V
+  }
 }

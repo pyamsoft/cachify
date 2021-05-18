@@ -19,26 +19,21 @@ package com.pyamsoft.cachify
 import androidx.annotation.CheckResult
 import kotlinx.coroutines.CoroutineScope
 
-/**
- * Performs cache operations
- */
+/** Performs cache operations */
 public interface CacheOperator<V : Any> : Cache {
 
-    /**
-     * Cache new data from an upstream into key K
-     */
+  /** Cache new data from an upstream into key K */
+  @CheckResult public suspend fun cache(upstream: suspend CoroutineScope.() -> V): V
+
+  public companion object {
+
     @CheckResult
-    public suspend fun cache(upstream: suspend CoroutineScope.() -> V): V
-
-    public companion object {
-
-        @CheckResult
-        @PublishedApi
-        internal fun <T : Any> create(
-            debugTag: String,
-            storage: List<CacheStorage<T>>
-        ): CacheOperator<T> {
-            return CacheOrchestrator(debugTag, storage)
-        }
+    @PublishedApi
+    internal fun <T : Any> create(
+        debugTag: String,
+        storage: List<CacheStorage<T>>
+    ): CacheOperator<T> {
+      return CacheOrchestrator(debugTag, storage)
     }
+  }
 }

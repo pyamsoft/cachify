@@ -25,11 +25,8 @@ import androidx.annotation.CheckResult
  */
 public interface Cached<R> : Cache {
 
-    /**
-     * Get data either from cache or upstream
-     */
-    @CheckResult
-    public suspend fun call(): R
+  /** Get data either from cache or upstream */
+  @CheckResult public suspend fun call(): R
 }
 
 /**
@@ -39,11 +36,8 @@ public interface Cached<R> : Cache {
  */
 public interface Cached1<R, T1> : Cache {
 
-    /**
-     * Get data either from cache or upstream
-     */
-    @CheckResult
-    public suspend fun call(p1: T1): R
+  /** Get data either from cache or upstream */
+  @CheckResult public suspend fun call(p1: T1): R
 }
 
 /**
@@ -53,14 +47,8 @@ public interface Cached1<R, T1> : Cache {
  */
 public interface Cached2<R, T1, T2> : Cache {
 
-    /**
-     * Get data either from cache or upstream
-     */
-    @CheckResult
-    public suspend fun call(
-        p1: T1,
-        p2: T2
-    ): R
+  /** Get data either from cache or upstream */
+  @CheckResult public suspend fun call(p1: T1, p2: T2): R
 }
 
 /**
@@ -70,15 +58,8 @@ public interface Cached2<R, T1, T2> : Cache {
  */
 public interface Cached3<R, T1, T2, T3> : Cache {
 
-    /**
-     * Get data either from cache or upstream
-     */
-    @CheckResult
-    public suspend fun call(
-        p1: T1,
-        p2: T2,
-        p3: T3
-    ): R
+  /** Get data either from cache or upstream */
+  @CheckResult public suspend fun call(p1: T1, p2: T2, p3: T3): R
 }
 
 /**
@@ -88,16 +69,8 @@ public interface Cached3<R, T1, T2, T3> : Cache {
  */
 public interface Cached4<R, T1, T2, T3, T4> : Cache {
 
-    /**
-     * Get data either from cache or upstream
-     */
-    @CheckResult
-    public suspend fun call(
-        p1: T1,
-        p2: T2,
-        p3: T3,
-        p4: T4
-    ): R
+  /** Get data either from cache or upstream */
+  @CheckResult public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): R
 }
 
 /**
@@ -107,17 +80,8 @@ public interface Cached4<R, T1, T2, T3, T4> : Cache {
  */
 public interface Cached5<R, T1, T2, T3, T4, T5> : Cache {
 
-    /**
-     * Get data either from cache or upstream
-     */
-    @CheckResult
-    public suspend fun call(
-        p1: T1,
-        p2: T2,
-        p3: T3,
-        p4: T4,
-        p5: T5
-    ): R
+  /** Get data either from cache or upstream */
+  @CheckResult public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): R
 }
 
 /**
@@ -127,18 +91,8 @@ public interface Cached5<R, T1, T2, T3, T4, T5> : Cache {
  */
 public interface Cached6<R, T1, T2, T3, T4, T5, T6> : Cache {
 
-    /**
-     * Get data either from cache or upstream
-     */
-    @CheckResult
-    public suspend fun call(
-        p1: T1,
-        p2: T2,
-        p3: T3,
-        p4: T4,
-        p5: T5,
-        p6: T6
-    ): R
+  /** Get data either from cache or upstream */
+  @CheckResult public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6): R
 }
 
 /**
@@ -148,19 +102,8 @@ public interface Cached6<R, T1, T2, T3, T4, T5, T6> : Cache {
  */
 public interface Cached7<R, T1, T2, T3, T4, T5, T6, T7> : Cache {
 
-    /**
-     * Get data either from cache or upstream
-     */
-    @CheckResult
-    public suspend fun call(
-        p1: T1,
-        p2: T2,
-        p3: T3,
-        p4: T4,
-        p5: T5,
-        p6: T6,
-        p7: T7
-    ): R
+  /** Get data either from cache or upstream */
+  @CheckResult public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7): R
 }
 
 /**
@@ -170,20 +113,9 @@ public interface Cached7<R, T1, T2, T3, T4, T5, T6, T7> : Cache {
  */
 public interface Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> : Cache {
 
-    /**
-     * Get data either from cache or upstream
-     */
-    @CheckResult
-    public suspend fun call(
-        p1: T1,
-        p2: T2,
-        p3: T3,
-        p4: T4,
-        p5: T5,
-        p6: T6,
-        p7: T7,
-        p8: T8
-    ): R
+  /** Get data either from cache or upstream */
+  @CheckResult
+  public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7, p8: T8): R
 }
 
 /**
@@ -193,19 +125,7 @@ public interface Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> : Cache {
  */
 public interface Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> : Cache {
 
-    /**
-     * Get data either from cache or upstream
-     */
-    @CheckResult
-    public suspend fun call(
-        p1: T1,
-        p2: T2,
-        p3: T3,
-        p4: T4,
-        p5: T5,
-        p6: T6,
-        p7: T7,
-        p8: T8,
-        p9: T9
-    ): R
+  /** Get data either from cache or upstream */
+  @CheckResult
+  public suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7, p8: T8, p9: T9): R
 }

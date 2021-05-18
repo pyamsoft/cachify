@@ -16,13 +16,9 @@
 
 package com.pyamsoft.cachify
 
-/**
- * A cache of data
- */
+/** A cache of data */
 public interface Cache {
 
-    /**
-     * Clear cache
-     */
-    public suspend fun clear()
+  /** Clear cache */
+  public suspend fun clear()
 }

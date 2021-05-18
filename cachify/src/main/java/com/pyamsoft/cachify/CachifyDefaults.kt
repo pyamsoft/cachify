@@ -18,25 +18,15 @@ package com.pyamsoft.cachify
 
 import java.util.concurrent.TimeUnit
 
-/**
- * Cachify internal constants
- */
+/** Cachify internal constants */
 public object CachifyDefaults {
 
-    /**
-     * Default amount of time unit before cache expires
-     */
-    public const val DEFAULT_TIME: Long = 30L
+  /** Default amount of time unit before cache expires */
+  public const val DEFAULT_TIME: Long = 30L
 
-    /**
-     * Default time unit for cache expiration
-     */
-    @JvmField
-    public val DEFAULT_UNIT: TimeUnit = TimeUnit.SECONDS
+  /** Default time unit for cache expiration */
+  @JvmField public val DEFAULT_UNIT: TimeUnit = TimeUnit.SECONDS
 
-    /**
-     * Is logging globally enabled
-     */
-    @JvmField
-    public var LOGGING_ENABLED: Boolean = false
+  /** Is logging globally enabled */
+  @JvmField public var LOGGING_ENABLED: Boolean = false
 }

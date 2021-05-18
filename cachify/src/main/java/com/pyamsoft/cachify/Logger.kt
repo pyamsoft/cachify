@@ -18,17 +18,13 @@ package com.pyamsoft.cachify
 
 import android.util.Log
 
-internal class Logger internal constructor(
-    private val debugTag: String
-) {
+internal class Logger internal constructor(private val debugTag: String) {
 
-    /**
-     * Log a message if the logger is enabled
-     */
-    inline fun log(func: () -> String) {
-        if (CachifyDefaults.LOGGING_ENABLED || debugTag.isNotBlank()) {
-            val tag = "Cachify${if (debugTag.isNotBlank()) "[$debugTag]" else ""}"
-            Log.d(tag, func())
-        }
+  /** Log a message if the logger is enabled */
+  inline fun log(func: () -> String) {
+    if (CachifyDefaults.LOGGING_ENABLED || debugTag.isNotBlank()) {
+      val tag = "Cachify${if (debugTag.isNotBlank()) "[$debugTag]" else ""}"
+      Log.d(tag, func())
     }
+  }
 }
