@@ -40,7 +40,7 @@ buildscript {
     minSdk = 22
     maxSdk = 30
 
-    coroutines = '1.5.1'
+    coroutines = '1.5.1-native-mt'
     annotation = '1.2.0'
   }
 
