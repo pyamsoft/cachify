@@ -7,6 +7,16 @@ Simple in-memory cache of all the things
 In your `build.gradle`
 
 ```gradle
+repositories {
+
+  maven {
+    url 'https://jitpack.io'
+    content {
+      includeGroup("com.github.pyamsoft")
+    }
+  }
+}
+
 dependencies {
   def latestVersion = "0.0.23"
 
