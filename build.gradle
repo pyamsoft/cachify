@@ -74,7 +74,7 @@ subprojects {
   }
 
   final String POM_GROUP = "com.github.pyamsoft"
-  final String POM_VERSION = "0.0.24"
+  final String POM_VERSION = "0.0.25"
 
   android {
     compileSdkVersion rootProject.ext.maxSdk
