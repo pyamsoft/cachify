@@ -68,10 +68,7 @@ subprojects {
   apply plugin: 'kotlin-android'
   apply plugin: 'org.jetbrains.dokka'
   apply plugin: 'maven-publish'
-
-  plugins.withType(com.android.build.gradle.api.AndroidBasePlugin) {
-    project.apply plugin: "org.gradle.android.cache-fix"
-  }
+  apply plugin: "org.gradle.android.cache-fix"
 
   final String POM_GROUP = "com.github.pyamsoft"
   final String POM_VERSION = "0.0.25"
