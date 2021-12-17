@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-  def latestVersion = "0.0.23"
+  def latestVersion = "0.0.26"
 
   implementation "com.github.pyamsoft:cachify:$latestVersion"
 }
@@ -118,27 +118,27 @@ class DetailCaller {
 ## Development
 
 Cachify is developed in the Open on GitHub at:
+
 ```
-https://github.com/pyamsoft/Cachify
+https://github.com/pyamsoft/cachify
 ```
+
 If you know a few things about Android programming and are wanting to help
 out with development you can do so by creating issue tickets to squash bugs,
-and propose feature requests for future inclusion.`
+and propose feature requests for future inclusion.
 
 # Issues or Questions
 
 Please post any issues with the code in the Issues section on GitHub. Pull Requests
 will be accepted on GitHub only after extensive reading and as long as the request
-goes in line with the design of the application. Pull Requests will only be
-accepted for new features of the application, for general purpose bug fixes, creating
-an issue is simply faster.
+goes in line with the design of the application.
 
 ## License
 
 Apache 2
 
 ```
-Copyright 2020 Peter Kenji Yamanaka
+Copyright 2021 Peter Kenji Yamanaka
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
