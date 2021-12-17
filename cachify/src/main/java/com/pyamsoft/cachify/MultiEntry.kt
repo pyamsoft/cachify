@@ -43,8 +43,11 @@ protected constructor(
     private val context: CoroutineContext,
 ) : Cache {
 
-  protected val mutex = Mutex()
-  protected val caches = mutableMapOf<K, Caller>()
+  // Don't use protected to avoid exposing to public API
+  internal val mutex = Mutex()
+
+  // Don't use protected to avoid exposing to public API
+  internal val caches = mutableMapOf<K, Caller>()
 
   final override suspend fun clear() =
       withContext(context = NonCancellable) {
@@ -71,8 +74,9 @@ protected constructor(
     storage: List<CacheStorage<V>>,
 ) : Cache {
 
-  @PublishedApi
-  internal val conductor: CacheOperator<V> =
+  // Don't use protected to avoid exposing to public API
+  // Don't use protected or else it's an IllegalAccessException at runtime
+  internal val conductor =
       CacheOperator.create(
           context,
           debugTag,

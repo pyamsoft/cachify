@@ -33,5 +33,5 @@ public object CachifyDefaults {
   @JvmField public var LOGGING_ENABLED: Boolean = false
 
   /** The global default coroutine context for Cachify operations */
-  public var DEFAULT_COROUTINE_CONTEXT: CoroutineContext = EmptyCoroutineContext
+  @JvmField public var DEFAULT_COROUTINE_CONTEXT: CoroutineContext = EmptyCoroutineContext
 }

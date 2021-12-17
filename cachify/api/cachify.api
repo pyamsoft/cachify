@@ -6,8 +6,6 @@ public abstract class com/pyamsoft/cachify/BaseCaller : com/pyamsoft/cachify/Cac
 public abstract class com/pyamsoft/cachify/BaseMulti : com/pyamsoft/cachify/Cache {
 	protected fun <init> (Lkotlin/coroutines/CoroutineContext;)V
 	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	protected final fun getCaches ()Ljava/util/Map;
-	protected final fun getMutex ()Lkotlinx/coroutines/sync/Mutex;
 }
 
 public abstract class com/pyamsoft/cachify/BaseMultiCaller : com/pyamsoft/cachify/Cache {
@@ -177,12 +175,11 @@ public final class com/pyamsoft/cachify/Cachify {
 }
 
 public final class com/pyamsoft/cachify/CachifyDefaults {
+	public static field DEFAULT_COROUTINE_CONTEXT Lkotlin/coroutines/CoroutineContext;
 	public static final field DEFAULT_TIME J
 	public static final field DEFAULT_UNIT Ljava/util/concurrent/TimeUnit;
 	public static final field INSTANCE Lcom/pyamsoft/cachify/CachifyDefaults;
 	public static field LOGGING_ENABLED Z
-	public final fun getDEFAULT_COROUTINE_CONTEXT ()Lkotlin/coroutines/CoroutineContext;
-	public final fun setDEFAULT_COROUTINE_CONTEXT (Lkotlin/coroutines/CoroutineContext;)V
 }
 
 public abstract interface class com/pyamsoft/cachify/Keyed : com/pyamsoft/cachify/Cache {
