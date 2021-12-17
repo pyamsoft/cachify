@@ -1,7 +1,6 @@
 public abstract class com/pyamsoft/cachify/BaseCaller : com/pyamsoft/cachify/Cache {
 	protected fun <init> (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)V
 	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	protected final fun getConductor ()Lcom/pyamsoft/cachify/CacheOperator;
 }
 
 public abstract class com/pyamsoft/cachify/BaseMulti : com/pyamsoft/cachify/Cache {
@@ -14,7 +13,6 @@ public abstract class com/pyamsoft/cachify/BaseMulti : com/pyamsoft/cachify/Cach
 public abstract class com/pyamsoft/cachify/BaseMultiCaller : com/pyamsoft/cachify/Cache {
 	protected fun <init> (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)V
 	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	protected final fun getConductor ()Lcom/pyamsoft/cachify/CacheOperator;
 }
 
 public abstract interface class com/pyamsoft/cachify/Cache {

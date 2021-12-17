@@ -71,7 +71,8 @@ protected constructor(
     storage: List<CacheStorage<V>>,
 ) : Cache {
 
-  protected val conductor =
+  @PublishedApi
+  internal val conductor: CacheOperator<V> =
       CacheOperator.create(
           context,
           debugTag,
