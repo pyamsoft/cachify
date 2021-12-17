@@ -1,0 +1,277 @@
+public abstract class com/pyamsoft/cachify/BaseCaller : com/pyamsoft/cachify/Cache {
+	protected fun <init> (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)V
+	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	protected final fun getConductor ()Lcom/pyamsoft/cachify/CacheOperator;
+}
+
+public abstract class com/pyamsoft/cachify/BaseMulti : com/pyamsoft/cachify/Cache {
+	protected fun <init> (Lkotlin/coroutines/CoroutineContext;)V
+	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	protected final fun getCaches ()Ljava/util/Map;
+	protected final fun getMutex ()Lkotlinx/coroutines/sync/Mutex;
+}
+
+public abstract class com/pyamsoft/cachify/BaseMultiCaller : com/pyamsoft/cachify/Cache {
+	protected fun <init> (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)V
+	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	protected final fun getConductor ()Lcom/pyamsoft/cachify/CacheOperator;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cache {
+	public abstract fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/CacheOperator : com/pyamsoft/cachify/Cache {
+	public static final field Companion Lcom/pyamsoft/cachify/CacheOperator$Companion;
+	public abstract fun cache (Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/pyamsoft/cachify/CacheOperator$Companion {
+}
+
+public abstract interface class com/pyamsoft/cachify/CacheStorage : com/pyamsoft/cachify/Cache {
+	public abstract fun cache (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun retrieve (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cached : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cached1 : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cached2 : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cached3 : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cached4 : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cached5 : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cached6 : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cached7 : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cached8 : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/Cached9 : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/pyamsoft/cachify/Cachify {
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function10;)Lcom/pyamsoft/cachify/Cached8;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function11;)Lcom/pyamsoft/cachify/Cached9;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/Cached;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/Cached1;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/Cached2;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/Cached3;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/Cached4;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/Cached5;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function8;)Lcom/pyamsoft/cachify/Cached6;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function9;)Lcom/pyamsoft/cachify/Cached7;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function10;)Lcom/pyamsoft/cachify/Cached8;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function11;)Lcom/pyamsoft/cachify/Cached9;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/Cached;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/Cached1;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/Cached2;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/Cached3;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/Cached4;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/Cached5;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function8;)Lcom/pyamsoft/cachify/Cached6;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function9;)Lcom/pyamsoft/cachify/Cached7;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function10;)Lcom/pyamsoft/cachify/Cached8;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function11;)Lcom/pyamsoft/cachify/Cached9;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/Cached;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/Cached1;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/Cached2;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/Cached3;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/Cached4;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/Cached5;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function8;)Lcom/pyamsoft/cachify/Cached6;
+	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function9;)Lcom/pyamsoft/cachify/Cached7;
+	public static final fun cachify (Lkotlin/jvm/functions/Function10;)Lcom/pyamsoft/cachify/Cached8;
+	public static final fun cachify (Lkotlin/jvm/functions/Function11;)Lcom/pyamsoft/cachify/Cached9;
+	public static final fun cachify (Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/Cached;
+	public static final fun cachify (Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/Cached1;
+	public static final fun cachify (Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/Cached2;
+	public static final fun cachify (Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/Cached3;
+	public static final fun cachify (Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/Cached4;
+	public static final fun cachify (Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/Cached5;
+	public static final fun cachify (Lkotlin/jvm/functions/Function8;)Lcom/pyamsoft/cachify/Cached6;
+	public static final fun cachify (Lkotlin/jvm/functions/Function9;)Lcom/pyamsoft/cachify/Cached7;
+	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function10;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached8;
+	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function11;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached9;
+	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached;
+	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached1;
+	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function4;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached2;
+	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function5;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached3;
+	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function6;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached4;
+	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function7;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached5;
+	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function8;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached6;
+	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function9;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached7;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function10;)Lcom/pyamsoft/cachify/MultiCached8;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function11;)Lcom/pyamsoft/cachify/MultiCached9;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/MultiCached;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/MultiCached1;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/MultiCached2;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/MultiCached3;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/MultiCached4;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/MultiCached5;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function8;)Lcom/pyamsoft/cachify/MultiCached6;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function9;)Lcom/pyamsoft/cachify/MultiCached7;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function10;)Lcom/pyamsoft/cachify/MultiCached8;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function11;)Lcom/pyamsoft/cachify/MultiCached9;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/MultiCached;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/MultiCached1;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/MultiCached2;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/MultiCached3;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/MultiCached4;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/MultiCached5;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function8;)Lcom/pyamsoft/cachify/MultiCached6;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function9;)Lcom/pyamsoft/cachify/MultiCached7;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function10;)Lcom/pyamsoft/cachify/MultiCached8;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function11;)Lcom/pyamsoft/cachify/MultiCached9;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/MultiCached;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/MultiCached1;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/MultiCached2;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/MultiCached3;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/MultiCached4;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/MultiCached5;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function8;)Lcom/pyamsoft/cachify/MultiCached6;
+	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function9;)Lcom/pyamsoft/cachify/MultiCached7;
+	public static final fun multiCachify (Lkotlin/jvm/functions/Function10;)Lcom/pyamsoft/cachify/MultiCached8;
+	public static final fun multiCachify (Lkotlin/jvm/functions/Function11;)Lcom/pyamsoft/cachify/MultiCached9;
+	public static final fun multiCachify (Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/MultiCached;
+	public static final fun multiCachify (Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/MultiCached1;
+	public static final fun multiCachify (Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/MultiCached2;
+	public static final fun multiCachify (Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/MultiCached3;
+	public static final fun multiCachify (Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/MultiCached4;
+	public static final fun multiCachify (Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/MultiCached5;
+	public static final fun multiCachify (Lkotlin/jvm/functions/Function8;)Lcom/pyamsoft/cachify/MultiCached6;
+	public static final fun multiCachify (Lkotlin/jvm/functions/Function9;)Lcom/pyamsoft/cachify/MultiCached7;
+	public static synthetic fun multiCachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function10;ILjava/lang/Object;)Lcom/pyamsoft/cachify/MultiCached8;
+	public static synthetic fun multiCachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function11;ILjava/lang/Object;)Lcom/pyamsoft/cachify/MultiCached9;
+	public static synthetic fun multiCachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/pyamsoft/cachify/MultiCached;
+	public static synthetic fun multiCachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lcom/pyamsoft/cachify/MultiCached1;
+	public static synthetic fun multiCachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function4;ILjava/lang/Object;)Lcom/pyamsoft/cachify/MultiCached2;
+	public static synthetic fun multiCachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function5;ILjava/lang/Object;)Lcom/pyamsoft/cachify/MultiCached3;
+	public static synthetic fun multiCachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function6;ILjava/lang/Object;)Lcom/pyamsoft/cachify/MultiCached4;
+	public static synthetic fun multiCachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function7;ILjava/lang/Object;)Lcom/pyamsoft/cachify/MultiCached5;
+	public static synthetic fun multiCachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function8;ILjava/lang/Object;)Lcom/pyamsoft/cachify/MultiCached6;
+	public static synthetic fun multiCachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function9;ILjava/lang/Object;)Lcom/pyamsoft/cachify/MultiCached7;
+	public static final fun tag (Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;
+}
+
+public final class com/pyamsoft/cachify/CachifyDefaults {
+	public static final field DEFAULT_TIME J
+	public static final field DEFAULT_UNIT Ljava/util/concurrent/TimeUnit;
+	public static final field INSTANCE Lcom/pyamsoft/cachify/CachifyDefaults;
+	public static field LOGGING_ENABLED Z
+	public final fun getDEFAULT_COROUTINE_CONTEXT ()Lkotlin/coroutines/CoroutineContext;
+	public final fun setDEFAULT_COROUTINE_CONTEXT (Lkotlin/coroutines/CoroutineContext;)V
+}
+
+public abstract interface class com/pyamsoft/cachify/Keyed : com/pyamsoft/cachify/Cache {
+	public abstract fun key (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/pyamsoft/cachify/MemoryCacheStorage : com/pyamsoft/cachify/CacheStorage {
+	public static final field Companion Lcom/pyamsoft/cachify/MemoryCacheStorage$Companion;
+	public fun cache (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun create (J)Lcom/pyamsoft/cachify/CacheStorage;
+	public static final fun create (JLjava/util/concurrent/TimeUnit;)Lcom/pyamsoft/cachify/CacheStorage;
+	public fun retrieve (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/pyamsoft/cachify/MemoryCacheStorage$Companion {
+	public final fun create (J)Lcom/pyamsoft/cachify/CacheStorage;
+	public final fun create (JLjava/util/concurrent/TimeUnit;)Lcom/pyamsoft/cachify/CacheStorage;
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached : com/pyamsoft/cachify/Keyed {
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached$Caller : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached1 : com/pyamsoft/cachify/Keyed {
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached1$Caller : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached2 : com/pyamsoft/cachify/Keyed {
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached2$Caller : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached3 : com/pyamsoft/cachify/Keyed {
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached3$Caller : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached4 : com/pyamsoft/cachify/Keyed {
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached4$Caller : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached5 : com/pyamsoft/cachify/Keyed {
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached5$Caller : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached6 : com/pyamsoft/cachify/Keyed {
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached6$Caller : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached7 : com/pyamsoft/cachify/Keyed {
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached7$Caller : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached8 : com/pyamsoft/cachify/Keyed {
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached8$Caller : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached9 : com/pyamsoft/cachify/Keyed {
+}
+
+public abstract interface class com/pyamsoft/cachify/MultiCached9$Caller : com/pyamsoft/cachify/Cache {
+	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
