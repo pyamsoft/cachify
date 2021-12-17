@@ -17,6 +17,8 @@
 package com.pyamsoft.cachify
 
 import java.util.concurrent.TimeUnit
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 /** Cachify internal constants */
 public object CachifyDefaults {
@@ -29,4 +31,7 @@ public object CachifyDefaults {
 
   /** Is logging globally enabled */
   @JvmField public var LOGGING_ENABLED: Boolean = false
+
+  /** The global default coroutine context for Cachify operations */
+  public var DEFAULT_COROUTINE_CONTEXT: CoroutineContext = EmptyCoroutineContext
 }

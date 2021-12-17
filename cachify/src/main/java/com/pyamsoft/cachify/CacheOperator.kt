@@ -17,6 +17,7 @@
 package com.pyamsoft.cachify
 
 import androidx.annotation.CheckResult
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 
 /** Performs cache operations */
@@ -27,13 +28,19 @@ public interface CacheOperator<V : Any> : Cache {
 
   public companion object {
 
+    /** Create a new CacheOperation, which for us at runtime is an Orchestrator */
     @CheckResult
     @PublishedApi
     internal fun <T : Any> create(
+        context: CoroutineContext,
         debugTag: String,
-        storage: List<CacheStorage<T>>
+        storage: List<CacheStorage<T>>,
     ): CacheOperator<T> {
-      return CacheOrchestrator(debugTag, storage)
+      return CacheOrchestrator(
+          context,
+          debugTag,
+          storage,
+      )
     }
   }
 }

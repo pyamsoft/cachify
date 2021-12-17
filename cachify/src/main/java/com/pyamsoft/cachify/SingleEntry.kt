@@ -19,235 +19,277 @@
 
 package com.pyamsoft.cachify
 
+import androidx.annotation.CheckResult
 import com.pyamsoft.cachify.CachifyDefaults.DEFAULT_TIME
 import com.pyamsoft.cachify.CachifyDefaults.DEFAULT_UNIT
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.withContext
+
+/** Base class for a Cached*.Caller object */
+@PublishedApi
+internal abstract class BaseCaller<V : Any>
+protected constructor(
+    private val context: CoroutineContext,
+    debugTag: String,
+    storage: List<CacheStorage<V>>,
+) : Cache {
+
+  protected val conductor =
+      CacheOperator.create(
+          context,
+          debugTag,
+          storage,
+      )
+
+  final override suspend fun clear() =
+      withContext(context = NonCancellable) {
+        // Maybe we can simplify this with a withContext(context = NonCancellable +
+        // context)
+        // but I don't know enough about Coroutines right now to figure out if that works
+        // or if plussing the contexts will remove NonCancel, so here we go instead.
+        withContext(context = context) {
+          // Coroutine scope here to make sure if anything throws an error we catch it in
+          // the scope
+          conductor.clear()
+        }
+      }
+}
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
 @JvmOverloads
 public inline fun <R : Any> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
     debugTag: String = "",
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
     crossinline upstream: suspend CoroutineScope.() -> R
 ): Cached<R> {
-  return object : Cached<R> {
-
-    private val conductor = CacheOperator.create(debugTag, storage())
+  return object : BaseCaller<R>(context, debugTag, storage()), Cached<R> {
 
     private val operation: suspend CoroutineScope.() -> R = { upstream(this) }
 
-    override suspend fun clear() {
-      conductor.clear()
-    }
-
-    override suspend fun call(): R {
-      return conductor.cache(operation)
-    }
+    override suspend fun call(): R = withContext(context = context) { conductor.cache(operation) }
   }
 }
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
 @JvmOverloads
 public inline fun <R : Any, T1> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
     debugTag: String = "",
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
     crossinline upstream: suspend CoroutineScope.(T1) -> R
 ): Cached1<R, T1> {
-  return object : Cached1<R, T1> {
+  return object : BaseCaller<R>(context, debugTag, storage()), Cached1<R, T1> {
 
-    private val conductor = CacheOperator.create(debugTag, storage())
-
-    override suspend fun clear() {
-      conductor.clear()
-    }
-
-    override suspend fun call(p1: T1): R {
-      return conductor.cache { upstream(p1) }
-    }
+    override suspend fun call(p1: T1): R = conductor.cache { upstream(p1) }
   }
 }
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
 @JvmOverloads
 public inline fun <R : Any, T1, T2> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
     debugTag: String = "",
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
     crossinline upstream: suspend CoroutineScope.(T1, T2) -> R
 ): Cached2<R, T1, T2> {
-  return object : Cached2<R, T1, T2> {
+  return object : BaseCaller<R>(context, debugTag, storage()), Cached2<R, T1, T2> {
 
-    private val conductor = CacheOperator.create(debugTag, storage())
-
-    override suspend fun clear() {
-      conductor.clear()
-    }
-
-    override suspend fun call(p1: T1, p2: T2): R {
-      return conductor.cache { upstream(p1, p2) }
-    }
+    override suspend fun call(p1: T1, p2: T2): R = conductor.cache { upstream(p1, p2) }
   }
 }
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
     debugTag: String = "",
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> R
 ): Cached3<R, T1, T2, T3> {
-  return object : Cached3<R, T1, T2, T3> {
+  return object : BaseCaller<R>(context, debugTag, storage()), Cached3<R, T1, T2, T3> {
 
-    private val conductor = CacheOperator.create(debugTag, storage())
-
-    override suspend fun clear() {
-      conductor.clear()
-    }
-
-    override suspend fun call(p1: T1, p2: T2, p3: T3): R {
-      return conductor.cache { upstream(p1, p2, p3) }
-    }
+    override suspend fun call(p1: T1, p2: T2, p3: T3): R = conductor.cache { upstream(p1, p2, p3) }
   }
 }
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
     debugTag: String = "",
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R
 ): Cached4<R, T1, T2, T3, T4> {
-  return object : Cached4<R, T1, T2, T3, T4> {
+  return object : BaseCaller<R>(context, debugTag, storage()), Cached4<R, T1, T2, T3, T4> {
 
-    private val conductor = CacheOperator.create(debugTag, storage())
-
-    override suspend fun clear() {
-      conductor.clear()
-    }
-
-    override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): R {
-      return conductor.cache { upstream(p1, p2, p3, p4) }
-    }
+    override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): R =
+        conductor.cache { upstream(p1, p2, p3, p4) }
   }
 }
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
 @JvmOverloads
 public inline fun <R : Any, T1, T2, T3, T4, T5> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
     debugTag: String = "",
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R
 ): Cached5<R, T1, T2, T3, T4, T5> {
-  return object : Cached5<R, T1, T2, T3, T4, T5> {
+  return object : BaseCaller<R>(context, debugTag, storage()), Cached5<R, T1, T2, T3, T4, T5> {
 
-    private val conductor = CacheOperator.create(debugTag, storage())
-
-    override suspend fun clear() {
-      conductor.clear()
-    }
-
-    override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): R {
-      return conductor.cache { upstream(p1, p2, p3, p4, p5) }
-    }
+    override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): R =
+        conductor.cache { upstream(p1, p2, p3, p4, p5) }
   }
 }
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
 @JvmOverloads
+@Deprecated("You probably shouldn't be making functions with over 5 parameters.")
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
     debugTag: String = "",
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6) -> R
 ): Cached6<R, T1, T2, T3, T4, T5, T6> {
-  return object : Cached6<R, T1, T2, T3, T4, T5, T6> {
+  return object : BaseCaller<R>(context, debugTag, storage()), Cached6<R, T1, T2, T3, T4, T5, T6> {
 
-    private val conductor = CacheOperator.create(debugTag, storage())
-
-    override suspend fun clear() {
-      conductor.clear()
-    }
-
-    override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6): R {
-      return conductor.cache { upstream(p1, p2, p3, p4, p5, p6) }
-    }
+    override suspend fun call(
+        p1: T1,
+        p2: T2,
+        p3: T3,
+        p4: T4,
+        p5: T5,
+        p6: T6,
+    ): R =
+        conductor.cache {
+          upstream(
+              p1,
+              p2,
+              p3,
+              p4,
+              p5,
+              p6,
+          )
+        }
   }
 }
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
 @JvmOverloads
+@Deprecated("You probably shouldn't be making functions with over 5 parameters.")
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
     debugTag: String = "",
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7) -> R
 ): Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
-  return object : Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
+  return object :
+      BaseCaller<R>(context, debugTag, storage()), Cached7<R, T1, T2, T3, T4, T5, T6, T7> {
 
-    private val conductor = CacheOperator.create(debugTag, storage())
-
-    override suspend fun clear() {
-      conductor.clear()
-    }
-
-    override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7): R {
-      return conductor.cache { upstream(p1, p2, p3, p4, p5, p6, p7) }
-    }
+    override suspend fun call(
+        p1: T1,
+        p2: T2,
+        p3: T3,
+        p4: T4,
+        p5: T5,
+        p6: T6,
+        p7: T7,
+    ): R =
+        conductor.cache {
+          upstream(
+              p1,
+              p2,
+              p3,
+              p4,
+              p5,
+              p6,
+              p7,
+          )
+        }
   }
 }
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
 @JvmOverloads
+@Deprecated("You probably shouldn't be making functions with over 5 parameters.")
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
     debugTag: String = "",
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8) -> R
 ): Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
-  return object : Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
+  return object :
+      BaseCaller<R>(context, debugTag, storage()), Cached8<R, T1, T2, T3, T4, T5, T6, T7, T8> {
 
-    private val conductor = CacheOperator.create(debugTag, storage())
-
-    override suspend fun clear() {
-      conductor.clear()
-    }
-
-    override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5, p6: T6, p7: T7, p8: T8): R {
-      return conductor.cache { upstream(p1, p2, p3, p4, p5, p6, p7, p8) }
-    }
+    override suspend fun call(
+        p1: T1,
+        p2: T2,
+        p3: T3,
+        p4: T4,
+        p5: T5,
+        p6: T6,
+        p7: T7,
+        p8: T8,
+    ): R =
+        conductor.cache {
+          upstream(
+              p1,
+              p2,
+              p3,
+              p4,
+              p5,
+              p6,
+              p7,
+              p8,
+          )
+        }
   }
 }
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
 @JvmOverloads
+@Deprecated("You probably shouldn't be making functions with over 5 parameters.")
 public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
     debugTag: String = "",
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5, T6, T7, T8, T9) -> R
 ): Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
-  return object : Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
-
-    private val conductor = CacheOperator.create(debugTag, storage())
-
-    override suspend fun clear() {
-      conductor.clear()
-    }
+  return object :
+      BaseCaller<R>(context, debugTag, storage()), Cached9<R, T1, T2, T3, T4, T5, T6, T7, T8, T9> {
 
     override suspend fun call(
         p1: T1,
@@ -259,8 +301,19 @@ public inline fun <R : Any, T1, T2, T3, T4, T5, T6, T7, T8, T9> cachify(
         p7: T7,
         p8: T8,
         p9: T9
-    ): R {
-      return conductor.cache { upstream(p1, p2, p3, p4, p5, p6, p7, p8, p9) }
-    }
+    ): R =
+        conductor.cache {
+          upstream(
+              p1,
+              p2,
+              p3,
+              p4,
+              p5,
+              p6,
+              p7,
+              p8,
+              p9,
+          )
+        }
   }
 }

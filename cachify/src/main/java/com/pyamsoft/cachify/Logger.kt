@@ -18,7 +18,10 @@ package com.pyamsoft.cachify
 
 import android.util.Log
 
-internal class Logger internal constructor(private val debugTag: String) {
+internal class Logger
+internal constructor(
+    private val debugTag: String,
+) {
 
   /** Log a message if the logger is enabled */
   inline fun log(func: () -> String) {

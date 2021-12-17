@@ -83,21 +83,22 @@ internal class CacheRunner<T : Any> internal constructor(private val logger: Log
    * Make sure the activeTask is actually us, otherwise we don't need to do anything Fast path in
    * this case only since we have the id to guard with as well as the state of activeTask
    */
-  private suspend fun clearActiveTask(runner: Runner<T>) {
-    if (activeRunner?.id == runner.id) {
-      // Run in the NonCancellable context because the mutex must be claimed to free the activeTask
-      // or else we will leak memory.
+  private suspend fun clearActiveTask(runner: Runner<T>) =
       withContext(context = NonCancellable) {
-        mutex.withLock {
-          // Check again to make sure we really are the active task
-          if (activeRunner?.id == runner.id) {
-            logger.log { "Releasing task ${runner.id} since it is complete" }
-            activeRunner = null
+        // Run in the NonCancellable context because the mutex must be claimed to free the
+        // activeTask or else we will leak memory.
+        if (activeRunner?.id == runner.id) {
+          mutex.withLock {
+            // Check again to make sure we really are the active task
+            // Since someone else could have become the active task in
+            // between us checking above and us claiming the lock here
+            if (activeRunner?.id == runner.id) {
+              logger.log { "Releasing task ${runner.id} since it is complete" }
+              activeRunner = null
+            }
           }
         }
       }
-    }
-  }
 
   suspend inline fun fetch(
       scope: CoroutineScope,
@@ -115,7 +116,10 @@ internal class CacheRunner<T : Any> internal constructor(private val logger: Log
   }
 
   /** Runner holds a deferred identified by a unique id */
-  private data class Runner<T : Any>(val id: String, val task: Deferred<T>)
+  private data class Runner<T : Any>(
+      val id: String,
+      val task: Deferred<T>,
+  )
 
   companion object {
 
