@@ -18,8 +18,8 @@
 
 buildscript {
   ext {
-    kotlin_version = '1.6.10'
-    dokka_version = "1.6.21"
+    kotlin_version = '1.7.10'
+    dokka_version = "1.7.10"
   }
   repositories {
     mavenLocal()
