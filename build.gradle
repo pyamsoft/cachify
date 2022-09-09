@@ -34,7 +34,7 @@ buildscript {
   ext {
 
     minSdk = 22
-    maxSdk = 32
+    maxSdk = 33
 
     coroutines = '1.6.4'
     annotation = '1.4.0'
