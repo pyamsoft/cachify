@@ -15,6 +15,7 @@
  */
 
 android {
+  namespace "com.pyamsoft.cachify"
 
   kotlinOptions {
     freeCompilerArgs += '-Xexplicit-api=strict'
