@@ -22,79 +22,19 @@ package com.pyamsoft.cachify
 import androidx.annotation.CheckResult
 import com.pyamsoft.cachify.CachifyDefaults.DEFAULT_TIME
 import com.pyamsoft.cachify.CachifyDefaults.DEFAULT_UNIT
+import com.pyamsoft.cachify.internal.BaseMultiCached
+import com.pyamsoft.cachify.internal.BaseMultiCacheCaller
+import com.pyamsoft.cachify.storage.CacheStorage
+import com.pyamsoft.cachify.storage.MemoryCacheStorage
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.NonCancellable
-import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 
 /** Create a debugTag for each multi-caller cache entry */
 @CheckResult
 @PublishedApi
 internal fun <K : Any> K.tag(debugTag: String): String {
   return if (debugTag.isBlank()) "" else "$debugTag-$this"
-}
-
-/** Base class for a MultiCached object */
-@PublishedApi
-internal abstract class BaseMulti<K : Any, Caller : Cache>
-protected constructor(
-    private val context: CoroutineContext,
-) : Cache {
-
-  // Don't use protected to avoid exposing to public API
-  internal val mutex = Mutex()
-
-  // Don't use protected to avoid exposing to public API
-  internal val caches = mutableMapOf<K, Caller>()
-
-  final override suspend fun clear() =
-      withContext(context = NonCancellable) {
-        // Maybe we can simplify this with a withContext(context = NonCancellable + context)
-        // but I don't know enough about Coroutines right now to figure out if that works
-        // or if plussing the contexts will remove NonCancel, so here we go instead.
-        withContext(context = context) {
-          // Coroutine scope here to make sure if anything throws an error we catch it in the
-          // scope
-          mutex.withLock {
-            caches.forEach { it.value.clear() }
-            caches.clear()
-          }
-        }
-      }
-}
-
-/** Base class for a MultiCached*.Caller object */
-@PublishedApi
-internal abstract class BaseMultiCaller<V : Any>
-protected constructor(
-    private val context: CoroutineContext,
-    debugTag: String,
-    storage: List<CacheStorage<V>>,
-) : Cache {
-
-  // Don't use protected to avoid exposing to public API
-  // Don't use protected or else it's an IllegalAccessException at runtime
-  internal val conductor =
-      CacheOperator.create(
-          context,
-          debugTag,
-          storage,
-      )
-
-  final override suspend fun clear() =
-      withContext(context = NonCancellable) {
-        // Maybe we can simplify this with a withContext(context = NonCancellable +
-        // context)
-        // but I don't know enough about Coroutines right now to figure out if that works
-        // or if plussing the contexts will remove NonCancel, so here we go instead.
-        withContext(context = context) {
-          // Coroutine scope here to make sure if anything throws an error we catch it in
-          // the scope
-          conductor.clear()
-        }
-      }
 }
 
 /** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
@@ -108,17 +48,27 @@ public inline fun <K : Any, V : Any> multiCachify(
     },
     crossinline upstream: suspend CoroutineScope.() -> V,
 ): MultiCached<K, V> {
-  return object : BaseMulti<K, MultiCached.Caller<V>>(context), MultiCached<K, V> {
+  return object :
+      MultiCached<K, V>,
+      BaseMultiCached<K, MultiCached.Caller<V>>(
+          context = context,
+      ) {
 
     override suspend fun key(key: K): MultiCached.Caller<V> {
       return mutex.withLock {
         caches.getOrPut(key) {
           object :
-              BaseMultiCaller<V>(context, key.tag(debugTag), storage()), MultiCached.Caller<V> {
+              MultiCached.Caller<V>,
+              BaseMultiCacheCaller<V>(
+                  context = context,
+                  debugTag = key.tag(debugTag),
+                  storage = storage(),
+              ) {
 
+            // Cache the operation here to avoid re-allocation
             private val operation: suspend CoroutineScope.() -> V = { upstream(this) }
 
-            override suspend fun call(): V = conductor.cache(operation)
+            override suspend fun call(): V = orchestrator.fetch(operation)
           }
         }
       }
@@ -137,16 +87,24 @@ public inline fun <K : Any, V : Any, T1> multiCachify(
     },
     crossinline upstream: suspend CoroutineScope.(T1) -> V
 ): MultiCached1<K, V, T1> {
-  return object : BaseMulti<K, MultiCached1.Caller<V, T1>>(context), MultiCached1<K, V, T1> {
+  return object :
+      MultiCached1<K, V, T1>,
+      BaseMultiCached<K, MultiCached1.Caller<V, T1>>(
+          context = context,
+      ) {
 
     override suspend fun key(key: K): MultiCached1.Caller<V, T1> {
       return mutex.withLock {
         caches.getOrPut(key) {
           object :
-              BaseMultiCaller<V>(context, key.tag(debugTag), storage()),
-              MultiCached1.Caller<V, T1> {
+              MultiCached1.Caller<V, T1>,
+              BaseMultiCacheCaller<V>(
+                  context = context,
+                  debugTag = key.tag(debugTag),
+                  storage = storage(),
+              ) {
 
-            override suspend fun call(p1: T1): V = conductor.cache { upstream(p1) }
+            override suspend fun call(p1: T1): V = orchestrator.fetch { upstream(p1) }
           }
         }
       }
@@ -166,16 +124,26 @@ public inline fun <K : Any, V : Any, T1, T2> multiCachify(
     crossinline upstream: suspend CoroutineScope.(T1, T2) -> V
 ): MultiCached2<K, V, T1, T2> {
   return object :
-      BaseMulti<K, MultiCached2.Caller<V, T1, T2>>(context), MultiCached2<K, V, T1, T2> {
+      MultiCached2<K, V, T1, T2>,
+      BaseMultiCached<K, MultiCached2.Caller<V, T1, T2>>(
+          context = context,
+      ) {
 
     override suspend fun key(key: K): MultiCached2.Caller<V, T1, T2> {
       return mutex.withLock {
         caches.getOrPut(key) {
           object :
-              BaseMultiCaller<V>(context, key.tag(debugTag), storage()),
-              MultiCached2.Caller<V, T1, T2> {
+              MultiCached2.Caller<V, T1, T2>,
+              BaseMultiCacheCaller<V>(
+                  context = context,
+                  debugTag = key.tag(debugTag),
+                  storage = storage(),
+              ) {
 
-            override suspend fun call(p1: T1, p2: T2): V = conductor.cache { upstream(p1, p2) }
+            override suspend fun call(
+                p1: T1,
+                p2: T2,
+            ): V = orchestrator.fetch { upstream(p1, p2) }
           }
         }
       }
@@ -195,17 +163,27 @@ public inline fun <K : Any, V : Any, T1, T2, T3> multiCachify(
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> V
 ): MultiCached3<K, V, T1, T2, T3> {
   return object :
-      BaseMulti<K, MultiCached3.Caller<V, T1, T2, T3>>(context), MultiCached3<K, V, T1, T2, T3> {
+      MultiCached3<K, V, T1, T2, T3>,
+      BaseMultiCached<K, MultiCached3.Caller<V, T1, T2, T3>>(
+          context = context,
+      ) {
 
     override suspend fun key(key: K): MultiCached3.Caller<V, T1, T2, T3> {
       return mutex.withLock {
         caches.getOrPut(key) {
           object :
-              BaseMultiCaller<V>(context, key.tag(debugTag), storage()),
-              MultiCached3.Caller<V, T1, T2, T3> {
+              MultiCached3.Caller<V, T1, T2, T3>,
+              BaseMultiCacheCaller<V>(
+                  context = context,
+                  debugTag = key.tag(debugTag),
+                  storage = storage(),
+              ) {
 
-            override suspend fun call(p1: T1, p2: T2, p3: T3): V =
-                conductor.cache { upstream(p1, p2, p3) }
+            override suspend fun call(
+                p1: T1,
+                p2: T2,
+                p3: T3,
+            ): V = orchestrator.fetch { upstream(p1, p2, p3) }
           }
         }
       }
@@ -225,18 +203,28 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V
 ): MultiCached4<K, V, T1, T2, T3, T4> {
   return object :
-      BaseMulti<K, MultiCached4.Caller<V, T1, T2, T3, T4>>(context),
-      MultiCached4<K, V, T1, T2, T3, T4> {
+      MultiCached4<K, V, T1, T2, T3, T4>,
+      BaseMultiCached<K, MultiCached4.Caller<V, T1, T2, T3, T4>>(
+          context = context,
+      ) {
 
     override suspend fun key(key: K): MultiCached4.Caller<V, T1, T2, T3, T4> {
       return mutex.withLock {
         caches.getOrPut(key) {
           object :
-              BaseMultiCaller<V>(context, key.tag(debugTag), storage()),
-              MultiCached4.Caller<V, T1, T2, T3, T4> {
+              MultiCached4.Caller<V, T1, T2, T3, T4>,
+              BaseMultiCacheCaller<V>(
+                  context = context,
+                  debugTag = key.tag(debugTag),
+                  storage = storage(),
+              ) {
 
-            override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): V =
-                conductor.cache { upstream(p1, p2, p3, p4) }
+            override suspend fun call(
+                p1: T1,
+                p2: T2,
+                p3: T3,
+                p4: T4,
+            ): V = orchestrator.fetch { upstream(p1, p2, p3, p4) }
           }
         }
       }
@@ -255,18 +243,29 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
     crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V
 ): MultiCached5<K, V, T1, T2, T3, T4, T5> {
   return object :
-      BaseMulti<K, MultiCached5.Caller<V, T1, T2, T3, T4, T5>>(context),
-      MultiCached5<K, V, T1, T2, T3, T4, T5> {
+      MultiCached5<K, V, T1, T2, T3, T4, T5>,
+      BaseMultiCached<K, MultiCached5.Caller<V, T1, T2, T3, T4, T5>>(
+          context = context,
+      ) {
 
     override suspend fun key(key: K): MultiCached5.Caller<V, T1, T2, T3, T4, T5> {
       return mutex.withLock {
         caches.getOrPut(key) {
           object :
-              BaseMultiCaller<V>(context, key.tag(debugTag), storage()),
-              MultiCached5.Caller<V, T1, T2, T3, T4, T5> {
+              MultiCached5.Caller<V, T1, T2, T3, T4, T5>,
+              BaseMultiCacheCaller<V>(
+                  context = context,
+                  debugTag = key.tag(debugTag),
+                  storage = storage(),
+              ) {
 
-            override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): V =
-                conductor.cache { upstream(p1, p2, p3, p4, p5) }
+            override suspend fun call(
+                p1: T1,
+                p2: T2,
+                p3: T3,
+                p4: T4,
+                p5: T5,
+            ): V = orchestrator.fetch { upstream(p1, p2, p3, p4, p5) }
           }
         }
       }

@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.pyamsoft.cachify
+package com.pyamsoft.cachify.internal
 
+import com.pyamsoft.cachify.Cache
+import com.pyamsoft.cachify.storage.CacheStorage
 import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.NonCancellable
@@ -24,16 +26,17 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
-internal class CacheOrchestrator<T : Any>
+@PublishedApi
+internal data class CacheOrchestrator<T : Any>
 internal constructor(
     private val context: CoroutineContext,
-    debugTag: String,
+    private val debugTag: String,
     private val storage: List<CacheStorage<T>>,
-) : CacheOperator<T> {
+) : Cache {
 
   private val mutex = Mutex()
-  private val logger: Logger = Logger(debugTag)
-  private val runner: CacheRunner<T> = CacheRunner(logger)
+  private val logger = Logger(debugTag)
+  private val runner = CacheRunner<T>(context, logger)
 
   override suspend fun clear() =
       withContext(context = NonCancellable) {
@@ -47,29 +50,26 @@ internal constructor(
         }
       }
 
-  override suspend fun cache(upstream: suspend CoroutineScope.() -> T): T =
+  /**
+   * Implements the cache-then-network policy
+   *
+   * Fetches data from caches that are valid otherwise it hits upstream
+   */
+  suspend fun fetch(upstream: suspend CoroutineScope.() -> T): T =
       withContext(context = context) {
-        logger.log { "Running call for cache" }
-
         // Coroutine scope here to make sure if anything throws an error we catch it in the scope
         return@withContext coroutineScope {
           mutex.withLock {
-            for (index in storage.indices) {
-              val cache = storage[index]
+            for (cache in storage) {
               val cached = cache.retrieve()
               if (cached != null) {
-                logger.log { "Cached data from cache #$index" }
+                logger.log { "Cached data from cache cache" }
                 return@coroutineScope cached
               }
             }
           }
 
-          val result =
-              runner.fetch(this) {
-                logger.log { "Fetching data from upstream" }
-                return@fetch upstream()
-              }
-
+          val result = runner.fetch(this) { upstream() }
           logger.log { "Retrieved result from upstream: $result" }
           mutex.withLock { storage.forEach { it.cache(result) } }
           return@coroutineScope result

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.pyamsoft.cachify
+package com.pyamsoft.cachify.storage
 
 import androidx.annotation.CheckResult
+import com.pyamsoft.cachify.Cache
 
 /** Interface contract which Cachify uses to save data into a representation of cache */
 public interface CacheStorage<T : Any> : Cache {

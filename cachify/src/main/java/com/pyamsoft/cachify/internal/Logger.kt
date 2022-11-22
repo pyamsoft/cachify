@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.pyamsoft.cachify
+package com.pyamsoft.cachify.internal
 
 import android.util.Log
+import com.pyamsoft.cachify.CachifyDefaults
 
 internal class Logger
 internal constructor(

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.pyamsoft.cachify
+package com.pyamsoft.cachify.storage
 
 import androidx.annotation.CheckResult
 import java.util.concurrent.TimeUnit
