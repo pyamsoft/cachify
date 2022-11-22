@@ -74,7 +74,7 @@ subprojects {
   apply plugin: "org.gradle.android.cache-fix"
 
   final String POM_GROUP = "com.github.pyamsoft"
-  final String POM_VERSION = "0.1.0"
+  final String POM_VERSION = "0.1.1-SNAPSHOT"
 
   android {
     compileSdkVersion rootProject.ext.maxSdk
