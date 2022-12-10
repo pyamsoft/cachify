@@ -1,34 +1,5 @@
-public abstract class com/pyamsoft/cachify/BaseCaller : com/pyamsoft/cachify/Cache {
-	protected fun <init> (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)V
-	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun getConductor ()Lcom/pyamsoft/cachify/CacheOperator;
-}
-
-public abstract class com/pyamsoft/cachify/BaseMulti : com/pyamsoft/cachify/Cache {
-	protected fun <init> (Lkotlin/coroutines/CoroutineContext;)V
-	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public abstract class com/pyamsoft/cachify/BaseMultiCaller : com/pyamsoft/cachify/Cache {
-	protected fun <init> (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)V
-	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
 public abstract interface class com/pyamsoft/cachify/Cache {
 	public abstract fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public abstract interface class com/pyamsoft/cachify/CacheOperator : com/pyamsoft/cachify/Cache {
-	public static final field Companion Lcom/pyamsoft/cachify/CacheOperator$Companion;
-	public abstract fun cache (Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class com/pyamsoft/cachify/CacheOperator$Companion {
-}
-
-public abstract interface class com/pyamsoft/cachify/CacheStorage : com/pyamsoft/cachify/Cache {
-	public abstract fun cache (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public abstract fun retrieve (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public abstract interface class com/pyamsoft/cachify/Cached : com/pyamsoft/cachify/Cache {
@@ -131,20 +102,6 @@ public abstract interface class com/pyamsoft/cachify/Keyed : com/pyamsoft/cachif
 	public abstract fun key (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
-public final class com/pyamsoft/cachify/MemoryCacheStorage : com/pyamsoft/cachify/CacheStorage {
-	public static final field Companion Lcom/pyamsoft/cachify/MemoryCacheStorage$Companion;
-	public fun cache (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public static final fun create (J)Lcom/pyamsoft/cachify/CacheStorage;
-	public static final fun create (JLjava/util/concurrent/TimeUnit;)Lcom/pyamsoft/cachify/CacheStorage;
-	public fun retrieve (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-}
-
-public final class com/pyamsoft/cachify/MemoryCacheStorage$Companion {
-	public final fun create (J)Lcom/pyamsoft/cachify/CacheStorage;
-	public final fun create (JLjava/util/concurrent/TimeUnit;)Lcom/pyamsoft/cachify/CacheStorage;
-}
-
 public abstract interface class com/pyamsoft/cachify/MultiCached : com/pyamsoft/cachify/Keyed {
 }
 
@@ -185,5 +142,49 @@ public abstract interface class com/pyamsoft/cachify/MultiCached5 : com/pyamsoft
 
 public abstract interface class com/pyamsoft/cachify/MultiCached5$Caller : com/pyamsoft/cachify/Cache {
 	public abstract fun call (Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class com/pyamsoft/cachify/internal/BaseCacheCaller : com/pyamsoft/cachify/Cache {
+	protected fun <init> (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)V
+	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class com/pyamsoft/cachify/internal/BaseMultiCacheCaller : com/pyamsoft/cachify/Cache {
+	protected fun <init> (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)V
+	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public abstract class com/pyamsoft/cachify/internal/BaseMultiCached : com/pyamsoft/cachify/Cache {
+	protected fun <init> (Lkotlin/coroutines/CoroutineContext;)V
+	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/pyamsoft/cachify/internal/CacheOrchestrator : com/pyamsoft/cachify/Cache {
+	public fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun copy (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)Lcom/pyamsoft/cachify/internal/CacheOrchestrator;
+	public static synthetic fun copy$default (Lcom/pyamsoft/cachify/internal/CacheOrchestrator;Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/pyamsoft/cachify/internal/CacheOrchestrator;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun fetch (Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public abstract interface class com/pyamsoft/cachify/storage/CacheStorage : com/pyamsoft/cachify/Cache {
+	public abstract fun cache (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public abstract fun retrieve (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/pyamsoft/cachify/storage/MemoryCacheStorage : com/pyamsoft/cachify/storage/CacheStorage {
+	public static final field Companion Lcom/pyamsoft/cachify/storage/MemoryCacheStorage$Companion;
+	public fun cache (Ljava/lang/Object;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static final fun create (J)Lcom/pyamsoft/cachify/storage/CacheStorage;
+	public static final fun create (JLjava/util/concurrent/TimeUnit;)Lcom/pyamsoft/cachify/storage/CacheStorage;
+	public fun retrieve (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
+public final class com/pyamsoft/cachify/storage/MemoryCacheStorage$Companion {
+	public final fun create (J)Lcom/pyamsoft/cachify/storage/CacheStorage;
+	public final fun create (JLjava/util/concurrent/TimeUnit;)Lcom/pyamsoft/cachify/storage/CacheStorage;
 }
 
