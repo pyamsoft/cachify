@@ -18,63 +18,70 @@
 
 buildscript {
   ext {
-    kotlin_version = '1.8.0'
-    dokka_version = "1.7.20"
-  }
-  repositories {
-    mavenLocal()
-    google()
-    mavenCentral()
-
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-
-  ext {
-
+    // SDK
     minSdk = 22
     maxSdk = 33
 
-    coroutines = '1.6.4'
-    annotation = '1.5.0'
-  }
-
-  dependencies {
-    classpath "com.android.tools.build:gradle:7.4.0"
-
-    // Gradle version checker
-    classpath 'com.github.ben-manes:gradle-versions-plugin:0.44.0'
-
     // Kotlin
-    classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    kotlin_version = '1.8.0'
 
-    // Dokka
-    classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+    // Kotlinx
+    coroutines = "1.6.4"
 
-    // Spotless
-    classpath "com.diffplug.spotless:spotless-plugin-gradle:6.13.0"
+    // Androidx
+    annotation = "1.5.0"
   }
 }
 
+
 plugins {
+  // Android AGP
+  // https://developer.android.com/studio/build#top-level
+  id 'com.android.library' version '7.4.0' apply false
+
   // Fix Android build cache
   // https://github.com/gradle/android-cache-fix-gradle-plugin
   id "org.gradle.android.cache-fix" version "2.6.2" apply false
 
+  // Kotlin
+  // https://developer.android.com/studio/build#top-level
+  id 'org.jetbrains.kotlin.android' version "$kotlin_version" apply false
+
+  // Dokka
+  // https://github.com/Kotlin/dokka
+  id 'org.jetbrains.dokka' version "1.7.20" apply false
+
+  // Gradle version checker
+  // https://github.com/ben-manes/gradle-versions-plugin
+  id 'com.github.ben-manes.versions' version '0.44.0' apply false
+
+  // Spotless
+  // https://github.com/diffplug/spotless
+  id "com.diffplug.spotless" version "6.13.0" apply false
+
   // Validate the public API
+  // https://github.com/Kotlin/binary-compatibility-validator
   id 'org.jetbrains.kotlinx.binary-compatibility-validator' version '0.12.1'
 }
 
 subprojects {
+  // Android AGP
   apply plugin: 'com.android.library'
-  apply plugin: 'kotlin-android'
-  apply plugin: 'org.jetbrains.dokka'
-  apply plugin: 'maven-publish'
+
+  // AGP Cache Fix
   apply plugin: "org.gradle.android.cache-fix"
 
+  // Kotlin
+  apply plugin: 'kotlin-android'
+
+  // Dokka
+  apply plugin: 'org.jetbrains.dokka'
+
+  // Maven Publish
+  apply plugin: 'maven-publish'
+
   final String POM_GROUP = "com.github.pyamsoft"
-  final String POM_VERSION = "0.2.0"
+  final String POM_VERSION = "0.2.1-SNAPSHOT"
 
   android {
     compileSdkVersion rootProject.ext.maxSdk
@@ -152,8 +159,8 @@ subprojects {
           artifact androidJavadocsJar
           from project.components.release
 
-          groupId POM_GROUP
           artifactId project.name
+          groupId POM_GROUP
           version POM_VERSION
         }
       }
@@ -165,6 +172,19 @@ allprojects {
   apply plugin: 'com.github.ben-manes.versions'
   apply plugin: "com.diffplug.spotless"
 
+  repositories {
+    gradlePluginPortal()
+    google()
+    mavenCentral()
+  }
+
+  // Java compile
+  tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
+    options.deprecation = true
+  }
+
+  // Spotless
   spotless {
     java {
       target "src/**/*.java"
@@ -192,6 +212,7 @@ allprojects {
     }
   }
 
+  // Version Plugin ignore non-stable releases
   def isNonStable = { String version ->
     def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { version.toUpperCase().contains(it) }
     def regex = /^[0-9,.v-]+(-r)?$/
@@ -202,24 +223,5 @@ allprojects {
     rejectVersionIf {
       isNonStable(it.candidate.version)
     }
-  }
-
-  repositories {
-    mavenLocal()
-    google()
-    mavenCentral()
-
-    maven {
-      url "https://jitpack.io/"
-    }
-
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-
-  tasks.withType(JavaCompile) {
-    options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
-    options.deprecation = true
   }
 }
