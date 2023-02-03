@@ -23,7 +23,7 @@ buildscript {
     maxSdk = 33
 
     // Kotlin
-    kotlin_version = '1.8.0'
+    kotlin_version = '1.8.10'
 
     // Kotlinx
     coroutines = "1.6.4"
