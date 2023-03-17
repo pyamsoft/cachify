@@ -28,7 +28,4 @@ dependencies {
 
   // Coroutines
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
-
-  // Kotlin
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
