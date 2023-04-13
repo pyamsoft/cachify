@@ -28,35 +28,10 @@ public abstract interface class com/pyamsoft/cachify/Cached5 : com/pyamsoft/cach
 
 public final class com/pyamsoft/cachify/Cachify {
 	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/Cached;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/Cached1;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/Cached2;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/Cached3;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/Cached4;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/Cached5;
 	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/Cached;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/Cached1;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/Cached2;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/Cached3;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/Cached4;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/Cached5;
 	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/Cached;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/Cached1;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/Cached2;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/Cached3;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/Cached4;
-	public static final fun cachify (Lkotlin/coroutines/CoroutineContext;Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/Cached5;
 	public static final fun cachify (Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/Cached;
-	public static final fun cachify (Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/Cached1;
-	public static final fun cachify (Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/Cached2;
-	public static final fun cachify (Lkotlin/jvm/functions/Function5;)Lcom/pyamsoft/cachify/Cached3;
-	public static final fun cachify (Lkotlin/jvm/functions/Function6;)Lcom/pyamsoft/cachify/Cached4;
-	public static final fun cachify (Lkotlin/jvm/functions/Function7;)Lcom/pyamsoft/cachify/Cached5;
 	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached;
-	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached1;
-	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function4;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached2;
-	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function5;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached3;
-	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function6;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached4;
-	public static synthetic fun cachify$default (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function7;ILjava/lang/Object;)Lcom/pyamsoft/cachify/Cached5;
 	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;)Lcom/pyamsoft/cachify/MultiCached;
 	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function3;)Lcom/pyamsoft/cachify/MultiCached1;
 	public static final fun multiCachify (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function4;)Lcom/pyamsoft/cachify/MultiCached2;
