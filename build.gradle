@@ -76,7 +76,7 @@ subprojects {
       }
 
       kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
       }
 
       publishing {
