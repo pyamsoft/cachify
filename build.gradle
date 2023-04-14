@@ -16,41 +16,27 @@
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
-buildscript {
-  ext {
-    // SDK
-    minSdk = 22
-    maxSdk = 33
-
-    // Kotlinx
-    coroutines = "1.6.4"
-
-    // Androidx
-    annotation = "1.6.0"
-  }
-}
-
 
 plugins {
   // Android AGP
   // https://developer.android.com/studio/build#top-level
-  id 'com.android.library' version '8.0.0' apply false
+  id("com.android.library") version "8.0.0" apply false
 
   // Fix Android build cache
   // https://github.com/gradle/android-cache-fix-gradle-plugin
-  id "org.gradle.android.cache-fix" version "2.7.0" apply false
+  id("org.gradle.android.cache-fix") version "2.7.0" apply false
 
   // Kotlin
   // https://developer.android.com/studio/build#top-level
-  id 'org.jetbrains.kotlin.android' version "1.8.20" apply false
+  id("org.jetbrains.kotlin.android") version "1.8.20" apply false
 
   // Dokka
   // https://github.com/Kotlin/dokka
-  id 'org.jetbrains.dokka' version "1.8.10" apply false
+  id("org.jetbrains.dokka") version "1.8.10" apply false
 
   // Gradle version checker
   // https://github.com/ben-manes/gradle-versions-plugin
-  id 'com.github.ben-manes.versions' version '0.46.0' apply false
+  id("com.github.ben-manes.versions") version "0.46.0" apply false
 
   // Spotless
   // https://github.com/diffplug/spotless
@@ -58,47 +44,35 @@ plugins {
 
   // Validate the public API
   // https://github.com/Kotlin/binary-compatibility-validator
-  id 'org.jetbrains.kotlinx.binary-compatibility-validator' version '0.13.0'
+  id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.0"
 }
 
 subprojects {
-  // Android AGP
-  apply plugin: 'com.android.library'
-
-  // AGP Cache Fix
+  apply plugin: "com.android.library"
   apply plugin: "org.gradle.android.cache-fix"
-
-  // Kotlin
-  apply plugin: 'kotlin-android'
-
-  // Dokka
-  apply plugin: 'org.jetbrains.dokka'
-
-  // Maven Publish
-  apply plugin: 'maven-publish'
-
-  final String POM_GROUP = "com.github.pyamsoft"
-  final String POM_VERSION = "0.3.0"
+  apply plugin: "kotlin-android"
+  apply plugin: "org.jetbrains.dokka"
+  apply plugin: "maven-publish"
 
   android {
-    compileSdkVersion rootProject.ext.maxSdk
+    compileSdkVersion(33)
 
     //noinspection GroovyMissingReturnStatement
     defaultConfig {
-      minSdkVersion rootProject.ext.minSdk
+      minSdkVersion(22)
 
       // For vector drawables
       vectorDrawables.useSupportLibrary = true
 
       // Consumer proguard file
-      consumerProguardFiles "proguard-rules.pro"
+      consumerProguardFiles("proguard-rules.pro")
 
-      // Only English, I don't have any translations
-      resConfigs "en"
+      // Only English, I don"t have any translations
+      resConfigs("en")
 
       compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
       }
 
       kotlinOptions {
@@ -107,74 +81,58 @@ subprojects {
 
       publishing {
         singleVariant("release") {
-          // Do not include withSources and withJavadoc here because we will
-          // add them with our own custom hooks below
+          withSourcesJar()
+          withJavadocJar()
         }
       }
     }
 
     buildTypes {
       debug {
-        minifyEnabled false
-        shrinkResources false
+        minifyEnabled = false
+        shrinkResources = false
       }
 
       release {
-        minifyEnabled false
-        shrinkResources false
-        proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
+        minifyEnabled = false
+        shrinkResources = false
+        proguardFiles(
+          getDefaultProguardFile("proguard-android-optimize.txt"),
+          "proguard-rules.pro",
+        )
       }
     }
 
     buildFeatures {
-      buildConfig false
+      buildConfig = false
     }
   }
 
   // Configure matching toolchains
   // https://kotlinlang.org/docs/gradle-configure-project.html#2c42d1dc
   kotlin {
-    jvmToolchain(11)
+    jvmToolchain(17)
   }
   java {
     toolchain {
-      languageVersion.set(JavaLanguageVersion.of(11))
+      languageVersion.set(JavaLanguageVersion.of(17))
     }
   }
 
   dependencies {
     // Apply core library desugaring at the most recent version
-    coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:2.0.3"
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
   }
 
   project.afterEvaluate {
-    task androidSourcesJar(type: Jar) {
-      archiveClassifier.convention('sources')
-      archiveClassifier.set('sources')
-      from android.sourceSets.main.java.source
-    }
-
-    task androidJavadocsJar(type: Jar, dependsOn: dokkaJavadoc) {
-      archiveClassifier.convention('javadoc')
-      archiveClassifier.set('javadoc')
-      from "$buildDir/dokka"
-    }
-
-    artifacts {
-      archives androidSourcesJar
-      archives androidJavadocsJar
-    }
-
     publishing {
       publications {
         Cachify(MavenPublication) {
-          artifact androidSourcesJar
-          artifact androidJavadocsJar
           from project.components.release
 
-          artifactId project.name
-          groupId POM_GROUP
-          version POM_VERSION
+          artifactId = project.name
+          groupId = "com.github.pyamsoft"
+          version = "0.3.0"
         }
       }
     }
@@ -182,7 +140,7 @@ subprojects {
 }
 
 allprojects {
-  apply plugin: 'com.github.ben-manes.versions'
+  apply plugin: "com.github.ben-manes.versions"
   apply plugin: "com.diffplug.spotless"
 
   repositories {
@@ -193,14 +151,17 @@ allprojects {
 
   // Java compile
   tasks.withType(JavaCompile) {
-    options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation'
+    options.compilerArgs += [
+      "-Xlint:unchecked",
+      "-Xlint:deprecation",
+    ]
     options.deprecation = true
   }
 
   // Spotless
   spotless {
     java {
-      target "src/**/*.java"
+      target("src/**/*.java")
 
       removeUnusedImports()
       trimTrailingWhitespace()
@@ -208,7 +169,7 @@ allprojects {
       indentWithSpaces(2)
     }
     kotlin {
-      target "src/**/*.kt"
+      target("src/**/*.kt")
       ktfmt()
 
       trimTrailingWhitespace()
@@ -216,25 +177,12 @@ allprojects {
       indentWithSpaces(2)
     }
     groovyGradle {
-      target "*.gradle"
+      target("*.gradle")
       greclipse()
 
       trimTrailingWhitespace()
       endWithNewline()
       indentWithSpaces(2)
-    }
-  }
-
-  // Version Plugin ignore non-stable releases
-  def isNonStable = { String version ->
-    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { version.toUpperCase().contains(it) }
-    def regex = /^[0-9,.v-]+(-r)?$/
-    return !stableKeyword && !(version ==~ regex)
-  }
-
-  tasks.named("dependencyUpdates").configure {
-    rejectVersionIf {
-      isNonStable(it.candidate.version)
     }
   }
 }

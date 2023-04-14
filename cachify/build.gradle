@@ -15,17 +15,17 @@
  */
 
 android {
-  namespace "com.pyamsoft.cachify"
+  namespace = "com.pyamsoft.cachify"
 
   kotlinOptions {
-    freeCompilerArgs += '-Xexplicit-api=strict'
+    freeCompilerArgs += "-Xexplicit-api=strict"
   }
 }
 
 dependencies {
   // AndroidX Annotations
-  implementation "androidx.annotation:annotation:$annotation"
+  implementation("androidx.annotation:annotation:1.6.0")
 
   // Coroutines
-  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
 }
