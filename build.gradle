@@ -160,7 +160,7 @@ allprojects {
       indentWithSpaces(2)
     }
     kotlin {
-      target("src/**/*.kt")
+      target("src/**/*.kt", "*.kts")
       ktfmt()
 
       trimTrailingWhitespace()
