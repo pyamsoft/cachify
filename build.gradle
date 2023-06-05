@@ -32,7 +32,7 @@ plugins {
 
   // Dokka
   // https://github.com/Kotlin/dokka
-  id("org.jetbrains.dokka") version "1.8.10" apply false
+  id("org.jetbrains.dokka") version "1.8.20" apply false
 
   // Gradle version checker
   // https://github.com/ben-manes/gradle-versions-plugin
@@ -48,7 +48,7 @@ plugins {
 
   // Validate the public API
   // https://github.com/Kotlin/binary-compatibility-validator
-  id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.1"
+  id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.13.2"
 
   // Gradle Doctor
   // https://runningcode.github.io/gradle-doctor/
@@ -138,10 +138,6 @@ subprojects {
         }
       }
     }
-  }
-
-  dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.3")
   }
 }
 
