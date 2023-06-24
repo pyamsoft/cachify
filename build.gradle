@@ -63,7 +63,7 @@ subprojects {
   apply plugin: "maven-publish"
 
   android {
-    compileSdk = 33
+    compileSdk = 34
 
     //noinspection GroovyMissingReturnStatement
     defaultConfig {
@@ -134,7 +134,7 @@ subprojects {
 
           artifactId = project.name
           groupId = "com.github.pyamsoft"
-          version = "0.3.0"
+          version = "0.3.1"
         }
       }
     }
