@@ -18,6 +18,12 @@ android {
   namespace = "com.pyamsoft.cachify"
 
   kotlinOptions { freeCompilerArgs += "-Xexplicit-api=strict" }
+
+  defaultConfig {
+    // Android Testing
+    // https://developer.android.com/training/testing/instrumented-tests
+    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+  }
 }
 
 dependencies {
@@ -27,5 +33,13 @@ dependencies {
   implementation("androidx.annotation:annotation:1.6.0")
 
   // Coroutines
-  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.extra["coroutines"]}")
+
+  // Testing
+  testImplementation("org.jetbrains.kotlin:kotlin-test:${rootProject.extra["kotlin"]}")
+  testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra["coroutines"]}")
+
+  androidTestImplementation("androidx.test:runner:1.5.2")
+  androidTestImplementation("org.jetbrains.kotlin:kotlin-test:${rootProject.extra["kotlin"]}")
+  androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra["coroutines"]}")
 }
