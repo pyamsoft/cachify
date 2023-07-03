@@ -19,9 +19,16 @@ package com.pyamsoft.cachify
 import java.util.concurrent.TimeUnit
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.time.Duration
 
 /** Cachify internal constants */
 public object CachifyDefaults {
+
+  /** Default duration before cache expires */
+  public val DEFAULT_DURATION: Duration =
+      with(Duration.Companion) {
+        return@with 30.seconds
+      }
 
   /** Default amount of time unit before cache expires */
   public const val DEFAULT_TIME: Long = 30L

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.pyamsoft.cachify
+package com.pyamsoft.cachify.test
 
 import kotlinx.coroutines.test.runTest
 import kotlin.test.Test
