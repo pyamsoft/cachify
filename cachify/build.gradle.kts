@@ -24,6 +24,13 @@ android {
     // https://developer.android.com/training/testing/instrumented-tests
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
   }
+
+  buildTypes {
+    debug {
+      enableAndroidTestCoverage = true
+      enableUnitTestCoverage = true
+    }
+  }
 }
 
 dependencies {
@@ -37,9 +44,11 @@ dependencies {
 
   // Testing
   testImplementation("org.jetbrains.kotlin:kotlin-test:${rootProject.extra["kotlin"]}")
-  testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra["coroutines"]}")
+  testImplementation(
+      "org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra["coroutines"]}")
 
   androidTestImplementation("androidx.test:runner:1.5.2")
   androidTestImplementation("org.jetbrains.kotlin:kotlin-test:${rootProject.extra["kotlin"]}")
-  androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra["coroutines"]}")
+  androidTestImplementation(
+      "org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra["coroutines"]}")
 }

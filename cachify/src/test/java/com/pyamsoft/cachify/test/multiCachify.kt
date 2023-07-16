@@ -26,6 +26,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.seconds
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 
 public class MultiCachifyTest {
@@ -110,6 +113,52 @@ public class MultiCachifyTest {
 
     // Hit again should not change
     val shouldStillBeOne = c.key(0).call()
+    assertEquals(shouldStillBeOne, 1)
+  }
+
+  @Test
+  public fun defaults_AttachInFlight(): Unit = runTest {
+    val clock = TestClock.create()
+    val counter = AtomicInteger(0)
+
+    val c =
+        multiCachify<Int, Int>(
+            storage = {
+              listOf(
+                  MemoryCacheStorage.createTest(
+                      duration = 1.seconds,
+                      clock = clock,
+                  ),
+                  MemoryCacheStorage.createTest(
+                      duration = CachifyDefaults.DEFAULT_DURATION,
+                      clock = clock,
+                  ),
+              )
+            },
+        ) {
+          delay(CachifyDefaults.DEFAULT_DURATION / 2)
+          counter.getAndIncrement()
+        }
+
+    // Hit once, hit again while first is in-flight, should not change
+    val (shouldBeZero, shouldStillBeZero) =
+        awaitAll(
+            async { c.key(0).call() },
+            async { c.key(0).call() },
+        )
+    assertEquals(shouldBeZero, 0)
+    assertEquals(shouldStillBeZero, 0)
+
+    // Advance the clock to invalidate the cache
+    clock.setTime(Instant.now().plusSeconds(CachifyDefaults.DEFAULT_DURATION.inWholeSeconds * 2))
+
+    // Hit again should change, hit again while first is in-flight, should not change
+    val (shouldBeOne, shouldStillBeOne) =
+        awaitAll(
+            async { c.key(0).call() },
+            async { c.key(0).call() },
+        )
+    assertEquals(shouldBeOne, 1)
     assertEquals(shouldStillBeOne, 1)
   }
 
