@@ -17,7 +17,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
   ext {
-    kotlin = "1.9.22"
+    kotlin = "1.9.23"
     coroutines = "1.8.0"
   }
 }
