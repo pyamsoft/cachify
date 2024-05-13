@@ -18,7 +18,7 @@
 buildscript {
   ext {
     kotlin = "1.9.24"
-    coroutines = "1.8.0"
+    coroutines = "1.8.1"
   }
 }
 
@@ -93,7 +93,7 @@ subprojects {
     }
 
     kotlinOptions {
-      jvmTarget = JavaVersion.VERSION_17.getMajorVersion()
+      jvmTarget = JavaVersion.VERSION_17.majorVersion
     }
 
     publishing {
@@ -161,7 +161,7 @@ allprojects {
   }
 
   // Java compile
-  tasks.withType(JavaCompile) {
+  tasks.withType(JavaCompile).forEach {
     options.compilerArgs += [
       "-Xlint:unchecked",
       "-Xlint:deprecation",
