@@ -71,6 +71,7 @@ public final class com/pyamsoft/cachify/CachifyDefaults {
 	public static final field DEFAULT_UNIT Ljava/util/concurrent/TimeUnit;
 	public static final field INSTANCE Lcom/pyamsoft/cachify/CachifyDefaults;
 	public static field LOGGING_ENABLED Z
+	public final fun getDEFAULT_DURATION-UwyO8pc ()J
 }
 
 public abstract interface class com/pyamsoft/cachify/Keyed : com/pyamsoft/cachify/Cache {
@@ -122,16 +123,20 @@ public abstract interface class com/pyamsoft/cachify/MultiCached5$Caller : com/p
 public abstract class com/pyamsoft/cachify/internal/BaseCacheCaller : com/pyamsoft/cachify/Cache {
 	protected fun <init> (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)V
 	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getOrchestrator ()Lcom/pyamsoft/cachify/internal/CacheOrchestrator;
 }
 
 public abstract class com/pyamsoft/cachify/internal/BaseMultiCacheCaller : com/pyamsoft/cachify/Cache {
 	protected fun <init> (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)V
 	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getOrchestrator ()Lcom/pyamsoft/cachify/internal/CacheOrchestrator;
 }
 
 public abstract class com/pyamsoft/cachify/internal/BaseMultiCached : com/pyamsoft/cachify/Cache {
 	protected fun <init> (Lkotlin/coroutines/CoroutineContext;)V
 	public final fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public final fun getCaches ()Ljava/util/Map;
+	public final fun getMutex ()Lkotlinx/coroutines/sync/Mutex;
 }
 
 public final class com/pyamsoft/cachify/internal/CacheOrchestrator : com/pyamsoft/cachify/Cache {
@@ -155,11 +160,14 @@ public final class com/pyamsoft/cachify/storage/MemoryCacheStorage : com/pyamsof
 	public fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public static final fun create (J)Lcom/pyamsoft/cachify/storage/CacheStorage;
 	public static final fun create (JLjava/util/concurrent/TimeUnit;)Lcom/pyamsoft/cachify/storage/CacheStorage;
+	public static final fun create-LRDsOJo (J)Lcom/pyamsoft/cachify/storage/CacheStorage;
+	public static final fun createTest-VtjQ1oo$cachify_release (JLjava/time/Clock;)Lcom/pyamsoft/cachify/storage/CacheStorage;
 	public fun retrieve (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 
 public final class com/pyamsoft/cachify/storage/MemoryCacheStorage$Companion {
 	public final fun create (J)Lcom/pyamsoft/cachify/storage/CacheStorage;
 	public final fun create (JLjava/util/concurrent/TimeUnit;)Lcom/pyamsoft/cachify/storage/CacheStorage;
+	public final fun create-LRDsOJo (J)Lcom/pyamsoft/cachify/storage/CacheStorage;
 }
 

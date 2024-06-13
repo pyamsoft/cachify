@@ -31,10 +31,10 @@ protected constructor(
 ) : Cache {
 
   // Don't use protected to avoid exposing to public API
-  internal val mutex = Mutex()
+  @PublishedApi internal val mutex: Mutex = Mutex()
 
   // Don't use protected to avoid exposing to public API
-  internal val caches = mutableMapOf<K, Caller>()
+  @PublishedApi internal val caches: MutableMap<K, Caller> = mutableMapOf()
 
   final override suspend fun clear() =
       withContext(context = NonCancellable) {

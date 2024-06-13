@@ -33,6 +33,7 @@ protected constructor(
 
   // Don't use protected to avoid exposing to public API
   // Don't use protected or else it's an IllegalAccessException at runtime
+  @PublishedApi
   internal val orchestrator: CacheOrchestrator<V> =
       CacheOrchestrator(
           context,
