@@ -47,7 +47,7 @@ dependencies {
   testImplementation(
       "org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra["coroutines"]}")
 
-  androidTestImplementation("androidx.test:runner:1.6.1")
+  androidTestImplementation("androidx.test:runner:1.6.2")
   androidTestImplementation("org.jetbrains.kotlin:kotlin-test:${rootProject.extra["kotlin"]}")
   androidTestImplementation(
       "org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra["coroutines"]}")
