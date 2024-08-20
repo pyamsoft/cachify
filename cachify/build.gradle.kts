@@ -37,7 +37,7 @@ dependencies {
   coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 
   // AndroidX Annotations
-  implementation("androidx.annotation:annotation:1.8.1")
+  implementation("androidx.annotation:annotation:1.8.2")
 
   // Coroutines
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.extra["coroutines"]}")
