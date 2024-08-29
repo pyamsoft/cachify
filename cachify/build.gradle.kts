@@ -34,7 +34,7 @@ android {
 }
 
 dependencies {
-  coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+  coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.0")
 
   // AndroidX Annotations
   implementation("androidx.annotation:annotation:1.8.2")
