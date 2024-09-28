@@ -27,6 +27,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 @PublishedApi
+@ConsistentCopyVisibility
 internal data class CacheOrchestrator<T : Any>
 internal constructor(
     private val context: CoroutineContext,
