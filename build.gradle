@@ -17,7 +17,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
   ext {
-    kotlin = "2.1.0"
+    kotlin = "2.1.10"
     coroutines = "1.10.1"
   }
 }
@@ -25,7 +25,7 @@ buildscript {
 plugins {
   // Android AGP
   // https://developer.android.com/studio/build#top-level
-  id("com.android.library") version "8.8.0" apply false
+  id("com.android.library") version "8.8.1" apply false
 
   // Fix Android build cache
   // https://github.com/gradle/android-cache-fix-gradle-plugin
@@ -142,7 +142,7 @@ subprojects {
 
           artifactId = project.name
           groupId = "com.github.pyamsoft"
-          version = "0.3.5"
+          version = "0.3.6"
         }
       }
     }
