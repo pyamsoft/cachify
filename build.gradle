@@ -68,7 +68,7 @@ subprojects {
   apply plugin: "maven-publish"
 
   android {
-    compileSdk = 35
+    compileSdk = 36
 
     //noinspection GroovyMissingReturnStatement
     defaultConfig {
