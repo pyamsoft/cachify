@@ -35,7 +35,7 @@ android {
 
 dependencies {
   // AndroidX Annotations
-  implementation("androidx.annotation:annotation:1.9.1")
+  implementation("androidx.annotation:annotation:${rootProject.extra["annotation"]}")
 
   // Coroutines
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.extra["coroutines"]}")
@@ -45,7 +45,7 @@ dependencies {
   testImplementation(
       "org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra["coroutines"]}")
 
-  androidTestImplementation("androidx.test:runner:1.6.2")
+  androidTestImplementation("androidx.test:runner:${rootProject.extra["testRunner"]}")
   androidTestImplementation("org.jetbrains.kotlin:kotlin-test:${rootProject.extra["kotlin"]}")
   androidTestImplementation(
       "org.jetbrains.kotlinx:kotlinx-coroutines-test:${rootProject.extra["coroutines"]}")
