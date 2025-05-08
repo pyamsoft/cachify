@@ -18,7 +18,7 @@
 buildscript {
   ext {
     kotlin = "2.1.20"
-    coroutines = "1.10.1"
+    coroutines = "1.10.2"
 
     // AndroidX
     annotation = "1.9.1"
