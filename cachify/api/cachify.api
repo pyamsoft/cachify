@@ -141,8 +141,6 @@ public abstract class com/pyamsoft/cachify/internal/BaseMultiCached : com/pyamso
 
 public final class com/pyamsoft/cachify/internal/CacheOrchestrator : com/pyamsoft/cachify/Cache {
 	public fun clear (Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
-	public final fun copy (Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;)Lcom/pyamsoft/cachify/internal/CacheOrchestrator;
-	public static synthetic fun copy$default (Lcom/pyamsoft/cachify/internal/CacheOrchestrator;Lkotlin/coroutines/CoroutineContext;Ljava/lang/String;Ljava/util/List;ILjava/lang/Object;)Lcom/pyamsoft/cachify/internal/CacheOrchestrator;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun fetch (Lkotlin/jvm/functions/Function2;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 	public fun hashCode ()I
