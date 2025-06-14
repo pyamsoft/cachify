@@ -22,7 +22,7 @@ buildscript {
 
     // AndroidX
     annotation = "1.9.1"
-    
+
     testRunner = "1.6.2"
   }
 }
