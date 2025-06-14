@@ -84,9 +84,6 @@ subprojects {
 
       // Consumer proguard file
       consumerProguardFiles("proguard-rules.pro")
-
-      // Only English, I don"t have any translations
-      resourceConfigurations = ["en"]
     }
 
     compileOptions {
@@ -162,15 +159,6 @@ allprojects {
   apply plugin: "com.github.ben-manes.versions"
   apply plugin: "com.diffplug.spotless"
   apply plugin: "se.ascp.gradle.gradle-versions-filter"
-
-  // We don't care about enforcing JAVA_HOME checks
-  doctor {
-    javaHome {
-      ensureJavaHomeMatches = false
-      ensureJavaHomeIsSet = false
-      failOnError = false
-    }
-  }
 
   repositories {
     gradlePluginPortal()
