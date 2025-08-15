@@ -19,7 +19,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
   ext {
-    kotlin = "2.2.0"
+    kotlin = "2.2.10"
     coroutines = "1.10.2"
 
     // AndroidX
