@@ -32,7 +32,7 @@ buildscript {
 plugins {
   // Android AGP
   // https://developer.android.com/studio/build#top-level
-  id("com.android.library") version "8.12.2" apply false
+  id("com.android.library") version "8.13.0" apply false
 
   // Fix Android build cache
   // https://github.com/gradle/android-cache-fix-gradle-plugin
@@ -89,8 +89,8 @@ subprojects {
     }
 
     compileOptions {
-      sourceCompatibility = JavaVersion.VERSION_17
-      targetCompatibility = JavaVersion.VERSION_17
+      sourceCompatibility = JavaVersion.VERSION_21
+      targetCompatibility = JavaVersion.VERSION_21
 
       // Flag to enable support for the new language APIs
       coreLibraryDesugaringEnabled = true
@@ -122,7 +122,7 @@ subprojects {
 
   kotlin {
     compilerOptions {
-      jvmTarget = JvmTarget.JVM_17
+      jvmTarget = JvmTarget.JVM_21
       freeCompilerArgs.add("-Xexplicit-api=strict")
     }
   }
