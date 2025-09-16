@@ -79,7 +79,8 @@ internal constructor(
 
   /** Claim the lock and look for who's the active runner */
   @CheckResult
-  private suspend inline fun createNewTask(
+  @PublishedApi
+  internal suspend inline fun createNewTask(
       scope: CoroutineScope,
       crossinline block: suspend CoroutineScope.() -> T
   ): Runner<T> =
@@ -172,7 +173,7 @@ internal constructor(
       }
 
   /** Runner holds a deferred identified by a unique id */
-  private data class Runner<T : Any>(
+  internal data class Runner<T : Any>(
       val task: Deferred<T>,
       val id: String = randomId(),
   )
