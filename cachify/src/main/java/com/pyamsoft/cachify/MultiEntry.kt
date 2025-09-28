@@ -85,7 +85,7 @@ public inline fun <K : Any, V : Any, T1> multiCachify(
     crossinline storage: () -> List<CacheStorage<V>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
-    crossinline upstream: suspend CoroutineScope.(T1) -> V
+    crossinline upstream: suspend CoroutineScope.(T1) -> V,
 ): MultiCached1<K, V, T1> {
   return object :
       MultiCached1<K, V, T1>,
@@ -121,7 +121,7 @@ public inline fun <K : Any, V : Any, T1, T2> multiCachify(
     crossinline storage: () -> List<CacheStorage<V>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
-    crossinline upstream: suspend CoroutineScope.(T1, T2) -> V
+    crossinline upstream: suspend CoroutineScope.(T1, T2) -> V,
 ): MultiCached2<K, V, T1, T2> {
   return object :
       MultiCached2<K, V, T1, T2>,
@@ -160,7 +160,7 @@ public inline fun <K : Any, V : Any, T1, T2, T3> multiCachify(
     crossinline storage: () -> List<CacheStorage<V>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> V
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> V,
 ): MultiCached3<K, V, T1, T2, T3> {
   return object :
       MultiCached3<K, V, T1, T2, T3>,
@@ -200,7 +200,7 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4> multiCachify(
     crossinline storage: () -> List<CacheStorage<V>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> V,
 ): MultiCached4<K, V, T1, T2, T3, T4> {
   return object :
       MultiCached4<K, V, T1, T2, T3, T4>,
@@ -240,7 +240,7 @@ public inline fun <K : Any, V : Any, T1, T2, T3, T4, T5> multiCachify(
     crossinline storage: () -> List<CacheStorage<V>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
-    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> V,
 ): MultiCached5<K, V, T1, T2, T3, T4, T5> {
   return object :
       MultiCached5<K, V, T1, T2, T3, T4, T5>,

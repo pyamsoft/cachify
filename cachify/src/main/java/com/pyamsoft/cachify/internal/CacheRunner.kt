@@ -82,7 +82,7 @@ internal constructor(
   @PublishedApi
   internal suspend inline fun createNewTask(
       scope: CoroutineScope,
-      crossinline block: suspend CoroutineScope.() -> T
+      crossinline block: suspend CoroutineScope.() -> T,
   ): Runner<T> =
       mutex.withLock {
         val active = activeRunner
@@ -140,7 +140,7 @@ internal constructor(
 
   suspend inline fun fetch(
       scope: CoroutineScope,
-      crossinline block: suspend CoroutineScope.() -> T
+      crossinline block: suspend CoroutineScope.() -> T,
   ): T =
       withContext(context = context) {
         // Potentially locks mutex

@@ -38,7 +38,7 @@ public inline fun <R : Any> cachify(
     crossinline storage: () -> List<CacheStorage<R>> = {
       listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
     },
-    crossinline upstream: suspend CoroutineScope.() -> R
+    crossinline upstream: suspend CoroutineScope.() -> R,
 ): Cached<R> {
   return object :
       Cached<R>,
