@@ -36,13 +36,13 @@ dependencies {
   implementation(libs.androidx.annotation)
 
   // Coroutines
-  implementation(libs.kotlin.coroutines)
+  implementation(libs.kotlinx.coroutines)
 
   // Testing
   testImplementation(libs.kotlin.test)
-  testImplementation(libs.kotlin.coroutines.test)
+  testImplementation(libs.kotlinx.coroutines.test)
 
   androidTestImplementation(libs.androidx.testRunner)
   androidTestImplementation(libs.kotlin.test)
-  androidTestImplementation(libs.kotlin.coroutines.test)
+  androidTestImplementation(libs.kotlinx.coroutines.test)
 }
