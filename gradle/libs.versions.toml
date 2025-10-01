@@ -1,0 +1,36 @@
+[versions]
+agp = "8.13.0"
+cacheFix = "3.0.1"
+
+kotlin = "2.2.20"
+coroutines = "1.10.2"
+dokka = "2.0.0"
+binaryValidator = "0.18.1"
+
+annotation = "1.9.1"
+testRunner = "1.7.0"
+
+spotless = "8.0.0"
+doctor = "0.12.1"
+jdkDesugar = "2.1.5"
+
+[plugins]
+android = { id = "com.android.library", version.ref = "agp" }
+android-cacheFix = { id = "org.gradle.android.cache-fix", version.ref = "cacheFix" }
+
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinx-binaryValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryValidator" }
+
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
+doctor = { id = "com.osacky.doctor", version.ref = "doctor" }
+
+[libraries]
+android-desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "jdkDesugar" }
+
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+androidx-testRunner = { group = "androidx.test", name = "runner", version.ref = "testRunner" }
+
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlin-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlin-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }

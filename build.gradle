@@ -16,56 +16,34 @@
 
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-buildscript {
-  ext {
-    kotlin = "2.2.20"
-    coroutines = "1.10.2"
-
-    // AndroidX
-    annotation = "1.9.1"
-
-    testRunner = "1.7.0"
-  }
-}
-
 plugins {
   // Android AGP
   // https://developer.android.com/studio/build#top-level
-  id("com.android.library") version "8.13.0" apply false
+  alias(libs.plugins.android) apply false
 
   // Fix Android build cache
   // https://github.com/gradle/android-cache-fix-gradle-plugin
-  id("org.gradle.android.cache-fix") version "3.0.1" apply false
+  alias(libs.plugins.android.cacheFix) apply false
 
   // Kotlin
   // https://developer.android.com/studio/build#top-level
-  id("org.jetbrains.kotlin.android") version "${kotlin}" apply false
+  alias(libs.plugins.kotlin.android) apply false
 
   // Dokka
   // https://github.com/Kotlin/dokka
-  id("org.jetbrains.dokka") version "2.0.0" apply false
-
-  // Gradle version checker
-  // https://github.com/ben-manes/gradle-versions-plugin
-  // 0.53.0 needs to run with --no-parallel
-  id("com.github.ben-manes.versions") version "0.53.0" apply false
-
-  // Version Filter Plugin
-  // https://github.com/janderssonse/gradle-versions-filter-plugin
-  id("se.ascp.gradle.gradle-versions-filter") version "0.1.16" apply false
+  alias(libs.plugins.dokka) apply false
 
   // Spotless
   // https://github.com/diffplug/spotless
-  id "com.diffplug.spotless" version "8.0.0" apply false
+  alias(libs.plugins.spotless) apply false
 
   // Validate the public API
   // https://github.com/Kotlin/binary-compatibility-validator
-  id("org.jetbrains.kotlinx.binary-compatibility-validator") version "0.18.1"
+  alias(libs.plugins.kotlinx.binaryValidator) apply true
 
   // Gradle Doctor
   // https://runningcode.github.io/gradle-doctor/
-  id("com.osacky.doctor") version "0.12.1" apply true
+  alias(libs.plugins.doctor) apply true
 }
 
 subprojects {
@@ -161,14 +139,12 @@ subprojects {
   }
 
   dependencies {
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    coreLibraryDesugaring(libs.android.desugar)
   }
 }
 
 allprojects {
-  apply plugin: "com.github.ben-manes.versions"
   apply plugin: "com.diffplug.spotless"
-  apply plugin: "se.ascp.gradle.gradle-versions-filter"
 
   repositories {
     gradlePluginPortal()
