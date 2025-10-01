@@ -156,14 +156,16 @@ subprojects {
     }
   }
 
+  dependencies {
+    coreLibraryDesugaring(libs.android.desugar)
+  }
+}
+
+allprojects {
   repositories {
     gradlePluginPortal()
     google()
     mavenCentral()
-  }
-
-  dependencies {
-    coreLibraryDesugaring(libs.android.desugar)
   }
 }
 
