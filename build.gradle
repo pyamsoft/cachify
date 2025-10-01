@@ -35,7 +35,7 @@ plugins {
 
   // Spotless
   // https://github.com/diffplug/spotless
-  alias(libs.plugins.spotless) apply false
+  alias(libs.plugins.spotless) apply true
 
   // Validate the public API
   // https://github.com/Kotlin/binary-compatibility-validator
@@ -51,11 +51,11 @@ plugins {
 }
 
 subprojects {
-  apply plugin: "com.android.library"
-  apply plugin: "org.gradle.android.cache-fix"
-  apply plugin: "org.jetbrains.kotlin.android"
-  apply plugin: "org.jetbrains.dokka"
-  apply plugin: "maven-publish"
+  apply(plugin: "com.android.library")
+  apply(plugin: "org.gradle.android.cache-fix")
+  apply(plugin: "org.jetbrains.kotlin.android")
+  apply(plugin: "org.jetbrains.dokka")
+  apply(plugin: "maven-publish")
 
   android {
     compileSdk = 36
@@ -103,6 +103,12 @@ subprojects {
     }
   }
 
+  tasks.withType(JavaCompile).configureEach {
+    options.compilerArgs.add("-Xlint:unchecked")
+    options.compilerArgs.add("-Xlint:deprecation")
+    options.deprecation = true
+  }
+
   kotlin {
     compilerOptions {
       jvmTarget = JvmTarget.JVM_21
@@ -112,6 +118,14 @@ subprojects {
     abiValidation {
       enabled = true
     }
+  }
+
+  // Enable ABI checking
+  //
+  // https://github.com/JakeWharton/timber/commit/65747860b59e40a95866cbb4bd866f44a3b1880c
+  // TODO: https://youtrack.jetbrains.com/issue/KT-78525
+  tasks.named("check") {
+    it.dependsOn(tasks.named("checkLegacyAbi"))
   }
 
   // Configure matching toolchains
@@ -142,67 +156,49 @@ subprojects {
     }
   }
 
-  dependencies {
-    coreLibraryDesugaring(libs.android.desugar)
-  }
-}
-
-allprojects {
-  apply plugin: "com.diffplug.spotless"
-
   repositories {
     gradlePluginPortal()
     google()
     mavenCentral()
   }
 
-  tasks.withType(JavaCompile).configureEach {
-    options.compilerArgs.add("-Xlint:unchecked")
-    options.compilerArgs.add("-Xlint:deprecation")
-    options.deprecation = true
+  dependencies {
+    coreLibraryDesugaring(libs.android.desugar)
   }
+}
 
-  // Enable ABI checking
-  //
-  // https://github.com/JakeWharton/timber/commit/65747860b59e40a95866cbb4bd866f44a3b1880c
-  // TODO: https://youtrack.jetbrains.com/issue/KT-78525
-  tasks.named("check") {
-    it.dependsOn(tasks.named("checkLegacyAbi"))
+// Spotless
+spotless {
+  java {
+    target("src/**/*.java")
+
+    removeUnusedImports()
+    trimTrailingWhitespace()
+    endWithNewline()
+    leadingTabsToSpaces(2)
   }
+  kotlin {
+    target("src/**/*.kt")
+    ktfmt()
 
-  // Spotless
-  spotless {
-    java {
-      target("src/**/*.java")
+    trimTrailingWhitespace()
+    endWithNewline()
+    leadingTabsToSpaces(2)
+  }
+  kotlinGradle {
+    target("*.gradle.kts")
+    ktfmt()
 
-      removeUnusedImports()
-      trimTrailingWhitespace()
-      endWithNewline()
-      leadingTabsToSpaces(2)
-    }
-    kotlin {
-      target("src/**/*.kt")
-      ktfmt()
+    trimTrailingWhitespace()
+    endWithNewline()
+    leadingTabsToSpaces(2)
+  }
+  groovyGradle {
+    target("*.gradle")
+    greclipse()
 
-      trimTrailingWhitespace()
-      endWithNewline()
-      leadingTabsToSpaces(2)
-    }
-    kotlinGradle {
-      target("*.gradle.kts")
-      ktfmt()
-
-      trimTrailingWhitespace()
-      endWithNewline()
-      leadingTabsToSpaces(2)
-    }
-    groovyGradle {
-      target("*.gradle")
-      greclipse()
-
-      trimTrailingWhitespace()
-      endWithNewline()
-      leadingTabsToSpaces(2)
-    }
+    trimTrailingWhitespace()
+    endWithNewline()
+    leadingTabsToSpaces(2)
   }
 }
