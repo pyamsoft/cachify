@@ -13,6 +13,7 @@ testRunner = "1.7.0"
 spotless = "8.0.0"
 doctor = "0.12.1"
 jdkDesugar = "2.1.5"
+caupain = "1.6.1"
 
 [plugins]
 android = { id = "com.android.library", version.ref = "agp" }
@@ -24,6 +25,7 @@ kotlinx-binaryValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-val
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 doctor = { id = "com.osacky.doctor", version.ref = "doctor" }
+caupain = { id = "com.deezer.caupain", version.ref = "caupain" }
 
 [libraries]
 android-desugar = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "jdkDesugar" }
