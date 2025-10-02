@@ -149,7 +149,7 @@ subprojects {
           from project.components.release
 
           artifactId = project.name
-          groupId = "com.github.pyamsoft"
+          groupId = "com.github.pyamsoft.cachify"
           version = "0.3.8"
         }
       }
