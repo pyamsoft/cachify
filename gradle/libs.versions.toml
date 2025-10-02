@@ -1,6 +1,6 @@
 [versions]
 agp = "8.13.0"
-cacheFix = "3.0.1"
+cacheFix = "3.0.2"
 
 kotlin = "2.2.20"
 coroutines = "1.10.2"
