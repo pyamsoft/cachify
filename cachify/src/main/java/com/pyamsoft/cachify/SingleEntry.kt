@@ -54,3 +54,123 @@ public inline fun <R : Any> cachify(
         withContext(context = context) { orchestrator.fetch(operation) }
   }
 }
+
+/** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
+@JvmOverloads
+public inline fun <R : Any, T1> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
+    debugTag: String = "",
+    crossinline storage: () -> List<CacheStorage<R>> = {
+      listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
+    crossinline upstream: suspend CoroutineScope.(T1) -> R,
+): Cached1<R, T1> {
+  return object :
+      Cached1<R, T1>,
+      BaseCacheCaller<R>(
+          context = context,
+          debugTag = debugTag,
+          storage = storage(),
+      ) {
+
+    override suspend fun call(p1: T1): R =
+        withContext(context = context) { orchestrator.fetch { upstream(p1) } }
+  }
+}
+
+/** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
+@JvmOverloads
+public inline fun <R : Any, T1, T2> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
+    debugTag: String = "",
+    crossinline storage: () -> List<CacheStorage<R>> = {
+      listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
+    crossinline upstream: suspend CoroutineScope.(T1, T2) -> R,
+): Cached2<R, T1, T2> {
+  return object :
+      Cached2<R, T1, T2>,
+      BaseCacheCaller<R>(
+          context = context,
+          debugTag = debugTag,
+          storage = storage(),
+      ) {
+
+    override suspend fun call(p1: T1, p2: T2): R =
+        withContext(context = context) { orchestrator.fetch { upstream(p1, p2) } }
+  }
+}
+
+/** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
+@JvmOverloads
+public inline fun <R : Any, T1, T2, T3> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
+    debugTag: String = "",
+    crossinline storage: () -> List<CacheStorage<R>> = {
+      listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3) -> R,
+): Cached3<R, T1, T2, T3> {
+  return object :
+      Cached3<R, T1, T2, T3>,
+      BaseCacheCaller<R>(
+          context = context,
+          debugTag = debugTag,
+          storage = storage(),
+      ) {
+
+    override suspend fun call(p1: T1, p2: T2, p3: T3): R =
+        withContext(context = context) { orchestrator.fetch { upstream(p1, p2, p3) } }
+  }
+}
+
+/** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
+@JvmOverloads
+public inline fun <R : Any, T1, T2, T3, T4> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
+    debugTag: String = "",
+    crossinline storage: () -> List<CacheStorage<R>> = {
+      listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4) -> R,
+): Cached4<R, T1, T2, T3, T4> {
+  return object :
+      Cached4<R, T1, T2, T3, T4>,
+      BaseCacheCaller<R>(
+          context = context,
+          debugTag = debugTag,
+          storage = storage(),
+      ) {
+
+    override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4): R =
+        withContext(context = context) { orchestrator.fetch { upstream(p1, p2, p3, p4) } }
+  }
+}
+
+/** Wrapper which will generate a Cached object that delegates its call() to the upstream source */
+@CheckResult
+@JvmOverloads
+public inline fun <R : Any, T1, T2, T3, T4, T5> cachify(
+    context: CoroutineContext = CachifyDefaults.DEFAULT_COROUTINE_CONTEXT,
+    debugTag: String = "",
+    crossinline storage: () -> List<CacheStorage<R>> = {
+      listOf(MemoryCacheStorage.create(DEFAULT_TIME, DEFAULT_UNIT))
+    },
+    crossinline upstream: suspend CoroutineScope.(T1, T2, T3, T4, T5) -> R,
+): Cached5<R, T1, T2, T3, T4, T5> {
+  return object :
+      Cached5<R, T1, T2, T3, T4, T5>,
+      BaseCacheCaller<R>(
+          context = context,
+          debugTag = debugTag,
+          storage = storage(),
+      ) {
+
+    override suspend fun call(p1: T1, p2: T2, p3: T3, p4: T4, p5: T5): R =
+        withContext(context = context) { orchestrator.fetch { upstream(p1, p2, p3, p4, p5) } }
+  }
+}
