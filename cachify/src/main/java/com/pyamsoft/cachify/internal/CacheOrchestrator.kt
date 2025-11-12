@@ -40,15 +40,10 @@ internal constructor(
   private val runner = CacheRunner<T>(context, logger)
 
   override suspend fun clear() =
-      withContext(context = NonCancellable) {
-        // Maybe we can simplify this with a withContext(context = NonCancellable + context)
-        // but I don't know enough about Coroutines right now to figure out if that works
-        // or if plussing the contexts will remove NonCancel, so here we go instead.
+      withContext(context = context + NonCancellable) {
         logger.log { "Clear all caches" }
-        withContext(context = context) {
-          // Coroutine scope here to make sure if anything throws an error we catch it in the scope
-          coroutineScope { mutex.withLock { storage.forEach { it.clear() } } }
-        }
+        // Coroutine scope here to make sure if anything throws an error we catch it in the scope
+        coroutineScope { mutex.withLock { storage.forEach { it.clear() } } }
       }
 
   /**
