@@ -1,11 +1,14 @@
 [versions]
-agp = "8.13.2"
+# SDK
+minSdk = "24"
+compileSdk = "36"
+
+agp = "9.0.0"
 cacheFix = "3.0.3"
 
 kotlin = "2.3.0"
 coroutines = "1.10.2"
 dokka = "2.1.0"
-binaryValidator = "0.18.1"
 
 annotation = "1.9.1"
 testRunner = "1.7.0"
@@ -18,9 +21,6 @@ caupain = "1.8.1"
 [plugins]
 android = { id = "com.android.library", version.ref = "agp" }
 android-cacheFix = { id = "org.gradle.android.cache-fix", version.ref = "cacheFix" }
-
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlinx-binaryValidator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binaryValidator" }
 
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
