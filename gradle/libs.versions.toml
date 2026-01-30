@@ -6,7 +6,7 @@ compileSdk = "36"
 agp = "9.0.0"
 cacheFix = "3.0.3"
 
-kotlin = "2.3.0"
+# Kotlin
 coroutines = "1.10.2"
 dokka = "2.1.0"
 
@@ -36,3 +36,4 @@ androidx-testRunner = { group = "androidx.test", name = "runner", version.ref = 
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
 kotlinx-coroutines = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+
