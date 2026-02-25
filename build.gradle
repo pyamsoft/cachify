@@ -28,6 +28,16 @@ plugins {
   // https://github.com/gradle/android-cache-fix-gradle-plugin
   alias(libs.plugins.android.cacheFix) apply false
 
+  // Kotlin Android Plugin
+  // Ensure we always match with the latest Kotlin build
+  // Even though this is apply: false, it places the latest Kotlin on the
+  // classpath. Without this line, the kotlin-stdlib will be whatever is shipped
+  // with AGP, which can then lead to odd build errors in applications:
+  //
+  // e: Class 'com.pyamsoft.cachify.Cached' was compiled by a pre-release version of Kotlin and cannot be loaded by this version of the compiler.
+  //
+  alias(libs.plugins.kotlin.android) apply false
+
   // Dokka
   // https://github.com/Kotlin/dokka
   alias(libs.plugins.dokka) apply false
@@ -73,6 +83,14 @@ subprojects {
       coreLibraryDesugaringEnabled = true
     }
 
+    kotlin {
+      compilerOptions {
+        languageVersion = KotlinVersion.KOTLIN_2_3
+        jvmTarget = JvmTarget.JVM_21
+        freeCompilerArgs.add("-Xexplicit-api=strict")
+      }
+    }
+
     publishing {
       singleVariant("release") {
         withSourcesJar()
@@ -103,14 +121,6 @@ subprojects {
     options.deprecation = true
   }
 
-  kotlin {
-    compilerOptions {
-      languageVersion = KotlinVersion.KOTLIN_2_3
-      jvmTarget = JvmTarget.JVM_21
-      freeCompilerArgs.add("-Xexplicit-api=strict")
-    }
-  }
-
   project.afterEvaluate {
     publishing {
       publications {
@@ -119,7 +129,7 @@ subprojects {
 
           artifactId = project.name
           groupId = "com.github.pyamsoft.cachify"
-          version = "0.3.9"
+          version = "0.3.10"
         }
       }
     }

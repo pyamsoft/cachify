@@ -23,6 +23,8 @@ caupain = "1.8.1"
 android = { id = "com.android.library", version.ref = "agp" }
 android-cacheFix = { id = "org.gradle.android.cache-fix", version.ref = "cacheFix" }
 
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 doctor = { id = "com.osacky.doctor", version.ref = "doctor" }
