@@ -11,7 +11,7 @@ kotlin = "2.3.20"
 coroutines = "1.10.2"
 dokka = "2.2.0"
 
-annotation = "1.9.1"
+annotation = "1.10.0"
 testRunner = "1.7.0"
 
 spotless = "8.4.0"
