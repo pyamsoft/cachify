@@ -17,9 +17,9 @@
 package com.pyamsoft.cachify
 
 import androidx.test.filters.SmallTest
-import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlinx.coroutines.test.runTest
+import org.junit.Test
 
 @SmallTest
 public class AndroidSanity {

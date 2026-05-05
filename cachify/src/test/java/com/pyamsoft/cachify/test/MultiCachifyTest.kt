@@ -22,7 +22,6 @@ import com.pyamsoft.cachify.multiCachify
 import com.pyamsoft.cachify.storage.MemoryCacheStorage
 import java.time.Instant
 import java.util.concurrent.atomic.AtomicInteger
-import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.seconds
@@ -30,6 +29,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
+import org.junit.Test
 
 public class MultiCachifyTest {
 

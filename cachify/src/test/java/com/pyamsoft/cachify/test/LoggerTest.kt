@@ -16,11 +16,31 @@
 
 package com.pyamsoft.cachify.test
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
+import com.pyamsoft.cachify.internal.Logger
+import kotlin.test.assertNotNull
 import kotlinx.coroutines.test.runTest
+import org.junit.Test
 
-public class JVMSanity {
+public class LoggerTest {
 
-  @Test public fun sanity(): Unit = runTest { assertEquals(2 + 2, 4) }
+  @Test
+  public fun logger_outputWithDebugTag(): Unit = runTest {
+    val logger = Logger("ANYTHING")
+    assertNotNull(logger)
+
+    try {
+      logger.log { "Log.d is not mocked so this will throw" }
+    } catch (e: RuntimeException) {
+      assertNotNull(e.message)
+      assert(e.message!!.startsWith("Method d in android.util.Log not mocked"))
+    }
+  }
+
+  @Test
+  public fun logger_silentNoTag(): Unit = runTest {
+    val logger = Logger("")
+    assertNotNull(logger)
+
+    logger.log { "Log.d is not mocked, but this should not run!" }
+  }
 }

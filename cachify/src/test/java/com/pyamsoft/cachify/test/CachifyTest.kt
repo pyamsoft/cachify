@@ -22,7 +22,6 @@ import com.pyamsoft.cachify.env.TestClock
 import com.pyamsoft.cachify.storage.MemoryCacheStorage
 import java.time.Instant
 import java.util.concurrent.atomic.AtomicInteger
-import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.seconds
@@ -30,6 +29,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
+import org.junit.Test
 
 public class CachifyTest {
 
@@ -38,7 +38,7 @@ public class CachifyTest {
     val counter = AtomicInteger(0)
 
     // Creation does not throw
-    val c = cachify { counter.incrementAndGet() }
+    val c = cachify<Int> { counter.incrementAndGet() }
     assertNotNull(c)
 
     // Creation does not hit upstream
@@ -49,7 +49,7 @@ public class CachifyTest {
   public fun defaults_Cache(): Unit = runTest {
     val counter = AtomicInteger(0)
 
-    val c = cachify { counter.getAndIncrement() }
+    val c = cachify<Int> { counter.getAndIncrement() }
 
     // Hit the upstream once
     val shouldBeZero = c.call()
@@ -64,7 +64,7 @@ public class CachifyTest {
   public fun defaults_ClearResets(): Unit = runTest {
     val counter = AtomicInteger(0)
 
-    val c = cachify { counter.getAndIncrement() }
+    val c = cachify<Int> { counter.getAndIncrement() }
 
     // Hit the upstream once
     val shouldBeZero = c.call()
@@ -83,7 +83,7 @@ public class CachifyTest {
     val counter = AtomicInteger(0)
 
     val c =
-        cachify(
+        cachify<Int>(
             storage = {
               listOf(
                   MemoryCacheStorage.createTest(
@@ -122,7 +122,7 @@ public class CachifyTest {
     val counter = AtomicInteger(0)
 
     val c =
-        cachify(
+        cachify<Int>(
             storage = {
               listOf(
                   MemoryCacheStorage.createTest(
@@ -156,7 +156,7 @@ public class CachifyTest {
     val counter = AtomicInteger(0)
 
     val c =
-        cachify(
+        cachify<Int>(
             storage = {
               listOf(
                   MemoryCacheStorage.createTest(
