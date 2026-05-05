@@ -11,7 +11,9 @@ style:
     ignoreCompanionObjectPropertyDeclaration: true
   UnusedPrivateFunction:
     ignoreAnnotated:
-      -  "Preview"
+      - "Preview"
+  NewLineAtEndOfFile:
+    active: false
 
 complexity:
   LongParameterList:
@@ -19,3 +21,4 @@ complexity:
   TooManyFunctions:
     ignoreAnnotated:
       - "Preview"
+
