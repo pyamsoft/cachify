@@ -66,7 +66,7 @@ internal constructor(
           }
 
           val result = runner.fetch(this) { upstream() }
-          logger.log { "Retrieved result from upstream: $result" }
+          logger.log { "Retrieved result from upstream" }
           mutex.withLock { storage.forEach { it.cache(result) } }
           return@coroutineScope result
         }
