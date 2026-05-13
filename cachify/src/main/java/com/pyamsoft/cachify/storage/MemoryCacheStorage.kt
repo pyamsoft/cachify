@@ -36,14 +36,11 @@ internal constructor(
   private val mutex = Mutex()
   private val storage = AtomicReference<Data<T>?>(null)
 
-  override suspend fun retrieve(): T? {
-    val cached: Data<T>? = mutex.withLock { storage.get() }
-    return when {
-      cached == null -> null
-      cached.lastAccessTime.plusNanos(ttl) < LocalDateTime.now(clock) -> null
-      else -> cached.data
-    }
-  }
+  override suspend fun retrieve(): T? =
+      mutex.withLock {
+        val cached = storage.get() ?: return@withLock null
+        if (cached.lastAccessTime.plusNanos(ttl) < LocalDateTime.now(clock)) null else cached.data
+      }
 
   override suspend fun cache(data: T) {
     setData(data)
