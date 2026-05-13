@@ -36,7 +36,7 @@ internal constructor(
 
   private val mutex: Mutex = Mutex()
 
-  private var activeRunner: Runner<T>? = null
+  @Volatile private var activeRunner: Runner<T>? = null
 
   /**
    * NEEDS TO BE LOCKED WITH mutex.withLock {}
