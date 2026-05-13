@@ -37,8 +37,8 @@ public object CachifyDefaults {
   @JvmField public val DEFAULT_UNIT: TimeUnit = TimeUnit.SECONDS
 
   /** Is logging globally enabled */
-  @JvmField public var LOGGING_ENABLED: Boolean = false
+  @JvmField @Volatile public var LOGGING_ENABLED: Boolean = false
 
   /** The global default coroutine context for Cachify operations */
-  @JvmField public var DEFAULT_COROUTINE_CONTEXT: CoroutineContext = EmptyCoroutineContext
+  @JvmField @Volatile public var DEFAULT_COROUTINE_CONTEXT: CoroutineContext = EmptyCoroutineContext
 }
