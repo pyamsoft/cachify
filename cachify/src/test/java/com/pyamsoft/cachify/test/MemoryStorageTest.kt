@@ -27,7 +27,7 @@ import org.junit.Test
 public class MemoryStorageTest {
 
   @Test
-  public fun memoryCacheStorage_EmptyByDefault(): Unit = runTest {
+  public fun memoryCacheStorage_EmptyByDefault() = runTest {
     val clock = TestClock.create()
     val storage =
         MemoryCacheStorage.createTest<Int>(
@@ -39,7 +39,7 @@ public class MemoryStorageTest {
   }
 
   @Test
-  public fun memoryCacheStorage_CachingDataWorks(): Unit = runTest {
+  public fun memoryCacheStorage_CachingDataWorks() = runTest {
     val clock = TestClock.create()
     val storage =
         MemoryCacheStorage.createTest<Int>(
@@ -53,7 +53,7 @@ public class MemoryStorageTest {
   }
 
   @Test
-  public fun memoryCacheStorage_ClearThenRetrieveReturnsNull(): Unit = runTest {
+  public fun memoryCacheStorage_ClearThenRetrieveReturnsNull() = runTest {
     val clock = TestClock.create()
     val storage =
         MemoryCacheStorage.createTest<Int>(
