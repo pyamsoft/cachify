@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 pyamsoft
+ * Copyright 2026 pyamsoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,13 +28,14 @@ import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 public class MultiCachifyTest {
 
   @Test
-  public fun defaults_Create(): Unit = runTest {
+  public fun defaults_Create(): TestResult = runTest {
     val counter = AtomicInteger(0)
 
     // Creation does not throw
@@ -46,7 +47,7 @@ public class MultiCachifyTest {
   }
 
   @Test
-  public fun defaults_Cache(): Unit = runTest {
+  public fun defaults_Cache(): TestResult = runTest {
     val counter = AtomicInteger(0)
 
     val c = multiCachify<Int, Int> { counter.getAndIncrement() }
@@ -61,7 +62,7 @@ public class MultiCachifyTest {
   }
 
   @Test
-  public fun defaults_ClearResets(): Unit = runTest {
+  public fun defaults_ClearResets(): TestResult = runTest {
     val counter = AtomicInteger(0)
 
     val c = multiCachify<Int, Int> { counter.getAndIncrement() }
@@ -78,7 +79,7 @@ public class MultiCachifyTest {
   }
 
   @Test
-  public fun defaults_CacheTimeout(): Unit = runTest {
+  public fun defaults_CacheTimeout(): TestResult = runTest {
     val clock = TestClock.create()
     val counter = AtomicInteger(0)
 
@@ -117,7 +118,7 @@ public class MultiCachifyTest {
   }
 
   @Test
-  public fun defaults_AttachInFlight(): Unit = runTest {
+  public fun defaults_AttachInFlight(): TestResult = runTest {
     val clock = TestClock.create()
     val counter = AtomicInteger(0)
 
@@ -163,7 +164,7 @@ public class MultiCachifyTest {
   }
 
   @Test
-  public fun multiStorage_SelectionProcess(): Unit = runTest {
+  public fun multiStorage_SelectionProcess(): TestResult = runTest {
     val clock = TestClock.create()
     val counter = AtomicInteger(0)
 
@@ -214,7 +215,7 @@ public class MultiCachifyTest {
   }
 
   @Test
-  public fun key_Cache(): Unit = runTest {
+  public fun key_Cache(): TestResult = runTest {
     val counter0 = AtomicInteger(0)
     val counter1 = AtomicInteger(0)
 
@@ -237,7 +238,7 @@ public class MultiCachifyTest {
   }
 
   @Test
-  public fun key_Invalidate(): Unit = runTest {
+  public fun key_Invalidate(): TestResult = runTest {
     val counter0 = AtomicInteger(0)
     val counter1 = AtomicInteger(0)
 

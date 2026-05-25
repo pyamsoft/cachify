@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 pyamsoft
+ * Copyright 2026 pyamsoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,13 +21,14 @@ import com.pyamsoft.cachify.env.TestClock
 import com.pyamsoft.cachify.storage.MemoryCacheStorage
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
+import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 public class MemoryStorageTest {
 
   @Test
-  public fun memoryCacheStorage_EmptyByDefault() = runTest {
+  public fun memoryCacheStorage_EmptyByDefault(): TestResult = runTest {
     val clock = TestClock.create()
     val storage =
         MemoryCacheStorage.createTest<Int>(
@@ -39,7 +40,7 @@ public class MemoryStorageTest {
   }
 
   @Test
-  public fun memoryCacheStorage_CachingDataWorks() = runTest {
+  public fun memoryCacheStorage_CachingDataWorks(): TestResult = runTest {
     val clock = TestClock.create()
     val storage =
         MemoryCacheStorage.createTest<Int>(
@@ -53,7 +54,7 @@ public class MemoryStorageTest {
   }
 
   @Test
-  public fun memoryCacheStorage_ClearThenRetrieveReturnsNull() = runTest {
+  public fun memoryCacheStorage_ClearThenRetrieveReturnsNull(): TestResult = runTest {
     val clock = TestClock.create()
     val storage =
         MemoryCacheStorage.createTest<Int>(

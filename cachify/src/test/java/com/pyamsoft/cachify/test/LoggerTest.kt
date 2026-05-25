@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 pyamsoft
+ * Copyright 2026 pyamsoft
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +18,14 @@ package com.pyamsoft.cachify.test
 
 import com.pyamsoft.cachify.internal.Logger
 import kotlin.test.assertNotNull
+import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 public class LoggerTest {
 
   @Test
-  public fun logger_outputWithDebugTag(): Unit = runTest {
+  public fun logger_outputWithDebugTag(): TestResult = runTest {
     val logger = Logger("ANYTHING")
     assertNotNull(logger)
 
@@ -37,7 +38,7 @@ public class LoggerTest {
   }
 
   @Test
-  public fun logger_silentNoTag(): Unit = runTest {
+  public fun logger_silentNoTag(): TestResult = runTest {
     val logger = Logger("")
     assertNotNull(logger)
 
