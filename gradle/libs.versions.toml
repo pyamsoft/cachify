@@ -3,7 +3,7 @@
 minSdk = "24"
 compileSdk = "37"
 
-agp = "9.2.1"
+agp = "9.3.0"
 cacheFix = "3.0.3"
 
 # Kotlin
