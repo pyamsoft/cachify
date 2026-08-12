@@ -23,6 +23,7 @@ import com.pyamsoft.cachify.storage.MemoryCacheStorage
 import java.time.Instant
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertNotNull
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.async
@@ -198,6 +199,44 @@ public class CachifyTest {
     assertEquals(shouldBeOne, 1)
 
     // Hit again should not change
+    val shouldStillBeOne = c.call()
+    assertEquals(shouldStillBeOne, 1)
+  }
+
+  @Test
+  public fun params_DoNotAffectCacheKey(): TestResult = runTest {
+    val counter = AtomicInteger(0)
+
+    val c = cachify<Int, Int> { counter.getAndIncrement() }
+
+    val shouldBeZero = c.call(p1 = 1)
+    assertEquals(shouldBeZero, 0)
+
+    val shouldStillBeZero = c.call(p1 = 2)
+    assertEquals(shouldStillBeZero, 0)
+  }
+
+  @Test
+  public fun upstream_ExceptionPropagatesAndIsNotCached(): TestResult = runTest {
+    val counter = AtomicInteger(0)
+
+    val c =
+        cachify<Int> {
+          val count = counter.getAndIncrement()
+          if (count == 0) {
+            throw IllegalStateException("Upstream failure")
+          }
+          count
+        }
+
+    // First call fails, exception propagates to the caller
+    assertFailsWith<IllegalStateException> { c.call() }
+
+    // Failure must not be cached, so the retry hits upstream again and succeeds
+    val shouldBeOne = c.call()
+    assertEquals(shouldBeOne, 1)
+
+    // Now that a value is cached, further calls do not hit upstream again
     val shouldStillBeOne = c.call()
     assertEquals(shouldStillBeOne, 1)
   }
