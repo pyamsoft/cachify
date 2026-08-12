@@ -19,7 +19,8 @@ package com.pyamsoft.cachify.test
 import com.pyamsoft.cachify.CachifyDefaults
 import com.pyamsoft.cachify.env.TestClock
 import com.pyamsoft.cachify.storage.MemoryCacheStorage
-import kotlin.test.assertNotNull
+import java.time.Instant
+import kotlin.test.assertEquals
 import kotlin.test.assertNull
 import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.runTest
@@ -50,7 +51,43 @@ public class MemoryStorageTest {
 
     storage.cache(69)
     val result = storage.retrieve()
-    assertNotNull(result)
+    assertEquals(69, result)
+  }
+
+  @Test
+  public fun memoryCacheStorage_OverwriteReplacesPreviousValue(): TestResult = runTest {
+    val clock = TestClock.create()
+    val storage =
+        MemoryCacheStorage.createTest<Int>(
+            duration = CachifyDefaults.DEFAULT_DURATION,
+            clock = clock,
+        )
+
+    storage.cache(69)
+    storage.cache(420)
+
+    val result = storage.retrieve()
+    assertEquals(420, result)
+  }
+
+  @Test
+  public fun memoryCacheStorage_ExpiresAfterDuration(): TestResult = runTest {
+    val clock = TestClock.create()
+    val storage =
+        MemoryCacheStorage.createTest<Int>(
+            duration = CachifyDefaults.DEFAULT_DURATION,
+            clock = clock,
+        )
+
+    storage.cache(69)
+
+    // Still within the TTL window, data is valid
+    assertEquals(69, storage.retrieve())
+
+    // Advance the clock past the TTL window
+    clock.setTime(Instant.now().plusSeconds(CachifyDefaults.DEFAULT_DURATION.inWholeSeconds * 2))
+
+    assertNull(storage.retrieve())
   }
 
   @Test

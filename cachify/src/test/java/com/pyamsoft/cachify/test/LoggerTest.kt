@@ -16,6 +16,7 @@
 
 package com.pyamsoft.cachify.test
 
+import com.pyamsoft.cachify.CachifyDefaults
 import com.pyamsoft.cachify.internal.Logger
 import kotlin.test.assertNotNull
 import kotlinx.coroutines.test.TestResult
@@ -43,5 +44,23 @@ public class LoggerTest {
     assertNotNull(logger)
 
     logger.log { "Log.d is not mocked, but this should not run!" }
+  }
+
+  @Test
+  public fun logger_globalFlagOverridesBlankTag(): TestResult = runTest {
+    CachifyDefaults.LOGGING_ENABLED = true
+    try {
+      val logger = Logger("")
+
+      try {
+        logger.log { "Log.d is not mocked so this will throw" }
+        throw AssertionError("Expected logging to fire and throw since Log.d is not mocked")
+      } catch (e: RuntimeException) {
+        assertNotNull(e.message)
+        assert(e.message!!.startsWith("Method d in android.util.Log not mocked"))
+      }
+    } finally {
+      CachifyDefaults.LOGGING_ENABLED = false
+    }
   }
 }

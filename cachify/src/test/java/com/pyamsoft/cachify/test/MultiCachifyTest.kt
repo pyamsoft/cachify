@@ -269,4 +269,33 @@ public class MultiCachifyTest {
     val shouldStillStillBeZero = c.key(1).call(1)
     assertEquals(shouldStillStillBeZero, 0)
   }
+
+  @Test
+  public fun clear_ResetsEveryKey(): TestResult = runTest {
+    val counter0 = AtomicInteger(0)
+    val counter1 = AtomicInteger(0)
+
+    val c =
+        multiCachify<Int, Int, Int> {
+          if (it == 0) {
+            counter0.getAndIncrement()
+          } else {
+            counter1.getAndIncrement()
+          }
+        }
+
+    // Populate both keys
+    val key0First = c.key(0).call(0)
+    assertEquals(key0First, 0)
+    val key1First = c.key(1).call(1)
+    assertEquals(key1First, 0)
+
+    // Global clear must reset every key, not just one
+    c.clear()
+
+    val key0Second = c.key(0).call(0)
+    assertEquals(key0Second, 1)
+    val key1Second = c.key(1).call(1)
+    assertEquals(key1Second, 1)
+  }
 }
