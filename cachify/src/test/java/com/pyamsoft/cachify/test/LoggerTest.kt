@@ -22,6 +22,7 @@ import kotlin.test.assertNotNull
 import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
+import kotlin.test.assertTrue
 
 public class LoggerTest {
 
@@ -34,7 +35,7 @@ public class LoggerTest {
       logger.log { "Log.d is not mocked so this will throw" }
     } catch (e: RuntimeException) {
       assertNotNull(e.message)
-      assert(e.message!!.startsWith("Method d in android.util.Log not mocked"))
+      assertTrue(e.message!!.startsWith("Method d in android.util.Log not mocked"))
     }
   }
 
@@ -57,7 +58,7 @@ public class LoggerTest {
         throw AssertionError("Expected logging to fire and throw since Log.d is not mocked")
       } catch (e: RuntimeException) {
         assertNotNull(e.message)
-        assert(e.message!!.startsWith("Method d in android.util.Log not mocked"))
+        assertTrue(e.message!!.startsWith("Method d in android.util.Log not mocked"))
       }
     } finally {
       CachifyDefaults.LOGGING_ENABLED = false
