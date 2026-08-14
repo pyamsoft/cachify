@@ -19,10 +19,10 @@ package com.pyamsoft.cachify.test
 import com.pyamsoft.cachify.CachifyDefaults
 import com.pyamsoft.cachify.internal.Logger
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 import kotlinx.coroutines.test.TestResult
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
-import kotlin.test.assertTrue
 
 public class LoggerTest {
 

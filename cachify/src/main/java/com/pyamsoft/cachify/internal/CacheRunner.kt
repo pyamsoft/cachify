@@ -83,32 +83,31 @@ internal constructor(
   internal suspend inline fun createNewTask(
       scope: CoroutineScope,
       crossinline block: suspend CoroutineScope.() -> T,
-  ): Runner<T> =
-      mutex.withLock {
-        val active = activeRunner
-        return@withLock if (active == null) {
-          // No activeRunner, create a new one
-          Runner(
-                  // Start the Deferred as Lazy so that it will not start
-                  // until we explicitly start() it
-                  task =
-                      scope.async(
-                          context = context,
-                          start = CoroutineStart.LAZY,
-                      ) {
-                        block()
-                      },
-              )
-              .also { runner ->
-                activeRunner = runner
-                logger.log { "Marking runner as active: ${runner.id}" }
-              }
-        } else {
-          // Return the existing runner for joins
-          logger.log { "Found existing runner, join: ${active.id}" }
-          active
-        }
-      }
+  ): Runner<T> = mutex.withLock {
+    val active = activeRunner
+    return@withLock if (active == null) {
+      // No activeRunner, create a new one
+      Runner(
+              // Start the Deferred as Lazy so that it will not start
+              // until we explicitly start() it
+              task =
+                  scope.async(
+                      context = context,
+                      start = CoroutineStart.LAZY,
+                  ) {
+                    block()
+                  },
+          )
+          .also { runner ->
+            activeRunner = runner
+            logger.log { "Marking runner as active: ${runner.id}" }
+          }
+    } else {
+      // Return the existing runner for joins
+      logger.log { "Found existing runner, join: ${active.id}" }
+      active
+    }
+  }
 
   /**
    * Make sure the activeTask is actually us, otherwise we don't need to do anything Fast path in
