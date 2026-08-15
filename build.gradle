@@ -169,7 +169,7 @@ allprojects {
     }
     kotlin {
       target("src/**/*.kt")
-      ktfmt()
+      ktfmt(libs.versions.ktfmt.get())
 
       trimTrailingWhitespace()
       endWithNewline()
@@ -177,7 +177,7 @@ allprojects {
     }
     kotlinGradle {
       target("*.gradle.kts")
-      ktfmt()
+      ktfmt(libs.versions.ktfmt.get())
 
       trimTrailingWhitespace()
       endWithNewline()
@@ -185,7 +185,7 @@ allprojects {
     }
     groovyGradle {
       target("*.gradle")
-      greclipse()
+      greclipse(libs.versions.greclipse.get())
 
       trimTrailingWhitespace()
       endWithNewline()
