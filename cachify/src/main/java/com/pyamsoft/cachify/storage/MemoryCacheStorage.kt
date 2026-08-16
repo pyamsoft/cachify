@@ -38,7 +38,13 @@ internal constructor(
 
   override suspend fun retrieve(): T? = mutex.withLock {
     val cached = storage.get() ?: return@withLock null
-    if (cached.lastAccessTime.plusNanos(ttl) < LocalDateTime.now(clock)) null else cached.data
+    return@withLock if (cached.lastAccessTime.plusNanos(ttl) < LocalDateTime.now(clock)) {
+      // Clear storage cache
+      storage.set(null)
+      null
+    } else {
+      cached.data
+    }
   }
 
   override suspend fun cache(data: T) {
