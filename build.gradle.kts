@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
+import com.android.build.api.dsl.LibraryExtension
 import com.deezer.caupain.plugin.DependenciesUpdateTask
 import com.deezer.caupain.policies.StabilityLevelPolicy
+import com.diffplug.gradle.spotless.SpotlessExtension
+import dev.detekt.gradle.extensions.DetektExtension
 import dev.detekt.gradle.extensions.FailOnSeverity
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
@@ -35,7 +39,10 @@ plugins {
   // classpath. Without this line, the kotlin-stdlib will be whatever is shipped
   // with AGP, which can then lead to odd build errors in applications:
   //
-  // e: Class 'com.pyamsoft.cachify.Cached' was compiled by a pre-release version of Kotlin and cannot be loaded by this version of the compiler.
+  // ===
+  // e: Class 'com.pyamsoft.cachify.Cached' was compiled by a pre-release version of
+  // Kotlin and cannot be loaded by this version of the compiler.
+  // ===
   //
   alias(libs.plugins.kotlin.android) apply false
 
@@ -57,20 +64,16 @@ plugins {
 }
 
 subprojects {
-  apply(plugin: libs.plugins.android.asProvider().get().pluginId)
-  apply(plugin: libs.plugins.android.cacheFix.get().pluginId)
-  apply(plugin: libs.plugins.dokka.get().pluginId)
-  apply(plugin: "maven-publish")
+  apply(plugin = rootProject.libs.plugins.android.asProvider().get().pluginId)
+  apply(plugin = rootProject.libs.plugins.android.cacheFix.get().pluginId)
+  apply(plugin = rootProject.libs.plugins.dokka.get().pluginId)
+  apply(plugin = "maven-publish")
 
-  android {
-    compileSdk = libs.versions.compileSdk.get().toInteger()
+  extensions.configure<LibraryExtension> {
+    compileSdk = rootProject.libs.versions.compileSdk.get().toInt()
 
-    //noinspection GroovyMissingReturnStatement
     defaultConfig {
-      minSdk = libs.versions.minSdk.get().toInteger()
-
-      // For vector drawables
-      vectorDrawables.useSupportLibrary = true
+      minSdk = rootProject.libs.versions.minSdk.get().toInt()
 
       // Consumer proguard file
       consumerProguardFiles("proguard-rules.pro")
@@ -81,7 +84,7 @@ subprojects {
       targetCompatibility = JavaVersion.VERSION_21
 
       // Flag to enable support for the new language APIs
-      coreLibraryDesugaringEnabled = true
+      isCoreLibraryDesugaringEnabled = true
     }
 
     publishing {
@@ -93,13 +96,13 @@ subprojects {
 
     buildTypes {
       debug {
-        minifyEnabled = false
-        shrinkResources = false
+        isMinifyEnabled = false
+        isShrinkResources = false
       }
 
       release {
-        minifyEnabled = false
-        shrinkResources = false
+        isMinifyEnabled = false
+        isShrinkResources = false
       }
     }
 
@@ -108,7 +111,7 @@ subprojects {
     }
   }
 
-  kotlin {
+  extensions.configure<KotlinAndroidProjectExtension> {
     compilerOptions {
       languageVersion = KotlinVersion.KOTLIN_2_3
       jvmTarget = JvmTarget.JVM_21
@@ -117,37 +120,34 @@ subprojects {
   }
 
   // Java compilation
-  tasks.withType(JavaCompile).configureEach {
+  tasks.withType<JavaCompile>().configureEach {
     // More lint warnings surface
     options.compilerArgs.add("-Xlint:unchecked")
     options.compilerArgs.add("-Xlint:deprecation")
-    options.deprecation = true
+    options.isDeprecation = true
 
     // Fork for faster performance
     // https://docs.gradle.org/current/userguide/performance.html#run_compiler_as_separate_process
-    options.fork = true
+    options.isFork = true
   }
 
   // Optimize tests
-  tasks.withType(Test).configureEach {
+  tasks.withType<Test>().configureEach {
     // Run tests in parallel
     // https://docs.gradle.org/current/userguide/performance.html#run_tests_in_parallel
-    maxParallelForks = Runtime.runtime.availableProcessors().intdiv(2) ?: 1
+    maxParallelForks = maxOf(Runtime.getRuntime().availableProcessors() / 2, 1)
 
     // Disable report generation, we don't care
     // https://docs.gradle.org/current/userguide/performance.html#disable_test_reports
     reports.html.required = false
     reports.junitXml.required = false
-
-    // More heap for faster tests
-    maxHeapSize = "4g"
   }
 
-  project.afterEvaluate {
-    publishing {
+  afterEvaluate {
+    extensions.configure<PublishingExtension> {
       publications {
-        Cachify(MavenPublication) {
-          from project.components.release
+        create<MavenPublication>("Cachify") {
+          from(project.components["release"])
 
           artifactId = project.name
           groupId = "com.github.pyamsoft.cachify"
@@ -158,7 +158,7 @@ subprojects {
   }
 
   dependencies {
-    coreLibraryDesugaring(libs.android.desugar)
+    add("coreLibraryDesugaring", rootProject.libs.android.desugar)
   }
 }
 
@@ -167,10 +167,10 @@ allprojects {
   // or we get an error about duplicate plugins
   //
   // and we can't just apply this toplevel or it won't run on all the subprojects
-  apply(plugin: libs.plugins.spotless.get().pluginId)
+  apply(plugin = rootProject.libs.plugins.spotless.get().pluginId)
 
   // Apply Detekt Plugin here
-  apply(plugin: libs.plugins.detekt.get().pluginId)
+  apply(plugin = rootProject.libs.plugins.detekt.get().pluginId)
 
   repositories {
     mavenLocal()
@@ -180,7 +180,7 @@ allprojects {
   }
 
   // Spotless
-  spotless {
+  extensions.configure<SpotlessExtension> {
     java {
       target("src/**/*.java")
 
@@ -191,7 +191,7 @@ allprojects {
     }
     kotlin {
       target("src/**/*.kt")
-      ktfmt(libs.versions.ktfmt.get())
+      ktfmt(rootProject.libs.versions.ktfmt.get())
 
       trimTrailingWhitespace()
       endWithNewline()
@@ -199,15 +199,7 @@ allprojects {
     }
     kotlinGradle {
       target("*.gradle.kts")
-      ktfmt(libs.versions.ktfmt.get())
-
-      trimTrailingWhitespace()
-      endWithNewline()
-      leadingTabsToSpaces(2)
-    }
-    groovyGradle {
-      target("*.gradle")
-      greclipse(libs.versions.greclipse.get())
+      ktfmt(rootProject.libs.versions.ktfmt.get())
 
       trimTrailingWhitespace()
       endWithNewline()
@@ -216,7 +208,7 @@ allprojects {
   }
 
   // Detekt
-  detekt {
+  extensions.configure<DetektExtension> {
     debug = true
     buildUponDefaultConfig = true
     parallel = true
@@ -225,7 +217,7 @@ allprojects {
   }
 
   // Caupain Version Strategy
-  tasks.withType(DependenciesUpdateTask).configureEach {
-    selectIf(StabilityLevelPolicy.INSTANCE)
+  tasks.withType<DependenciesUpdateTask>().configureEach {
+    selectIf(StabilityLevelPolicy)
   }
 }

@@ -15,7 +15,6 @@ annotation = "1.10.0"
 testRunner = "1.7.0"
 
 ktfmt = "0.64"
-greclipse = "4.40"
 spotless = "8.10.0"
 jdkDesugar = "2.1.5"
 caupain = "1.10.1"
