@@ -173,9 +173,10 @@ allprojects {
   apply(plugin: libs.plugins.detekt.get().pluginId)
 
   repositories {
-    gradlePluginPortal()
+    mavenLocal()
     google()
     mavenCentral()
+    gradlePluginPortal()
   }
 
   // Spotless
