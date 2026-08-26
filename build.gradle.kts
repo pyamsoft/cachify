@@ -17,8 +17,6 @@
 import com.android.build.api.dsl.LibraryExtension
 import com.deezer.caupain.plugin.DependenciesUpdateTask
 import com.deezer.caupain.policies.StabilityLevelPolicy
-import com.diffplug.gradle.spotless.SpotlessExtension
-import dev.detekt.gradle.extensions.DetektExtension
 import dev.detekt.gradle.extensions.FailOnSeverity
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
