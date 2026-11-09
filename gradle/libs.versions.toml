@@ -9,7 +9,7 @@ cacheFix = "3.0.3"
 # Kotlin
 kotlin = "2.4.21"
 coroutines = "1.11.0"
-dokka = "2.2.0"
+dokka = "2.3.0"
 
 annotation = "1.11.0"
 testRunner = "1.7.0"
