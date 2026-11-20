@@ -67,6 +67,7 @@ subprojects {
 
   extensions.configure<LibraryExtension> {
     compileSdk = rootProject.libs.versions.compileSdk.get().toInt()
+    compileSdkMinor = rootProject.libs.versions.compileSdkMinor.get().toInt()
 
     defaultConfig {
       minSdk = rootProject.libs.versions.minSdk.get().toInt()
@@ -123,7 +124,7 @@ subprojects {
 
           artifactId = project.name
           groupId = "com.github.pyamsoft.cachify"
-          version = "0.3.16"
+          version = "0.3.17"
         }
       }
     }
