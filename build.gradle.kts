@@ -124,7 +124,7 @@ subprojects {
 
           artifactId = project.name
           groupId = "com.github.pyamsoft.cachify"
-          version = "0.3.17"
+          version = "0.3.18"
         }
       }
     }
